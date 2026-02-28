@@ -3,6 +3,35 @@
   "scorecard_type": "application",
   "version": "1.0.0",
   "trained_at": "2026-02-28T11:55:37.409195",
+  "n_features": 6,
+  "cv_auc_mean": 0.8657,
+  "cv_auc_std": 0.0053,
+  "shap_top10": [
+    {"feature": "cb_score",                "mean_abs_shap": 1.8241},
+    {"feature": "card_usage_rate",         "mean_abs_shap": 0.7312},
+    {"feature": "delinquency_count_24m",   "mean_abs_shap": 0.5187},
+    {"feature": "delinquency_count_12m",   "mean_abs_shap": 0.4053},
+    {"feature": "worst_delinquency_status","mean_abs_shap": 0.3621},
+    {"feature": "overdraft_count_annual",  "mean_abs_shap": 0.1834}
+  ],
+  "feature_groups": {
+    "demographic":     ["age", "employment_duration_months"],
+    "credit_history":  ["cb_score", "delinquency_count_12m", "delinquency_count_24m",
+                        "worst_delinquency_status", "open_loan_count", "credit_card_count",
+                        "inquiry_count_3m", "inquiry_count_6m"],
+    "financial_ratio": ["dsr_ratio", "debt_to_income", "loan_to_income"],
+    "behavioral":      ["card_usage_rate", "overdraft_count_annual", "savings_rate"],
+    "alternative":     ["telecom_no_delinquency", "health_insurance_paid_months_12m",
+                        "national_pension_paid_months_24m"]
+  },
+  "regulatory": {
+    "min_gini_threshold": 0.30,
+    "min_ks_threshold": 0.15,
+    "passes_oot_gini": true,
+    "passes_oot_ks": true,
+    "gini_oot": 0.7361,
+    "ks_oot": 0.5948
+  },
   "training_data": {
     "source": "synthetic_credit_loan.parquet",
     "period": "2021-01 ~ 2023-06",
@@ -166,6 +195,8 @@
     "pdo": 40,
     "score_min": 300,
     "score_max": 900,
+    "cutoff_reject": 450,
+    "cutoff_manual_review": 530,
     "grade_thresholds": {
       "AAA": 820,
       "AA": 780,

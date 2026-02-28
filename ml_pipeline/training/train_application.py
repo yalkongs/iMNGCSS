@@ -386,11 +386,27 @@ def train():
     shap_importance.to_csv(os.path.join(ARTIFACTS_DIR, "shap_importance.csv"), index=False)
     print("  → shap_importance.csv")
 
+    _cv_auc_mean = round(float(np.mean(cv_aucs)), 4)
+    _cv_auc_std  = round(float(np.std(cv_aucs)), 4)
+    _gini_oot    = round(float(metrics_all[2]["gini"]), 4)
+    _ks_oot      = round(float(metrics_all[2]["ks_statistic"]), 4)
+
+    shap_top10 = shap_importance.head(10).apply(
+        lambda r: {"feature": r["feature"], "mean_abs_shap": round(float(r["mean_abs_shap"]), 4)},
+        axis=1
+    ).tolist()
+
     model_card = {
         "model_name": "application_scorecard_v1",
         "scorecard_type": "application",
         "version": "1.0.0",
         "trained_at": datetime.now().isoformat(),
+        # ── 루트 레벨 요약 (테스트/레지스트리 접근성) ──────────
+        "n_features":    len(selected_features),
+        "cv_auc_mean":   _cv_auc_mean,
+        "cv_auc_std":    _cv_auc_std,
+        "shap_top10":    shap_top10,
+        # ── 상세 필드 ────────────────────────────────────────
         "training_data": {
             "source": "synthetic_credit_loan.parquet",
             "period": "2021-01 ~ 2023-06",
@@ -405,12 +421,30 @@ def train():
             "n_features": len(selected_features),
             "iv_summary": iv_df.to_dict(orient="records"),
         },
+        "feature_groups": {
+            "demographic":     ["age", "employment_duration_months"],
+            "credit_history":  ["cb_score", "delinquency_count_12m", "delinquency_count_24m",
+                                "worst_delinquency_status", "open_loan_count", "credit_card_count",
+                                "inquiry_count_3m", "inquiry_count_6m"],
+            "financial_ratio": ["dsr_ratio", "debt_to_income", "loan_to_income"],
+            "behavioral":      ["card_usage_rate", "overdraft_count_annual", "savings_rate"],
+            "alternative":     ["telecom_no_delinquency", "health_insurance_paid_months_12m",
+                                "national_pension_paid_months_24m"],
+        },
         "performance": {
-            "oot_gini":    round(float(metrics_all[2]["gini"]), 4),
-            "oot_ks":      round(float(metrics_all[2]["ks_statistic"]), 4),
-            "cv_auc_mean": round(float(np.mean(cv_aucs)), 4),
-            "cv_auc_std":  round(float(np.std(cv_aucs)), 4),
+            "oot_gini":    _gini_oot,
+            "oot_ks":      _ks_oot,
+            "cv_auc_mean": _cv_auc_mean,
+            "cv_auc_std":  _cv_auc_std,
             "metrics": metrics_all,
+        },
+        "regulatory": {
+            "min_gini_threshold": 0.30,
+            "min_ks_threshold":   0.15,
+            "passes_oot_gini": _gini_oot >= 0.30,
+            "passes_oot_ks":   _ks_oot   >= 0.15,
+            "gini_oot": _gini_oot,
+            "ks_oot":   _ks_oot,
         },
         "scoring": {
             "base_score": 600,
@@ -418,6 +452,8 @@ def train():
             "pdo": 40,
             "score_min": 300,
             "score_max": 900,
+            "cutoff_reject": 450,
+            "cutoff_manual_review": 530,
             "grade_thresholds": {
                 "AAA": 820, "AA": 780, "A": 740, "BBB": 700,
                 "BB": 660, "B": 620, "CCC": 560, "CC": 500, "C": 430, "D": 0,
@@ -430,8 +466,8 @@ def train():
             "passed": fairness_pass,
         },
         "regulatory_compliance": {
-            "gini_oot_passed": gini_oot >= 0.30,
-            "gini_oot": gini_oot,
+            "gini_oot_passed": _gini_oot >= 0.30,
+            "gini_oot": _gini_oot,
             "psi_stable": psi < 0.2,
             "fairness_passed": fairness_pass,
             "sensitive_features_excluded": True,
