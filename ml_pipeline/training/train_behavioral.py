@@ -271,9 +271,17 @@ def train():
         "shap_top10": feature_importance.head(10).to_dict("records"),
     }
 
+    class _NpEncoder(json.JSONEncoder):
+        def default(self, o):
+            if isinstance(o, (np.integer,)): return int(o)
+            if isinstance(o, (np.floating,)): return float(o)
+            if isinstance(o, (np.bool_,)): return bool(o)
+            if isinstance(o, np.ndarray): return o.tolist()
+            return super().default(o)
+
     card_path = os.path.join(ARTIFACTS_DIR, "model_card.json")
     with open(card_path, "w", encoding="utf-8") as f:
-        json.dump(model_card, f, ensure_ascii=False, indent=2)
+        json.dump(model_card, f, ensure_ascii=False, indent=2, cls=_NpEncoder)
 
     print(f"\n{'='*60}")
     print("Behavioral Scorecard 학습 완료")

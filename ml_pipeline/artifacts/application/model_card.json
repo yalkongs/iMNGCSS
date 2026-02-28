@@ -1,123 +1,218 @@
 {
-  "_note": "이 파일은 템플릿입니다. 'make train' 실행 후 실제 학습 값으로 교체됩니다.",
-  "_template_version": "1.1",
   "model_name": "application_scorecard_v1",
   "scorecard_type": "application",
   "version": "1.0.0",
-  "model_type": "LightGBM",
-  "trained_at": "2025-01-01T00:00:00",
-  "n_features": 32,
-  "cv_auc_mean": 0.76,
-  "cv_auc_std": 0.02,
+  "trained_at": "2026-02-28T11:55:37.409195",
   "training_data": {
     "source": "synthetic_credit_loan.parquet",
     "period": "2021-01 ~ 2023-06",
-    "n_train": 0,
-    "n_holdout": 0,
-    "n_oot": 0,
-    "bad_rate_train": 0.072,
-    "bad_rate_oot": 0.072
+    "n_train": 39868,
+    "n_holdout": 9968,
+    "n_oot": 10164,
+    "bad_rate_train": 0.0757,
+    "bad_rate_oot": 0.0734
   },
   "features": {
-    "n_features": 32,
     "selected": [
-      "cb_score", "income_annual_wan", "delinquency_count_12m", "dsr_ratio",
-      "inquiry_count_3m", "open_loan_count", "debt_to_income",
-      "employment_duration_months", "worst_delinquency_status",
-      "total_loan_balance_wan", "loan_to_income", "revolving_util_rate",
-      "delinquency_count_6m", "secured_loan_count", "inquiry_count_6m",
-      "income_type_stability", "age_normalized", "employment_type_score",
-      "card_usage_pattern", "repayment_history_score", "bureau_grade_score",
-      "utilization_trend", "payment_regularity", "income_growth_rate",
-      "housing_cost_ratio", "net_wealth_estimate", "credit_age_months",
-      "new_account_count_12m", "balance_to_limit_ratio", "dpd30_flag_24m",
-      "dpd60_flag_24m", "total_monthly_obligation_wan"
-    ]
-  },
-  "feature_groups": {
-    "credit_bureau": ["cb_score", "delinquency_count_12m", "worst_delinquency_status", "inquiry_count_3m", "inquiry_count_6m", "dpd30_flag_24m", "dpd60_flag_24m"],
-    "income": ["income_annual_wan", "loan_to_income", "dsr_ratio", "debt_to_income", "income_growth_rate"],
-    "loan": ["open_loan_count", "total_loan_balance_wan", "revolving_util_rate", "secured_loan_count", "balance_to_limit_ratio", "total_monthly_obligation_wan"],
-    "behavioral": ["card_usage_pattern", "repayment_history_score", "payment_regularity", "utilization_trend", "new_account_count_12m"],
-    "demographic": ["age_normalized", "employment_type_score", "employment_duration_months", "income_type_stability", "housing_cost_ratio"]
-  },
-  "performance": {
-    "oot_gini": 0.52,
-    "oot_ks": 0.38,
-    "cv_auc_mean": 0.76,
-    "cv_auc_std": 0.02,
-    "metrics": [
+      "cb_score",
+      "card_usage_rate",
+      "delinquency_count_24m",
+      "delinquency_count_12m",
+      "worst_delinquency_status",
+      "overdraft_count_annual"
+    ],
+    "n_features": 6,
+    "iv_summary": [
       {
-        "dataset": "Train",
-        "auc_roc": 0.8000,
-        "gini": 0.6000,
-        "ks_statistic": 0.4200
+        "feature": "cb_score",
+        "iv": 2.2172,
+        "predictive_power": "매우 강함"
       },
       {
-        "dataset": "Hold-out",
-        "auc_roc": 0.7750,
-        "gini": 0.5500,
-        "ks_statistic": 0.3900
+        "feature": "card_usage_rate",
+        "iv": 1.2247,
+        "predictive_power": "매우 강함"
       },
       {
-        "dataset": "OOT",
-        "auc_roc": 0.7600,
-        "gini": 0.5200,
-        "ks_statistic": 0.3800
+        "feature": "delinquency_count_24m",
+        "iv": 0.6698,
+        "predictive_power": "매우 강함"
+      },
+      {
+        "feature": "delinquency_count_12m",
+        "iv": 0.4284,
+        "predictive_power": "매우 강함"
+      },
+      {
+        "feature": "worst_delinquency_status",
+        "iv": 0.3222,
+        "predictive_power": "매우 강함"
+      },
+      {
+        "feature": "overdraft_count_annual",
+        "iv": 0.1021,
+        "predictive_power": "강함"
+      },
+      {
+        "feature": "inquiry_count_3m",
+        "iv": 0.0136,
+        "predictive_power": "없음"
+      },
+      {
+        "feature": "loan_to_income",
+        "iv": 0.0117,
+        "predictive_power": "없음"
+      },
+      {
+        "feature": "total_loan_balance",
+        "iv": 0.0113,
+        "predictive_power": "없음"
+      },
+      {
+        "feature": "inquiry_count_6m",
+        "iv": 0.0108,
+        "predictive_power": "없음"
+      },
+      {
+        "feature": "national_pension_paid_months_24m",
+        "iv": 0.0106,
+        "predictive_power": "없음"
+      },
+      {
+        "feature": "dsr_ratio",
+        "iv": 0.0103,
+        "predictive_power": "없음"
+      },
+      {
+        "feature": "employment_duration_months",
+        "iv": 0.0085,
+        "predictive_power": "없음"
+      },
+      {
+        "feature": "debt_to_income",
+        "iv": 0.0037,
+        "predictive_power": "없음"
+      },
+      {
+        "feature": "savings_rate",
+        "iv": 0.0025,
+        "predictive_power": "없음"
+      },
+      {
+        "feature": "open_loan_count",
+        "iv": 0.0024,
+        "predictive_power": "없음"
+      },
+      {
+        "feature": "age",
+        "iv": 0.0022,
+        "predictive_power": "없음"
+      },
+      {
+        "feature": "health_insurance_paid_months_12m",
+        "iv": 0.0015,
+        "predictive_power": "없음"
+      },
+      {
+        "feature": "credit_card_count",
+        "iv": 0.0006,
+        "predictive_power": "없음"
+      },
+      {
+        "feature": "telecom_no_delinquency",
+        "iv": 0.0,
+        "predictive_power": "없음"
       }
     ]
   },
-  "shap_top10": [
-    {"feature": "cb_score", "mean_abs_shap": 0.285},
-    {"feature": "delinquency_count_12m", "mean_abs_shap": 0.201},
-    {"feature": "dsr_ratio", "mean_abs_shap": 0.158},
-    {"feature": "income_annual_wan", "mean_abs_shap": 0.142},
-    {"feature": "inquiry_count_3m", "mean_abs_shap": 0.097},
-    {"feature": "total_loan_balance_wan", "mean_abs_shap": 0.081},
-    {"feature": "worst_delinquency_status", "mean_abs_shap": 0.074},
-    {"feature": "employment_duration_months", "mean_abs_shap": 0.056},
-    {"feature": "open_loan_count", "mean_abs_shap": 0.043},
-    {"feature": "revolving_util_rate", "mean_abs_shap": 0.037}
-  ],
+  "performance": {
+    "oot_gini": 0.7361,
+    "oot_ks": 0.5948,
+    "cv_auc_mean": 0.8657,
+    "cv_auc_std": 0.0053,
+    "metrics": [
+      {
+        "dataset": "Train",
+        "auc_roc": 0.878,
+        "gini": 0.756,
+        "ks_statistic": 0.623,
+        "bad_rate": 0.0757,
+        "n_samples": 39868,
+        "n_bad": 3018
+      },
+      {
+        "dataset": "Hold-out",
+        "auc_roc": 0.872,
+        "gini": 0.744,
+        "ks_statistic": 0.6184,
+        "bad_rate": 0.0741,
+        "n_samples": 9968,
+        "n_bad": 739
+      },
+      {
+        "dataset": "OOT",
+        "auc_roc": 0.8681,
+        "gini": 0.7361,
+        "ks_statistic": 0.5948,
+        "bad_rate": 0.0734,
+        "n_samples": 10164,
+        "n_bad": 746
+      }
+    ]
+  },
   "scoring": {
     "base_score": 600,
     "base_bad_rate": 0.072,
     "pdo": 40,
     "score_min": 300,
     "score_max": 900,
-    "cutoff_reject": 450,
-    "cutoff_manual_review": 530,
     "grade_thresholds": {
-      "AAA": 0.0005, "AA": 0.0010, "A": 0.0030, "BBB": 0.0100,
-      "BB": 0.0300, "B": 0.0700, "CCC": 0.1500, "CC": 0.3000,
-      "C": 0.5000, "D": 1.0000
+      "AAA": 820,
+      "AA": 780,
+      "A": 740,
+      "BBB": 700,
+      "BB": 660,
+      "B": 620,
+      "CCC": 560,
+      "CC": 500,
+      "C": 430,
+      "D": 0
     }
   },
   "stability": {
-    "psi_train_to_oot": 0.05
+    "psi_train_to_oot": 0.0005
   },
   "fairness": {
-    "gini_range": 0.04,
-    "passed": true,
-    "by_age_band": {}
-  },
-  "regulatory": {
-    "passes_oot_gini": true,
-    "passes_oot_ks": true,
-    "gini_oot": 0.52,
-    "ks_oot": 0.38,
-    "threshold_gini_oot": 0.30,
-    "threshold_ks_oot": 0.20,
-    "fssc_compliant": true
+    "by_age_band": {
+      "20s": {
+        "gini": 0.7868,
+        "n": 1475
+      },
+      "30s": {
+        "gini": 0.739,
+        "n": 2797
+      },
+      "40s": {
+        "gini": 0.7224,
+        "n": 2702
+      },
+      "50s": {
+        "gini": 0.7502,
+        "n": 2019
+      },
+      "60+": {
+        "gini": 0.7401,
+        "n": 975
+      }
+    },
+    "gini_range": 0.0644,
+    "passed": true
   },
   "regulatory_compliance": {
     "gini_oot_passed": true,
-    "gini_oot": 0.52,
+    "gini_oot": 0.7361,
     "psi_stable": true,
     "fairness_passed": true,
-    "sensitive_features_excluded": true,
-    "fssc_compliant": true,
-    "threshold_gini_oot": 0.30,
-    "threshold_psi": 0.20
+    "sensitive_features_excluded": true
   }
 }
