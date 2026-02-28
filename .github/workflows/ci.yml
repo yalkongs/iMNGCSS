@@ -1,0 +1,301 @@
+name: KCS CI Pipeline
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+
+env:
+  PYTHON_VERSION: "3.11"
+
+jobs:
+  # ── 1. 코드 품질 검사 ──────────────────────────────────────────────────
+  lint:
+    name: 코드 품질 (ruff + mypy)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Python 설정
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: pip
+
+      - name: 의존성 설치
+        run: pip install ruff mypy pydantic pydantic-settings
+
+      - name: ruff 린트
+        run: cd backend && python -m ruff check app/ --output-format=github
+
+      - name: mypy 타입 체크
+        run: cd backend && python -m mypy app/ --ignore-missing-imports --no-error-summary
+        continue-on-error: true  # 타입 오류는 경고로 처리
+
+  # ── 2. 단위 테스트 ────────────────────────────────────────────────────
+  unit-tests:
+    name: 단위 테스트
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Python 설정
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: pip
+
+      - name: 의존성 설치
+        run: |
+          pip install -r backend/requirements.txt
+          pip install pytest pytest-asyncio pytest-cov
+
+      - name: ScoringEngine 단위 테스트
+        run: |
+          cd backend && pytest ../tests/unit/test_scoring_engine.py -v --tb=short
+        env:
+          DATABASE_URL: sqlite+aiosqlite:///./test.db
+          REDIS_URL: redis://localhost:6379/0
+          ENVIRONMENT: development
+
+      - name: MonitoringEngine 단위 테스트
+        run: |
+          cd backend && pytest ../tests/unit/test_monitoring_engine.py -v --tb=short
+        env:
+          DATABASE_URL: sqlite+aiosqlite:///./test.db
+          ENVIRONMENT: development
+
+      - name: BRMS 파라미터 규제 테스트
+        run: |
+          cd backend && pytest ../tests/regulatory/ -v --tb=short
+        env:
+          DATABASE_URL: sqlite+aiosqlite:///./test.db
+          ENVIRONMENT: development
+
+      - name: JWT 인증/RBAC 단위 테스트
+        run: |
+          cd backend && pytest ../tests/unit/test_auth.py -v --tb=short
+        env:
+          DATABASE_URL: sqlite+aiosqlite:///./test.db
+          ENVIRONMENT: development
+
+      - name: 내부감사 검증 테스트
+        run: |
+          cd backend && pytest ../validation/roles/internal_audit/ -v --tb=short
+        env:
+          DATABASE_URL: sqlite+aiosqlite:///./test.db
+          ENVIRONMENT: development
+
+      - name: 미들웨어 단위 테스트
+        run: |
+          cd backend && pytest ../tests/unit/test_middleware.py -v --tb=short
+        env:
+          DATABASE_URL: sqlite+aiosqlite:///./test.db
+          ENVIRONMENT: development
+
+      - name: DB 스키마 및 ORM 관계 테스트
+        run: |
+          pip install aiosqlite
+          cd backend && pytest ../tests/unit/test_db_schemas.py -v --tb=short
+        env:
+          DATABASE_URL: sqlite+aiosqlite:///./test.db
+          ENVIRONMENT: development
+
+      - name: 성능 단위 테스트
+        run: |
+          cd backend && pytest ../tests/performance/ -v --tb=short -k "not HttpPerformance"
+        env:
+          DATABASE_URL: sqlite+aiosqlite:///./test.db
+          ENVIRONMENT: development
+
+  # ── 3. 규제 상수 검증 ─────────────────────────────────────────────────
+  regulatory-constants:
+    name: 규제 상수 검증 (DSR/LTV/금리)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Python 설정
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: pip
+
+      - name: 의존성 설치
+        run: pip install pytest numpy pandas scipy
+
+      - name: 규제 상수 산술 검증
+        run: pytest tests/regulatory/test_brms_params.py::TestRegulatoryConstants -v
+
+      - name: EQ Grade/IRG 구조 검증
+        run: pytest tests/regulatory/test_brms_params.py::TestEQGradeStructure tests/regulatory/test_brms_params.py::TestSpecialSegmentParams -v
+
+      - name: 규제 공시 검증
+        run: |
+          pip install pydantic pydantic-settings python-jose[cryptography] passlib[bcrypt] cryptography
+          cd backend && pytest ../validation/roles/regulatory/ -v --tb=short
+        env:
+          ENVIRONMENT: development
+
+  # ── 4. ML 파이프라인 검증 ─────────────────────────────────────────────
+  ml-validation:
+    name: ML 모델 카드 검증
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Python 설정
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: pip
+
+      - name: 의존성 설치
+        run: pip install numpy pandas scipy scikit-learn
+
+      - name: 합성 데이터 생성 (소규모)
+        run: |
+          cd ml_pipeline && python -c "
+          import sys; sys.path.insert(0, '.')
+          from data.synthetic_data import generate_credit_loan_dataset
+          df = generate_credit_loan_dataset(n=500)
+          print(f'합성 데이터 생성 완료: {len(df)}건, 부도율={df[\"default_12m\"].mean():.2%}')
+          "
+
+      - name: run_pipeline.py 검증
+        run: python ml_pipeline/run_pipeline.py --validate-only
+
+  # ── 5. Docker 이미지 빌드 검증 ────────────────────────────────────────
+  docker-build:
+    name: Docker 빌드 검증
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Docker Buildx 설정
+        uses: docker/setup-buildx-action@v3
+
+      - name: API 이미지 빌드
+        uses: docker/build-push-action@v5
+        with:
+          context: ./backend
+          push: false
+          tags: kcs-api:ci-${{ github.sha }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Mock Server 이미지 빌드
+        uses: docker/build-push-action@v5
+        with:
+          context: ./mock_server
+          push: false
+          tags: kcs-mock-server:ci-${{ github.sha }}
+
+  # ── 6. 통합 테스트 (Docker Compose) ──────────────────────────────────
+  integration-tests:
+    name: 통합 테스트 (E2E)
+    runs-on: ubuntu-latest
+    needs: [docker-build]
+    services:
+      postgres:
+        image: postgres:15-alpine
+        env:
+          POSTGRES_USER: kcs_user
+          POSTGRES_PASSWORD: kcs_pass
+          POSTGRES_DB: kcs_db
+        options: >-
+          --health-cmd "pg_isready -U kcs_user -d kcs_db"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
+      redis:
+        image: redis:7-alpine
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 5s
+          --health-timeout 3s
+          --health-retries 5
+        ports:
+          - 6379:6379
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Python 설정
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: pip
+
+      - name: 의존성 설치
+        run: pip install -r backend/requirements.txt
+
+      - name: E2E 통합 테스트 (인증/RBAC/API)
+        run: |
+          pip install python-jose[cryptography] passlib[bcrypt]
+          cd backend && pytest ../tests/integration/test_api_e2e.py -v --tb=short -s
+        env:
+          DATABASE_URL: postgresql+asyncpg://kcs_user:kcs_pass@localhost:5432/kcs_db
+          REDIS_URL: redis://localhost:6379/0
+          ENVIRONMENT: development
+          MOCK_SERVER_URL: http://localhost:8001
+
+  # ── 7. 보안 취약점 스캔 ────────────────────────────────────────────────
+  security-scan:
+    name: 보안 취약점 스캔
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Python 설정
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: pip-audit 설치
+        run: pip install pip-audit
+
+      - name: 의존성 취약점 스캔
+        run: pip-audit -r backend/requirements.txt --ignore-vuln GHSA-jfh8-c2jp-j6dq
+        continue-on-error: true  # 경고로 처리
+
+      - name: bandit 코드 보안 스캔
+        run: |
+          pip install bandit
+          cd backend && bandit -r app/ -ll --skip B101,B601 -q
+        continue-on-error: true
+
+  # ── 8. 부하 테스트 파일 검증 ──────────────────────────────────────────
+  locust-validate:
+    name: Locust 파일 문법 검증
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Python 설정
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: pip
+
+      - name: Locust 설치
+        run: pip install locust==2.28.0
+
+      - name: locustfile.py 문법 검증
+        run: |
+          python -c "
+          import ast, sys
+          with open('tests/performance/locustfile.py') as f:
+              source = f.read()
+          ast.parse(source)
+          print('locustfile.py 문법 검증 통과')
+          "
+
+      - name: Locust --list 실행 (사용자 클래스 확인)
+        run: |
+          locust -f tests/performance/locustfile.py --list 2>&1 | tee /dev/stderr | grep -E "BorrowerUser|UnderwriterUser|AdminUser"
+          echo "모든 사용자 클래스 확인 완료"

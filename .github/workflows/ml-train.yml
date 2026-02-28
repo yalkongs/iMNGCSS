@@ -1,0 +1,259 @@
+name: KCS ML 파이프라인
+
+on:
+  # 수동 실행
+  workflow_dispatch:
+    inputs:
+      scorecard:
+        description: "학습할 스코어카드 (all/application/behavioral/collection)"
+        required: false
+        default: "all"
+      skip_data:
+        description: "데이터 생성 건너뜀 (true/false)"
+        required: false
+        default: "false"
+      register_mlflow:
+        description: "MLflow 등록 (true/false)"
+        required: false
+        default: "false"
+  # 월 1회 자동 실행 (모델 주기적 재학습)
+  schedule:
+    - cron: "0 2 1 * *"  # 매월 1일 02:00 UTC
+
+env:
+  PYTHON_VERSION: "3.11"
+
+jobs:
+  # ── 합성 데이터 생성 ──────────────────────────────────────────────────
+  generate-data:
+    name: 합성 학습 데이터 생성
+    runs-on: ubuntu-latest
+    if: ${{ github.event.inputs.skip_data != 'true' }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Python 설정
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: pip
+
+      - name: ML 의존성 설치
+        run: pip install numpy pandas scipy scikit-learn pyarrow
+
+      - name: 합성 데이터 생성
+        run: |
+          cd ml_pipeline && python data/synthetic_data.py
+          echo "생성된 파일:"
+          ls -lh data/*.parquet
+
+      - name: 데이터 아티팩트 업로드
+        uses: actions/upload-artifact@v4
+        with:
+          name: synthetic-data
+          path: ml_pipeline/data/*.parquet
+          retention-days: 7
+
+  # ── Application Scorecard 학습 ────────────────────────────────────────
+  train-application:
+    name: Application Scorecard 학습
+    runs-on: ubuntu-latest
+    needs: [generate-data]
+    if: |
+      always() &&
+      (needs.generate-data.result == 'success' || needs.generate-data.result == 'skipped') &&
+      (github.event.inputs.scorecard == 'all' || github.event.inputs.scorecard == 'application' || github.event.inputs.scorecard == '')
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Python 설정
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: pip
+
+      - name: ML 의존성 설치
+        run: pip install numpy pandas scipy scikit-learn lightgbm shap joblib pyarrow imbalanced-learn
+
+      - name: 학습 데이터 다운로드
+        uses: actions/download-artifact@v4
+        with:
+          name: synthetic-data
+          path: ml_pipeline/data/
+        continue-on-error: true
+
+      - name: Application Scorecard 학습
+        run: cd ml_pipeline && python training/train_application.py
+
+      - name: 아티팩트 업로드
+        uses: actions/upload-artifact@v4
+        with:
+          name: application-model
+          path: ml_pipeline/artifacts/application/
+          retention-days: 30
+
+  # ── Behavioral Scorecard 학습 ─────────────────────────────────────────
+  train-behavioral:
+    name: Behavioral Scorecard 학습
+    runs-on: ubuntu-latest
+    needs: [generate-data]
+    if: |
+      always() &&
+      (needs.generate-data.result == 'success' || needs.generate-data.result == 'skipped') &&
+      (github.event.inputs.scorecard == 'all' || github.event.inputs.scorecard == 'behavioral' || github.event.inputs.scorecard == '')
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Python 설정
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: pip
+
+      - name: ML 의존성 설치
+        run: pip install numpy pandas scipy scikit-learn xgboost shap joblib pyarrow
+
+      - name: 학습 데이터 다운로드
+        uses: actions/download-artifact@v4
+        with:
+          name: synthetic-data
+          path: ml_pipeline/data/
+        continue-on-error: true
+
+      - name: Behavioral Scorecard 학습
+        run: cd ml_pipeline && python training/train_behavioral.py
+
+      - name: 아티팩트 업로드
+        uses: actions/upload-artifact@v4
+        with:
+          name: behavioral-model
+          path: ml_pipeline/artifacts/behavioral/
+          retention-days: 30
+
+  # ── Collection Scorecard 학습 ─────────────────────────────────────────
+  train-collection:
+    name: Collection Scorecard 학습
+    runs-on: ubuntu-latest
+    needs: [generate-data]
+    if: |
+      always() &&
+      (needs.generate-data.result == 'success' || needs.generate-data.result == 'skipped') &&
+      (github.event.inputs.scorecard == 'all' || github.event.inputs.scorecard == 'collection' || github.event.inputs.scorecard == '')
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Python 설정
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: pip
+
+      - name: ML 의존성 설치
+        run: pip install numpy pandas scipy scikit-learn joblib pyarrow
+
+      - name: 학습 데이터 다운로드
+        uses: actions/download-artifact@v4
+        with:
+          name: synthetic-data
+          path: ml_pipeline/data/
+        continue-on-error: true
+
+      - name: Collection Scorecard 학습
+        run: cd ml_pipeline && python training/train_collection.py
+
+      - name: 아티팩트 업로드
+        uses: actions/upload-artifact@v4
+        with:
+          name: collection-model
+          path: ml_pipeline/artifacts/collection/
+          retention-days: 30
+
+  # ── 모델 성능 검증 ────────────────────────────────────────────────────
+  validate-models:
+    name: 모델 성능 검증 (금감원 기준)
+    runs-on: ubuntu-latest
+    needs: [train-application, train-behavioral, train-collection]
+    if: always()
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Python 설정
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: 아티팩트 다운로드 (application)
+        uses: actions/download-artifact@v4
+        with:
+          name: application-model
+          path: ml_pipeline/artifacts/application/
+        continue-on-error: true
+
+      - name: 아티팩트 다운로드 (behavioral)
+        uses: actions/download-artifact@v4
+        with:
+          name: behavioral-model
+          path: ml_pipeline/artifacts/behavioral/
+        continue-on-error: true
+
+      - name: 아티팩트 다운로드 (collection)
+        uses: actions/download-artifact@v4
+        with:
+          name: collection-model
+          path: ml_pipeline/artifacts/collection/
+        continue-on-error: true
+
+      - name: 모델 카드 검증
+        run: python ml_pipeline/run_pipeline.py --validate-only --skip-data
+
+      - name: 검증 결과 요약 출력
+        run: |
+          for card in ml_pipeline/artifacts/*/model_card.json; do
+            if [ -f "$card" ]; then
+              echo "=== $(dirname $card | xargs basename) ==="
+              python -c "
+          import json
+          with open('$card') as f:
+              c = json.load(f)
+          p = c.get('performance', {})
+          print(f'  OOT Gini: {p.get(\"oot_gini\", \"N/A\")}')
+          print(f'  OOT KS:   {p.get(\"oot_ks\", \"N/A\")}')
+          r = c.get('regulatory', {})
+          print(f'  규제 기준: {\"통과\" if r.get(\"passes_oot_gini\") else \"미달\"}')
+          "
+            fi
+          done
+
+  # ── MLflow 등록 (선택) ────────────────────────────────────────────────
+  register-mlflow:
+    name: MLflow 모델 등록
+    runs-on: ubuntu-latest
+    needs: [validate-models]
+    if: |
+      needs.validate-models.result == 'success' &&
+      github.event.inputs.register_mlflow == 'true'
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Python 설정
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: 의존성 설치
+        run: pip install mlflow xgboost scikit-learn joblib
+
+      - name: 아티팩트 다운로드
+        uses: actions/download-artifact@v4
+        with:
+          pattern: "*-model"
+          path: ml_pipeline/artifacts/
+          merge-multiple: true
+
+      - name: MLflow 등록
+        run: |
+          python ml_pipeline/registry/register_models.py \
+            --mlflow-uri ${{ secrets.MLFLOW_TRACKING_URI || 'http://localhost:5001' }} \
+            --promote Staging
+        env:
+          MLFLOW_TRACKING_URI: ${{ secrets.MLFLOW_TRACKING_URI }}
