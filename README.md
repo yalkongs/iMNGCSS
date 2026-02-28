@@ -4,7 +4,7 @@
 
 [![Python](https://img.shields.io/badge/python-3.12-blue)](https://www.python.org/)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.111-green)](https://fastapi.tiangolo.com/)
-[![Tests](https://img.shields.io/badge/tests-389%20passed-brightgreen)](#테스트)
+[![Tests](https://img.shields.io/badge/tests-390%20passed-brightgreen)](#테스트)
 [![License](https://img.shields.io/badge/license-MIT-lightgrey)](LICENSE)
 
 ---
@@ -53,6 +53,10 @@ KCS는 은행·저축은행·여신전문회사를 위한 **비대면 채널 신
 ┌───────▼──────────────────────────────────────────────────────┐
 │                  Mock Server (FastAPI :8001)                  │
 │  NICE CB | KCB CB | 국세청 | 건강보험 | 기업신용 | 전문직면허  │
+│  ┌──────────────────────────────────────────────────────┐    │
+│  │  Fixture 시스템: 30개 사전 정의 시나리오 (JSON)         │    │
+│  │  resident_hash 매칭 → 픽스처 반환, 미매칭 → 해시 생성  │    │
+│  └──────────────────────────────────────────────────────┘    │
 └──────────────────────────────────────────────────────────────┘
 ```
 
@@ -91,14 +95,21 @@ make gen-synthetic
 make train
 ```
 
-### 3. 데모 시나리오 실행
+### 3. Mock 시나리오 픽스처 재생성
+
+```bash
+# 30개 시나리오 JSON 재생성 (시나리오 수정 후 실행)
+make gen-fixtures
+```
+
+### 4. 데모 시나리오 실행
 
 ```bash
 # JWT 인증 → CB 조회 → 신용평가 → 대출 신청 여정 → PSI 모니터링
 make demo
 ```
 
-### 4. 전체 테스트
+### 5. 전체 테스트
 
 ```bash
 make test                       # 전체 테스트
@@ -172,6 +183,75 @@ make load-test                  # Locust 부하 테스트 (API 서버 실행 후
 
 ---
 
+## Mock Server 시나리오
+
+Mock Server는 **30개 사전 정의 고객 시나리오**를 픽스처로 제공합니다.
+`resident_hash`가 `kcs_demo_*` 형식이면 픽스처를 반환하고, 그 외는 해시 기반으로 결정론적 데이터를 생성합니다.
+
+### 자동 승인 (PRIME, 10개)
+
+| ID | 시나리오 | CB점수 | 세그먼트 | 예상 결과 |
+|----|---------|--------|---------|---------|
+| PRIME-001 | 우량 대기업 직장인 | 850 | — | `approved` |
+| PRIME-002 | 내과 의사 | 870 | SEG-DR | `approved` |
+| PRIME-003 | 직업군인 중령 | 820 | SEG-MIL | `approved` |
+| PRIME-004 | 청년 공기업 직원 (만 27세) | 755 | SEG-YTH | `approved` |
+| PRIME-005 | 기업법 변호사 | 860 | SEG-JD | `approved` |
+| PRIME-006 | 삼성전자 협약기업 직원 | 800 | SEG-MOU | `approved` |
+| PRIME-007 | 한식당 10년 자영업자 | 740 | — | `approved` |
+| PRIME-008 | 주담대 일반지역 우량 (LTV 62%) | 810 | — | `approved` |
+| PRIME-009 | 치과의사 | 875 | SEG-DR | `approved` |
+| PRIME-010 | 공인회계사 | 845 | SEG-JD | `approved` |
+
+### 수동 심사 (MANUAL, 7개)
+
+| ID | 시나리오 | CB점수 | 특이사항 | 예상 결과 |
+|----|---------|--------|---------|---------|
+| MANUAL-001 | 경계 점수 직장인 | 545 | DSR 38% | `manual_review` |
+| MANUAL-002 | 단기 재직 5개월 | 690 | 재직기간 짧음 | `manual_review` |
+| MANUAL-003 | 프리랜서 소득 불규칙 | 660 | 사업소득 변동성 | `manual_review` |
+| MANUAL-004 | 다중 대출 경계 | 720 | DSR 35% | `manual_review` |
+| MANUAL-005 | 연체 해결 후 회복기 | 600 | 1년 전 연체 이력 | `manual_review` |
+| MANUAL-006 | 개인사업자 창업 초기 | 680 | 사업 8개월 | `manual_review` |
+| MANUAL-007 | 고령 자영업자 (58세) | 700 | 사업 15년 | `manual_review` |
+
+### 자동 거절 (REJECT, 10개)
+
+| ID | 시나리오 | CB점수 | 거절 사유 | 예상 결과 |
+|----|---------|--------|---------|---------|
+| REJECT-001 | DSR 55% 초과 | 750 | DSR 한도 초과 | `rejected` |
+| REJECT-002 | 현재 연체 90일 | 480 | 연체 진행중 | `rejected` |
+| REJECT-003 | 저신용 다중채무 | 350 | CB 350, 대출 7건 | `rejected` |
+| REJECT-004 | 주담대 조정지역 LTV 63% | 800 | LTV 60% 초과 | `rejected` |
+| REJECT-005 | 주담대 투기지역 LTV 42% | 830 | LTV 40% 초과 | `rejected` |
+| REJECT-006 | 무직 소득 없음 | 500 | 소득 없음 | `rejected` |
+| REJECT-007 | 연체 2개월 진행중 | 490 | 연체 진행중 | `rejected` |
+| REJECT-008 | 고위험 다중연체 | 430 | CB 430, 연체 3건 | `rejected` |
+| REJECT-009 | 파산 이력 | 310 | 공공기록 2건 | `rejected` |
+| REJECT-010 | 극저소득 알바 | 500 | 연소득 700만 | `rejected` |
+
+### 특수 케이스 (SPECIAL, 3개)
+
+| ID | 시나리오 | CB점수 | 특이사항 | 예상 결과 |
+|----|---------|--------|---------|---------|
+| SPECIAL-001 | 예술인복지재단 등록 예술가 | 620 | SEG-ART 소득 평활화 | `manual_review` |
+| SPECIAL-002 | 사회초년생 소액론 (만 24세) | 580 | 신용이력 짧음 | `manual_review` |
+| SPECIAL-003 | 주담대 투기지역 우량 (LTV 38%) | 880 | LTV 38% 적격 | `approved` |
+
+**시나리오 호출 방법 (예시):**
+
+```bash
+# PRIME-001 우량 고객 NICE CB 조회
+curl -X POST http://localhost:8001/nice/credit-info \
+  -H "X-API-Key: mock-api-key" \
+  -H "Content-Type: application/json" \
+  -d '{"resident_hash": "kcs_demo_prime_001", "consent_token": "tok"}'
+
+# → score: 850, grade: 3, delinquency: false (픽스처 반환)
+```
+
+---
+
 ## 프로젝트 구조
 
 ```
@@ -193,6 +273,18 @@ korea-credit-scoring/
 │   ├── registry/              # MLflow 모델 등록
 │   └── run_pipeline.py        # 파이프라인 오케스트레이터
 ├── mock_server/               # 외부 CB/국세청/건보 API 모의 서버
+│   ├── fixtures/
+│   │   ├── generate_fixtures.py   # 시나리오 픽스처 생성 스크립트
+│   │   └── scenario_customers.json# 30개 사전 정의 고객 시나리오
+│   └── routers/
+│       ├── _fixture_loader.py     # @lru_cache 기반 픽스처 조회
+│       ├── cb_nice.py             # NICE CB (픽스처 우선 → 해시 폴백)
+│       ├── cb_kcb.py              # KCB CB
+│       ├── nts.py                 # 국세청 소득/사업자
+│       ├── nhis.py                # 건강보험공단
+│       ├── biz_credit.py          # 기업신용 (EQ Grade)
+│       ├── mydata.py              # 마이데이터 자산
+│       └── profession.py          # 전문직 면허
 ├── tests/                     # 단위/통합/성능/부하 테스트
 │   ├── unit/                  # test_scoring_engine, test_auth, test_monitoring_engine
 │   ├── integration/           # test_api_e2e (FastAPI E2E)
