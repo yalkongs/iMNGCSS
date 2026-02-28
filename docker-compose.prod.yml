@@ -1,0 +1,109 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# KCS 운영 환경 Docker Compose Override
+# 사용법: docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+#
+# 이 파일은 docker-compose.yml 의 개발 설정을 운영 환경에 맞게 오버라이드합니다.
+# 필수 환경변수 (.env.prod 파일로 관리):
+#   SECRET_KEY, RESIDENT_HASH_KEY, POSTGRES_PASSWORD, REDIS_PASSWORD,
+#   CORS_ALLOWED_ORIGINS, CB_API_BASE_URL (실제 NICE/KCB API)
+# ─────────────────────────────────────────────────────────────────────────────
+version: "3.9"
+
+services:
+  # ── API 서버 (운영 설정) ──────────────────────────────────────────────────
+  api:
+    image: ${KCS_API_IMAGE:-kcs-api:latest}    # 빌드된 이미지 사용 (소스 마운트 없음)
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    volumes: []                                 # 소스 코드 마운트 제거
+    environment:
+      - ENVIRONMENT=production
+      - DATABASE_URL=postgresql+asyncpg://kcs_user:${POSTGRES_PASSWORD}@db:5432/kcs_db
+      - REDIS_URL=redis://:${REDIS_PASSWORD}@redis:6379/0
+      - SECRET_KEY=${SECRET_KEY}
+      - RESIDENT_HASH_KEY=${RESIDENT_HASH_KEY}
+      - CB_API_BASE_URL=${CB_API_BASE_URL:-http://mock-server:8001}
+      - CORS_ALLOWED_ORIGINS=${CORS_ALLOWED_ORIGINS:-}
+      - KAFKA_ENABLED=${KAFKA_ENABLED:-false}
+      - ENABLE_METRICS=true                     # Prometheus /metrics 활성화
+      - RATE_LIMIT_PER_MINUTE=${RATE_LIMIT_PER_MINUTE:-60}
+      - RATE_LIMIT_SCORING_PER_MINUTE=${RATE_LIMIT_SCORING_PER_MINUTE:-30}
+      - LOG_LEVEL=${LOG_LEVEL:-INFO}
+    deploy:
+      replicas: 2
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 1G
+        reservations:
+          cpus: "0.25"
+          memory: 512M
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+    ports:
+      - "8000:8000"
+
+  # ── Mock Server (운영에서는 실제 CB API 로 대체 가능) ────────────────────
+  mock-server:
+    image: ${KCS_MOCK_IMAGE:-kcs-mock-server:latest}
+    volumes: []
+    environment:
+      - MOCK_API_KEY=${MOCK_API_KEY}
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 256M
+
+  # ── PostgreSQL (운영 보안 강화) ──────────────────────────────────────────
+  db:
+    environment:
+      POSTGRES_USER: kcs_user
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: kcs_db
+    volumes:
+      - postgres_data_prod:/var/lib/postgresql/data   # 별도 named volume
+    ports: []                                         # 외부 포트 노출 제거
+    command: >
+      postgres
+        -c max_connections=200
+        -c shared_buffers=256MB
+        -c effective_cache_size=768MB
+        -c maintenance_work_mem=64MB
+        -c checkpoint_completion_target=0.9
+        -c wal_buffers=16MB
+        -c default_statistics_target=100
+        -c log_min_duration_statement=1000
+        -c log_connections=on
+        -c log_disconnections=on
+
+  # ── Redis (운영 보안 강화) ────────────────────────────────────────────────
+  redis:
+    command: >
+      redis-server
+        --requirepass ${REDIS_PASSWORD}
+        --maxmemory 512mb
+        --maxmemory-policy allkeys-lru
+        --appendonly yes
+        --appendfsync everysec
+        --save ""
+    volumes:
+      - redis_data_prod:/data
+    ports: []                                         # 외부 포트 노출 제거
+
+volumes:
+  postgres_data_prod:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ${POSTGRES_DATA_PATH:-/var/lib/kcs/postgres}
+  redis_data_prod:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ${REDIS_DATA_PATH:-/var/lib/kcs/redis}
