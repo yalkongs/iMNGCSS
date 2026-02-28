@@ -7,6 +7,8 @@ import random
 from fastapi import APIRouter, Header
 from pydantic import BaseModel
 
+from mock_server.routers._fixture_loader import get_fixture_by_resident
+
 router = APIRouter()
 
 
@@ -27,6 +29,10 @@ async def get_assets(
     x_api_key: str = Header(..., alias="X-API-Key"),
 ):
     """마이데이터 자산 요약 조회"""
+    fixture = get_fixture_by_resident(resident_hash)
+    if fixture:
+        return AssetSummary(**fixture["mydata"])
+
     seed = int(resident_hash[:8], 16) % 10000 + 7777
     rng = random.Random(seed)
 

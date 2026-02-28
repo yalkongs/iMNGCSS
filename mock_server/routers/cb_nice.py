@@ -10,6 +10,8 @@ from datetime import datetime, timedelta
 from fastapi import APIRouter, HTTPException, Header
 from pydantic import BaseModel
 
+from mock_server.routers._fixture_loader import get_fixture_by_resident
+
 router = APIRouter()
 
 
@@ -74,6 +76,11 @@ async def get_credit_info(
     if not request.resident_hash or len(request.resident_hash) < 10:
         raise HTTPException(status_code=400, detail="유효하지 않은 주민번호 해시")
 
+    # 픽스처 우선 조회 (사전 정의된 시나리오)
+    fixture = get_fixture_by_resident(request.resident_hash)
+    if fixture:
+        return NiceCbResponse(**fixture["nice_cb"])
+
     score = _deterministic_score(request.resident_hash)
     grade = _score_to_grade(score)
 
@@ -122,6 +129,11 @@ async def get_score_only(
     x_api_key: str = Header(..., alias="X-API-Key"),
 ):
     """간편 점수 조회 (Circuit Breaker KCB fallback용 경량 버전)"""
+    fixture = get_fixture_by_resident(resident_hash)
+    if fixture:
+        cb = fixture["nice_cb"]
+        return {"resident_hash": resident_hash, "score": cb["score"], "grade": cb["grade"], "data_source": "NICE_FIXTURE_LITE"}
+
     score = _deterministic_score(resident_hash)
     return {
         "resident_hash": resident_hash,

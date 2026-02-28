@@ -9,6 +9,8 @@ from datetime import datetime, date, timedelta
 from fastapi import APIRouter, Header, HTTPException
 from pydantic import BaseModel
 
+from mock_server.routers._fixture_loader import get_fixture_by_resident, get_fixture_by_employer
+
 router = APIRouter()
 
 
@@ -77,6 +79,10 @@ async def get_income(
     x_api_key: str = Header(..., alias="X-API-Key"),
 ):
     """국세청 소득 정보 조회"""
+    fixture = get_fixture_by_resident(request.resident_hash)
+    if fixture:
+        return IncomeResponse(**fixture["nts_income"])
+
     seed = int(request.resident_hash[:8], 16) % 10000
     rng = random.Random(seed)
 
@@ -131,6 +137,10 @@ async def get_business(
     x_api_key: str = Header(..., alias="X-API-Key"),
 ):
     """국세청 사업자 정보 조회 (개인사업자)"""
+    fixture = get_fixture_by_employer(request.business_registration_hash)
+    if fixture and fixture.get("nts_business"):
+        return BusinessResponse(**fixture["nts_business"])
+
     seed = int(request.business_registration_hash[:8], 16) % 10000
     rng = random.Random(seed)
 

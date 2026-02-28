@@ -6,6 +6,8 @@ from datetime import datetime, timedelta
 from fastapi import APIRouter, Header
 from pydantic import BaseModel
 
+from mock_server.routers._fixture_loader import get_fixture_by_resident
+
 router = APIRouter()
 
 
@@ -45,6 +47,10 @@ async def get_kcb_credit_info(
     x_api_key: str = Header(..., alias="X-API-Key"),
 ):
     """KCB 개인 신용정보 조회 (NICE 장애 시 fallback)"""
+    fixture = get_fixture_by_resident(resident_hash)
+    if fixture:
+        return KcbCbResponse(**fixture["kcb_cb"])
+
     score = _kcb_score(resident_hash)
     seed = int(resident_hash[8:16], 16) % 10000 + 5678
     rng = random.Random(seed)

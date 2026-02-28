@@ -8,6 +8,8 @@ import random
 from fastapi import APIRouter, Header
 from pydantic import BaseModel
 
+from mock_server.routers._fixture_loader import get_fixture_by_resident
+
 router = APIRouter()
 
 
@@ -49,6 +51,10 @@ async def verify_license(
     x_api_key: str = Header(..., alias="X-API-Key"),
 ):
     """전문직 면허 검증"""
+    fixture = get_fixture_by_resident(request.resident_hash)
+    if fixture:
+        return LicenseResponse(**fixture["profession"])
+
     seed = int(request.resident_hash[:8], 16) % 10000
     rng = random.Random(seed)
 
@@ -87,6 +93,17 @@ async def check_artist_fund(
     x_api_key: str = Header(..., alias="X-API-Key"),
 ):
     """예술인복지재단 등록 여부 확인"""
+    fixture = get_fixture_by_resident(resident_hash)
+    if fixture and "art_fund_registered" in fixture.get("alternative_data", {}):
+        alt = fixture["alternative_data"]
+        return {
+            "resident_hash": resident_hash,
+            "art_fund_registered": alt.get("art_fund_registered", False),
+            "registration_date": alt.get("art_fund_registration_date"),
+            "art_field": alt.get("art_fund_field"),
+            "data_source": "ART_FUND_FIXTURE",
+        }
+
     seed = int(resident_hash[:8], 16) % 10000 + 3333
     rng = random.Random(seed)
     registered = rng.random() < 0.80  # 80% 등록

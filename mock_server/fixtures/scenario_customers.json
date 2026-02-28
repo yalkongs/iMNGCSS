@@ -1,0 +1,3409 @@
+{
+  "version": "1.0",
+  "generated_at": "2026-02-28T11:45:22.634714",
+  "total_scenarios": 30,
+  "categories": {
+    "auto_approved": 10,
+    "manual_review": 7,
+    "rejected": 10,
+    "special": 3
+  },
+  "lookup": {
+    "by_resident_hash": {
+      "kcs_demo_prime_001": "PRIME-001",
+      "kcs_demo_prime_002": "PRIME-002",
+      "kcs_demo_prime_003": "PRIME-003",
+      "kcs_demo_prime_004": "PRIME-004",
+      "kcs_demo_prime_005": "PRIME-005",
+      "kcs_demo_prime_006": "PRIME-006",
+      "kcs_demo_prime_007": "PRIME-007",
+      "kcs_demo_prime_008": "PRIME-008",
+      "kcs_demo_prime_009": "PRIME-009",
+      "kcs_demo_prime_010": "PRIME-010",
+      "kcs_demo_manual_001": "MANUAL-001",
+      "kcs_demo_manual_002": "MANUAL-002",
+      "kcs_demo_manual_003": "MANUAL-003",
+      "kcs_demo_manual_004": "MANUAL-004",
+      "kcs_demo_manual_005": "MANUAL-005",
+      "kcs_demo_manual_006": "MANUAL-006",
+      "kcs_demo_manual_007": "MANUAL-007",
+      "kcs_demo_reject_001": "REJECT-001",
+      "kcs_demo_reject_002": "REJECT-002",
+      "kcs_demo_reject_003": "REJECT-003",
+      "kcs_demo_reject_004": "REJECT-004",
+      "kcs_demo_reject_005": "REJECT-005",
+      "kcs_demo_reject_006": "REJECT-006",
+      "kcs_demo_reject_007": "REJECT-007",
+      "kcs_demo_reject_008": "REJECT-008",
+      "kcs_demo_reject_009": "REJECT-009",
+      "kcs_demo_reject_010": "REJECT-010",
+      "kcs_demo_special_001": "SPECIAL-001",
+      "kcs_demo_special_002": "SPECIAL-002",
+      "kcs_demo_special_003": "SPECIAL-003"
+    },
+    "by_employer_hash": {
+      "kcs_emp_prime_001": "PRIME-001",
+      "kcs_emp_prime_002": "PRIME-002",
+      "kcs_emp_prime_003": "PRIME-003",
+      "kcs_emp_prime_004": "PRIME-004",
+      "kcs_emp_prime_005": "PRIME-005",
+      "kcs_emp_mou_sec001": "PRIME-006",
+      "kcs_emp_prime_007": "PRIME-007",
+      "kcs_emp_prime_008": "PRIME-008",
+      "kcs_emp_prime_009": "PRIME-009",
+      "kcs_emp_prime_010": "PRIME-010",
+      "kcs_emp_manual_001": "MANUAL-001",
+      "kcs_emp_manual_002": "MANUAL-002",
+      "kcs_emp_manual_003": "MANUAL-003",
+      "kcs_emp_manual_004": "MANUAL-004",
+      "kcs_emp_manual_005": "MANUAL-005",
+      "kcs_emp_manual_006": "MANUAL-006",
+      "kcs_emp_manual_007": "MANUAL-007",
+      "kcs_emp_reject_001": "REJECT-001",
+      "kcs_emp_reject_002": "REJECT-002",
+      "kcs_emp_reject_003": "REJECT-003",
+      "kcs_emp_reject_004": "REJECT-004",
+      "kcs_emp_reject_005": "REJECT-005",
+      "kcs_emp_reject_006": "REJECT-006",
+      "kcs_emp_reject_007": "REJECT-007",
+      "kcs_emp_reject_008": "REJECT-008",
+      "kcs_emp_reject_009": "REJECT-009",
+      "kcs_emp_reject_010": "REJECT-010",
+      "kcs_emp_special_001": "SPECIAL-001",
+      "kcs_emp_special_002": "SPECIAL-002",
+      "kcs_emp_special_003": "SPECIAL-003"
+    }
+  },
+  "customers": [
+    {
+      "scenario_id": "PRIME-001",
+      "scenario_name": "우량 대기업 직장인",
+      "category": "auto_approved",
+      "expected_decision": "approved",
+      "description": "CB 850, 소득 8000만, 대출 1건, DSR 22% — 전형적 우량 직장인",
+      "resident_hash": "kcs_demo_prime_001",
+      "employer_hash": "kcs_emp_prime_001",
+      "business_hash": "biz_kcs_demo_prime_001",
+      "profile": {
+        "age": 38,
+        "employment_type": "employed",
+        "segment_code": "",
+        "nice_score": 850,
+        "total_income_annual": 80000000.0,
+        "worst_delinquency_status": 0
+      },
+      "nice_cb": {
+        "inquiry_id": "NICE-kcs_demo_prime_0-FIX",
+        "resident_hash": "kcs_demo_prime_001",
+        "score": 850,
+        "grade": 3,
+        "score_date": "2025-01-15",
+        "delinquency": {
+          "has_delinquency": false,
+          "max_days_overdue": 0,
+          "delinquency_amount": 0.0,
+          "last_delinquency_date": null
+        },
+        "loans": {
+          "total_loan_count": 1,
+          "total_balance": 20000000,
+          "monthly_payment": 166667,
+          "credit_card_limit": 3000000,
+          "credit_card_balance": 800000
+        },
+        "public_record_count": 0,
+        "inquiry_count_6m": 1,
+        "worst_delinquency_status": 0,
+        "data_source": "NICE_FIXTURE"
+      },
+      "kcb_cb": {
+        "inquiry_id": "KCB-kcs_demo_prime_0-FIX",
+        "resident_hash": "kcs_demo_prime_001",
+        "kcb_score": 840,
+        "kcb_grade": "3",
+        "overdue_flag": false,
+        "total_debt": 20000000,
+        "monthly_obligation": 166667,
+        "data_source": "KCB_FIXTURE"
+      },
+      "nts_income": {
+        "resident_hash": "kcs_demo_prime_001",
+        "tax_year": 2024,
+        "employment_income": 80000000,
+        "business_income": 0.0,
+        "other_income": 0.0,
+        "total_income": 80000000.0,
+        "income_verified": true,
+        "employer_name": "삼성전자주식회사",
+        "data_source": "NTS_FIXTURE"
+      },
+      "nhis": {
+        "resident_hash": "kcs_demo_prime_001",
+        "subscriber_type": "employee",
+        "employer_name": "삼*******",
+        "monthly_premium": 236333,
+        "income_level": 80000000.0,
+        "subscription_months": 96,
+        "income_verified": true,
+        "data_source": "NHIS_FIXTURE"
+      },
+      "biz_credit": {
+        "employer_registration_hash": "kcs_emp_prime_001",
+        "eq_grade": "EQ-B",
+        "limit_multiplier": 1.5,
+        "rate_adjustment": -0.2,
+        "mou_code": null,
+        "mou_rate_discount": 0.0,
+        "company_size": "large",
+        "years_in_business": 30,
+        "data_source": "BIZ_FIXTURE"
+      },
+      "mydata": {
+        "total_deposit": 15000000,
+        "total_savings": 30000000,
+        "total_investment": 20000000,
+        "total_insurance_premium": 150000,
+        "monthly_card_spend_3m_avg": 2500000,
+        "regular_transfer_monthly": 500000,
+        "data_source": "MYDATA_FIXTURE"
+      },
+      "profession": {
+        "resident_hash": "kcs_demo_prime_001",
+        "license_type": "none",
+        "is_valid": false,
+        "segment_code": null,
+        "license_date": null,
+        "specialty": null,
+        "registration_status": "not_found",
+        "data_source": "PROFESSION_FIXTURE"
+      },
+      "alternative_data": {
+        "telecom_no_delinquency": 1,
+        "health_insurance_paid_months_12m": 12,
+        "national_pension_paid_months_24m": 24,
+        "art_fund_registered": false,
+        "art_fund_registration_date": null,
+        "art_fund_field": null
+      }
+    },
+    {
+      "scenario_id": "PRIME-002",
+      "scenario_name": "내과 의사 (SEG-DR)",
+      "category": "auto_approved",
+      "expected_decision": "approved",
+      "description": "CB 820, 소득 1.8억, SEG-DR 혜택 — EQ-B 보장, 한도 3.0x, -0.3%p",
+      "resident_hash": "kcs_demo_prime_002",
+      "employer_hash": "kcs_emp_prime_002",
+      "business_hash": "biz_kcs_demo_prime_002",
+      "profile": {
+        "age": 42,
+        "employment_type": "profession",
+        "segment_code": "SEG-DR",
+        "nice_score": 820,
+        "total_income_annual": 180000000.0,
+        "worst_delinquency_status": 0
+      },
+      "nice_cb": {
+        "inquiry_id": "NICE-kcs_demo_prime_0-FIX",
+        "resident_hash": "kcs_demo_prime_002",
+        "score": 820,
+        "grade": 4,
+        "score_date": "2025-01-15",
+        "delinquency": {
+          "has_delinquency": false,
+          "max_days_overdue": 0,
+          "delinquency_amount": 0.0,
+          "last_delinquency_date": null
+        },
+        "loans": {
+          "total_loan_count": 1,
+          "total_balance": 30000000,
+          "monthly_payment": 250000,
+          "credit_card_limit": 3000000,
+          "credit_card_balance": 800000
+        },
+        "public_record_count": 0,
+        "inquiry_count_6m": 1,
+        "worst_delinquency_status": 0,
+        "data_source": "NICE_FIXTURE"
+      },
+      "kcb_cb": {
+        "inquiry_id": "KCB-kcs_demo_prime_0-FIX",
+        "resident_hash": "kcs_demo_prime_002",
+        "kcb_score": 810,
+        "kcb_grade": "4",
+        "overdue_flag": false,
+        "total_debt": 30000000,
+        "monthly_obligation": 250000,
+        "data_source": "KCB_FIXTURE"
+      },
+      "nts_income": {
+        "resident_hash": "kcs_demo_prime_002",
+        "tax_year": 2024,
+        "employment_income": 180000000,
+        "business_income": 0.0,
+        "other_income": 0.0,
+        "total_income": 180000000.0,
+        "income_verified": true,
+        "employer_name": "서울대학교병원",
+        "data_source": "NTS_FIXTURE"
+      },
+      "nhis": {
+        "resident_hash": "kcs_demo_prime_002",
+        "subscriber_type": "employee",
+        "employer_name": "서******",
+        "monthly_premium": 531750,
+        "income_level": 180000000.0,
+        "subscription_months": 120,
+        "income_verified": true,
+        "data_source": "NHIS_FIXTURE"
+      },
+      "biz_credit": {
+        "employer_registration_hash": "kcs_emp_prime_002",
+        "eq_grade": "EQ-A",
+        "limit_multiplier": 1.8,
+        "rate_adjustment": -0.3,
+        "mou_code": null,
+        "mou_rate_discount": 0.0,
+        "company_size": "large",
+        "years_in_business": 20,
+        "data_source": "BIZ_FIXTURE"
+      },
+      "mydata": {
+        "total_deposit": 50000000,
+        "total_savings": 80000000,
+        "total_investment": 50000000,
+        "total_insurance_premium": 150000,
+        "monthly_card_spend_3m_avg": 5000000,
+        "regular_transfer_monthly": 500000,
+        "data_source": "MYDATA_FIXTURE"
+      },
+      "profession": {
+        "resident_hash": "kcs_demo_prime_002",
+        "license_type": "doctor",
+        "is_valid": true,
+        "segment_code": "SEG-DR",
+        "license_date": "2015-03-15",
+        "specialty": "내과",
+        "registration_status": "active",
+        "data_source": "PROFESSION_FIXTURE"
+      },
+      "alternative_data": {
+        "telecom_no_delinquency": 1,
+        "health_insurance_paid_months_12m": 12,
+        "national_pension_paid_months_24m": 24,
+        "art_fund_registered": false,
+        "art_fund_registration_date": null,
+        "art_fund_field": null
+      }
+    },
+    {
+      "scenario_id": "PRIME-003",
+      "scenario_name": "직업군인 중령 (SEG-MIL)",
+      "category": "auto_approved",
+      "expected_decision": "approved",
+      "description": "CB 750, 소득 6500만, SEG-MIL — EQ-S 보장, 한도 2.0x, -0.5%p",
+      "resident_hash": "kcs_demo_prime_003",
+      "employer_hash": "kcs_emp_prime_003",
+      "business_hash": "biz_kcs_demo_prime_003",
+      "profile": {
+        "age": 44,
+        "employment_type": "military",
+        "segment_code": "SEG-MIL",
+        "nice_score": 750,
+        "total_income_annual": 65000000.0,
+        "worst_delinquency_status": 0
+      },
+      "nice_cb": {
+        "inquiry_id": "NICE-kcs_demo_prime_0-FIX",
+        "resident_hash": "kcs_demo_prime_003",
+        "score": 750,
+        "grade": 5,
+        "score_date": "2025-01-15",
+        "delinquency": {
+          "has_delinquency": false,
+          "max_days_overdue": 0,
+          "delinquency_amount": 0.0,
+          "last_delinquency_date": null
+        },
+        "loans": {
+          "total_loan_count": 0,
+          "total_balance": 0,
+          "monthly_payment": 0.0,
+          "credit_card_limit": 3000000,
+          "credit_card_balance": 800000
+        },
+        "public_record_count": 0,
+        "inquiry_count_6m": 1,
+        "worst_delinquency_status": 0,
+        "data_source": "NICE_FIXTURE"
+      },
+      "kcb_cb": {
+        "inquiry_id": "KCB-kcs_demo_prime_0-FIX",
+        "resident_hash": "kcs_demo_prime_003",
+        "kcb_score": 740,
+        "kcb_grade": "5",
+        "overdue_flag": false,
+        "total_debt": 0,
+        "monthly_obligation": 0.0,
+        "data_source": "KCB_FIXTURE"
+      },
+      "nts_income": {
+        "resident_hash": "kcs_demo_prime_003",
+        "tax_year": 2024,
+        "employment_income": 65000000,
+        "business_income": 0.0,
+        "other_income": 0.0,
+        "total_income": 65000000.0,
+        "income_verified": true,
+        "employer_name": "대한민국육군",
+        "data_source": "NTS_FIXTURE"
+      },
+      "nhis": {
+        "resident_hash": "kcs_demo_prime_003",
+        "subscriber_type": "employee",
+        "employer_name": "대*****",
+        "monthly_premium": 192021,
+        "income_level": 65000000.0,
+        "subscription_months": 180,
+        "income_verified": true,
+        "data_source": "NHIS_FIXTURE"
+      },
+      "biz_credit": {
+        "employer_registration_hash": "kcs_emp_prime_003",
+        "eq_grade": "EQ-S",
+        "limit_multiplier": 2.0,
+        "rate_adjustment": -0.5,
+        "mou_code": null,
+        "mou_rate_discount": 0.0,
+        "company_size": "large",
+        "years_in_business": 50,
+        "data_source": "BIZ_FIXTURE"
+      },
+      "mydata": {
+        "total_deposit": 20000000,
+        "total_savings": 40000000,
+        "total_investment": 0.0,
+        "total_insurance_premium": 150000,
+        "monthly_card_spend_3m_avg": 2000000,
+        "regular_transfer_monthly": 500000,
+        "data_source": "MYDATA_FIXTURE"
+      },
+      "profession": {
+        "resident_hash": "kcs_demo_prime_003",
+        "license_type": "none",
+        "is_valid": false,
+        "segment_code": null,
+        "license_date": null,
+        "specialty": null,
+        "registration_status": "not_found",
+        "data_source": "PROFESSION_FIXTURE"
+      },
+      "alternative_data": {
+        "telecom_no_delinquency": 1,
+        "health_insurance_paid_months_12m": 12,
+        "national_pension_paid_months_24m": 24,
+        "art_fund_registered": false,
+        "art_fund_registration_date": null,
+        "art_fund_field": null
+      }
+    },
+    {
+      "scenario_id": "PRIME-004",
+      "scenario_name": "청년 공기업 직원 (SEG-YTH)",
+      "category": "auto_approved",
+      "expected_decision": "approved",
+      "description": "CB 760, 소득 5000만, 만 29세 — SEG-YTH 금리 -0.5%p",
+      "resident_hash": "kcs_demo_prime_004",
+      "employer_hash": "kcs_emp_prime_004",
+      "business_hash": "biz_kcs_demo_prime_004",
+      "profile": {
+        "age": 29,
+        "employment_type": "employed",
+        "segment_code": "SEG-YTH",
+        "nice_score": 760,
+        "total_income_annual": 50000000.0,
+        "worst_delinquency_status": 0
+      },
+      "nice_cb": {
+        "inquiry_id": "NICE-kcs_demo_prime_0-FIX",
+        "resident_hash": "kcs_demo_prime_004",
+        "score": 760,
+        "grade": 5,
+        "score_date": "2025-01-15",
+        "delinquency": {
+          "has_delinquency": false,
+          "max_days_overdue": 0,
+          "delinquency_amount": 0.0,
+          "last_delinquency_date": null
+        },
+        "loans": {
+          "total_loan_count": 1,
+          "total_balance": 15000000,
+          "monthly_payment": 125000,
+          "credit_card_limit": 3000000,
+          "credit_card_balance": 800000
+        },
+        "public_record_count": 0,
+        "inquiry_count_6m": 1,
+        "worst_delinquency_status": 0,
+        "data_source": "NICE_FIXTURE"
+      },
+      "kcb_cb": {
+        "inquiry_id": "KCB-kcs_demo_prime_0-FIX",
+        "resident_hash": "kcs_demo_prime_004",
+        "kcb_score": 750,
+        "kcb_grade": "5",
+        "overdue_flag": false,
+        "total_debt": 15000000,
+        "monthly_obligation": 125000,
+        "data_source": "KCB_FIXTURE"
+      },
+      "nts_income": {
+        "resident_hash": "kcs_demo_prime_004",
+        "tax_year": 2024,
+        "employment_income": 50000000,
+        "business_income": 0.0,
+        "other_income": 0.0,
+        "total_income": 50000000.0,
+        "income_verified": true,
+        "employer_name": "한국전력공사",
+        "data_source": "NTS_FIXTURE"
+      },
+      "nhis": {
+        "resident_hash": "kcs_demo_prime_004",
+        "subscriber_type": "employee",
+        "employer_name": "한*****",
+        "monthly_premium": 147708,
+        "income_level": 50000000.0,
+        "subscription_months": 36,
+        "income_verified": true,
+        "data_source": "NHIS_FIXTURE"
+      },
+      "biz_credit": {
+        "employer_registration_hash": "kcs_emp_prime_004",
+        "eq_grade": "EQ-C",
+        "limit_multiplier": 1.2,
+        "rate_adjustment": 0.0,
+        "mou_code": null,
+        "mou_rate_discount": 0.0,
+        "company_size": "large",
+        "years_in_business": 80,
+        "data_source": "BIZ_FIXTURE"
+      },
+      "mydata": {
+        "total_deposit": 8000000,
+        "total_savings": 12000000,
+        "total_investment": 0.0,
+        "total_insurance_premium": 150000,
+        "monthly_card_spend_3m_avg": 1200000,
+        "regular_transfer_monthly": 500000,
+        "data_source": "MYDATA_FIXTURE"
+      },
+      "profession": {
+        "resident_hash": "kcs_demo_prime_004",
+        "license_type": "none",
+        "is_valid": false,
+        "segment_code": null,
+        "license_date": null,
+        "specialty": null,
+        "registration_status": "not_found",
+        "data_source": "PROFESSION_FIXTURE"
+      },
+      "alternative_data": {
+        "telecom_no_delinquency": 1,
+        "health_insurance_paid_months_12m": 12,
+        "national_pension_paid_months_24m": 24,
+        "art_fund_registered": false,
+        "art_fund_registration_date": null,
+        "art_fund_field": null
+      }
+    },
+    {
+      "scenario_id": "PRIME-005",
+      "scenario_name": "기업법 변호사 (SEG-JD)",
+      "category": "auto_approved",
+      "expected_decision": "approved",
+      "description": "CB 800, 소득 1.2억, SEG-JD — EQ-B 보장, 한도 2.5x, -0.2%p",
+      "resident_hash": "kcs_demo_prime_005",
+      "employer_hash": "kcs_emp_prime_005",
+      "business_hash": "biz_kcs_demo_prime_005",
+      "profile": {
+        "age": 45,
+        "employment_type": "profession",
+        "segment_code": "SEG-JD",
+        "nice_score": 800,
+        "total_income_annual": 120000000.0,
+        "worst_delinquency_status": 0
+      },
+      "nice_cb": {
+        "inquiry_id": "NICE-kcs_demo_prime_0-FIX",
+        "resident_hash": "kcs_demo_prime_005",
+        "score": 800,
+        "grade": 5,
+        "score_date": "2025-01-15",
+        "delinquency": {
+          "has_delinquency": false,
+          "max_days_overdue": 0,
+          "delinquency_amount": 0.0,
+          "last_delinquency_date": null
+        },
+        "loans": {
+          "total_loan_count": 0,
+          "total_balance": 0,
+          "monthly_payment": 0.0,
+          "credit_card_limit": 3000000,
+          "credit_card_balance": 800000
+        },
+        "public_record_count": 0,
+        "inquiry_count_6m": 1,
+        "worst_delinquency_status": 0,
+        "data_source": "NICE_FIXTURE"
+      },
+      "kcb_cb": {
+        "inquiry_id": "KCB-kcs_demo_prime_0-FIX",
+        "resident_hash": "kcs_demo_prime_005",
+        "kcb_score": 790,
+        "kcb_grade": "4",
+        "overdue_flag": false,
+        "total_debt": 0,
+        "monthly_obligation": 0.0,
+        "data_source": "KCB_FIXTURE"
+      },
+      "nts_income": {
+        "resident_hash": "kcs_demo_prime_005",
+        "tax_year": 2024,
+        "employment_income": 120000000,
+        "business_income": 0.0,
+        "other_income": 0.0,
+        "total_income": 120000000.0,
+        "income_verified": true,
+        "employer_name": "김앤장법률사무소",
+        "data_source": "NTS_FIXTURE"
+      },
+      "nhis": {
+        "resident_hash": "kcs_demo_prime_005",
+        "subscriber_type": "employee",
+        "employer_name": "김*******",
+        "monthly_premium": 354500,
+        "income_level": 120000000.0,
+        "subscription_months": 120,
+        "income_verified": true,
+        "data_source": "NHIS_FIXTURE"
+      },
+      "biz_credit": {
+        "employer_registration_hash": "kcs_emp_prime_005",
+        "eq_grade": "EQ-B",
+        "limit_multiplier": 1.5,
+        "rate_adjustment": -0.2,
+        "mou_code": null,
+        "mou_rate_discount": 0.0,
+        "company_size": "large",
+        "years_in_business": 40,
+        "data_source": "BIZ_FIXTURE"
+      },
+      "mydata": {
+        "total_deposit": 40000000,
+        "total_savings": 60000000,
+        "total_investment": 30000000,
+        "total_insurance_premium": 150000,
+        "monthly_card_spend_3m_avg": 4000000,
+        "regular_transfer_monthly": 500000,
+        "data_source": "MYDATA_FIXTURE"
+      },
+      "profession": {
+        "resident_hash": "kcs_demo_prime_005",
+        "license_type": "lawyer",
+        "is_valid": true,
+        "segment_code": "SEG-JD",
+        "license_date": "2015-03-15",
+        "specialty": "기업법",
+        "registration_status": "active",
+        "data_source": "PROFESSION_FIXTURE"
+      },
+      "alternative_data": {
+        "telecom_no_delinquency": 1,
+        "health_insurance_paid_months_12m": 12,
+        "national_pension_paid_months_24m": 24,
+        "art_fund_registered": false,
+        "art_fund_registration_date": null,
+        "art_fund_field": null
+      }
+    },
+    {
+      "scenario_id": "PRIME-006",
+      "scenario_name": "삼성전자 협약기업 직원 (SEG-MOU)",
+      "category": "auto_approved",
+      "expected_decision": "approved",
+      "description": "CB 720, 소득 6000만, SEG-MOU-SEC001 — EQ-B, -0.3%p 우대",
+      "resident_hash": "kcs_demo_prime_006",
+      "employer_hash": "kcs_emp_mou_sec001",
+      "business_hash": "biz_kcs_demo_prime_006",
+      "profile": {
+        "age": 36,
+        "employment_type": "employed",
+        "segment_code": "",
+        "nice_score": 720,
+        "total_income_annual": 60000000.0,
+        "worst_delinquency_status": 0
+      },
+      "nice_cb": {
+        "inquiry_id": "NICE-kcs_demo_prime_0-FIX",
+        "resident_hash": "kcs_demo_prime_006",
+        "score": 720,
+        "grade": 6,
+        "score_date": "2025-01-15",
+        "delinquency": {
+          "has_delinquency": false,
+          "max_days_overdue": 0,
+          "delinquency_amount": 0.0,
+          "last_delinquency_date": null
+        },
+        "loans": {
+          "total_loan_count": 1,
+          "total_balance": 25000000,
+          "monthly_payment": 208333,
+          "credit_card_limit": 3000000,
+          "credit_card_balance": 800000
+        },
+        "public_record_count": 0,
+        "inquiry_count_6m": 1,
+        "worst_delinquency_status": 0,
+        "data_source": "NICE_FIXTURE"
+      },
+      "kcb_cb": {
+        "inquiry_id": "KCB-kcs_demo_prime_0-FIX",
+        "resident_hash": "kcs_demo_prime_006",
+        "kcb_score": 710,
+        "kcb_grade": "5",
+        "overdue_flag": false,
+        "total_debt": 25000000,
+        "monthly_obligation": 208333,
+        "data_source": "KCB_FIXTURE"
+      },
+      "nts_income": {
+        "resident_hash": "kcs_demo_prime_006",
+        "tax_year": 2024,
+        "employment_income": 60000000,
+        "business_income": 0.0,
+        "other_income": 0.0,
+        "total_income": 60000000.0,
+        "income_verified": true,
+        "employer_name": "삼성전자주식회사",
+        "data_source": "NTS_FIXTURE"
+      },
+      "nhis": {
+        "resident_hash": "kcs_demo_prime_006",
+        "subscriber_type": "employee",
+        "employer_name": "삼*******",
+        "monthly_premium": 177250,
+        "income_level": 60000000.0,
+        "subscription_months": 60,
+        "income_verified": true,
+        "data_source": "NHIS_FIXTURE"
+      },
+      "biz_credit": {
+        "employer_registration_hash": "kcs_emp_mou_sec001",
+        "eq_grade": "EQ-B",
+        "limit_multiplier": 1.5,
+        "rate_adjustment": -0.2,
+        "mou_code": "MOU-SEC001",
+        "mou_rate_discount": -0.3,
+        "company_size": "large",
+        "years_in_business": 30,
+        "data_source": "BIZ_FIXTURE"
+      },
+      "mydata": {
+        "total_deposit": 10000000,
+        "total_savings": 20000000,
+        "total_investment": 0.0,
+        "total_insurance_premium": 150000,
+        "monthly_card_spend_3m_avg": 1800000,
+        "regular_transfer_monthly": 500000,
+        "data_source": "MYDATA_FIXTURE"
+      },
+      "profession": {
+        "resident_hash": "kcs_demo_prime_006",
+        "license_type": "none",
+        "is_valid": false,
+        "segment_code": null,
+        "license_date": null,
+        "specialty": null,
+        "registration_status": "not_found",
+        "data_source": "PROFESSION_FIXTURE"
+      },
+      "alternative_data": {
+        "telecom_no_delinquency": 1,
+        "health_insurance_paid_months_12m": 12,
+        "national_pension_paid_months_24m": 24,
+        "art_fund_registered": false,
+        "art_fund_registration_date": null,
+        "art_fund_field": null
+      }
+    },
+    {
+      "scenario_id": "PRIME-007",
+      "scenario_name": "한식당 10년 자영업자",
+      "category": "auto_approved",
+      "expected_decision": "approved",
+      "description": "CB 740, 사업소득 1억, 사업기간 10년 — 안정적 자영업 우량",
+      "resident_hash": "kcs_demo_prime_007",
+      "employer_hash": "kcs_emp_prime_007",
+      "business_hash": "kcs_biz_prime_007",
+      "profile": {
+        "age": 48,
+        "employment_type": "self_employed",
+        "segment_code": "",
+        "nice_score": 740,
+        "total_income_annual": 100000000.0,
+        "worst_delinquency_status": 0
+      },
+      "nice_cb": {
+        "inquiry_id": "NICE-kcs_demo_prime_0-FIX",
+        "resident_hash": "kcs_demo_prime_007",
+        "score": 740,
+        "grade": 6,
+        "score_date": "2025-01-15",
+        "delinquency": {
+          "has_delinquency": false,
+          "max_days_overdue": 0,
+          "delinquency_amount": 0.0,
+          "last_delinquency_date": null
+        },
+        "loans": {
+          "total_loan_count": 2,
+          "total_balance": 50000000,
+          "monthly_payment": 416667,
+          "credit_card_limit": 3000000,
+          "credit_card_balance": 800000
+        },
+        "public_record_count": 0,
+        "inquiry_count_6m": 1,
+        "worst_delinquency_status": 0,
+        "data_source": "NICE_FIXTURE"
+      },
+      "kcb_cb": {
+        "inquiry_id": "KCB-kcs_demo_prime_0-FIX",
+        "resident_hash": "kcs_demo_prime_007",
+        "kcb_score": 730,
+        "kcb_grade": "5",
+        "overdue_flag": false,
+        "total_debt": 50000000,
+        "monthly_obligation": 416667,
+        "data_source": "KCB_FIXTURE"
+      },
+      "nts_income": {
+        "resident_hash": "kcs_demo_prime_007",
+        "tax_year": 2024,
+        "employment_income": 0.0,
+        "business_income": 100000000,
+        "other_income": 0.0,
+        "total_income": 100000000.0,
+        "income_verified": true,
+        "employer_name": null,
+        "data_source": "NTS_FIXTURE"
+      },
+      "nhis": {
+        "resident_hash": "kcs_demo_prime_007",
+        "subscriber_type": "regional",
+        "employer_name": null,
+        "monthly_premium": 295417,
+        "income_level": 100000000.0,
+        "subscription_months": 120,
+        "income_verified": true,
+        "data_source": "NHIS_FIXTURE"
+      },
+      "biz_credit": {
+        "employer_registration_hash": "kcs_emp_prime_007",
+        "eq_grade": "EQ-C",
+        "limit_multiplier": 1.2,
+        "rate_adjustment": 0.0,
+        "mou_code": null,
+        "mou_rate_discount": 0.0,
+        "company_size": "micro",
+        "years_in_business": 10,
+        "data_source": "BIZ_FIXTURE"
+      },
+      "mydata": {
+        "total_deposit": 20000000,
+        "total_savings": 30000000,
+        "total_investment": 0.0,
+        "total_insurance_premium": 150000,
+        "monthly_card_spend_3m_avg": 2000000,
+        "regular_transfer_monthly": 500000,
+        "data_source": "MYDATA_FIXTURE"
+      },
+      "profession": {
+        "resident_hash": "kcs_demo_prime_007",
+        "license_type": "none",
+        "is_valid": false,
+        "segment_code": null,
+        "license_date": null,
+        "specialty": null,
+        "registration_status": "not_found",
+        "data_source": "PROFESSION_FIXTURE"
+      },
+      "alternative_data": {
+        "telecom_no_delinquency": 1,
+        "health_insurance_paid_months_12m": 12,
+        "national_pension_paid_months_24m": 24,
+        "art_fund_registered": false,
+        "art_fund_registration_date": null,
+        "art_fund_field": null
+      }
+    },
+    {
+      "scenario_id": "PRIME-008",
+      "scenario_name": "주담대 일반지역 우량 (LTV 62%)",
+      "category": "auto_approved",
+      "expected_decision": "approved",
+      "description": "CB 790, 소득 9000만, 일반지역 LTV 62% (한도 70%) — 주담대 승인",
+      "resident_hash": "kcs_demo_prime_008",
+      "employer_hash": "kcs_emp_prime_008",
+      "business_hash": "biz_kcs_demo_prime_008",
+      "profile": {
+        "age": 42,
+        "employment_type": "employed",
+        "segment_code": "",
+        "nice_score": 790,
+        "total_income_annual": 90000000.0,
+        "worst_delinquency_status": 0
+      },
+      "nice_cb": {
+        "inquiry_id": "NICE-kcs_demo_prime_0-FIX",
+        "resident_hash": "kcs_demo_prime_008",
+        "score": 790,
+        "grade": 5,
+        "score_date": "2025-01-15",
+        "delinquency": {
+          "has_delinquency": false,
+          "max_days_overdue": 0,
+          "delinquency_amount": 0.0,
+          "last_delinquency_date": null
+        },
+        "loans": {
+          "total_loan_count": 0,
+          "total_balance": 0,
+          "monthly_payment": 0.0,
+          "credit_card_limit": 3000000,
+          "credit_card_balance": 800000
+        },
+        "public_record_count": 0,
+        "inquiry_count_6m": 1,
+        "worst_delinquency_status": 0,
+        "data_source": "NICE_FIXTURE"
+      },
+      "kcb_cb": {
+        "inquiry_id": "KCB-kcs_demo_prime_0-FIX",
+        "resident_hash": "kcs_demo_prime_008",
+        "kcb_score": 780,
+        "kcb_grade": "4",
+        "overdue_flag": false,
+        "total_debt": 0,
+        "monthly_obligation": 0.0,
+        "data_source": "KCB_FIXTURE"
+      },
+      "nts_income": {
+        "resident_hash": "kcs_demo_prime_008",
+        "tax_year": 2024,
+        "employment_income": 90000000,
+        "business_income": 0.0,
+        "other_income": 0.0,
+        "total_income": 90000000.0,
+        "income_verified": true,
+        "employer_name": "현대자동차주식회사",
+        "data_source": "NTS_FIXTURE"
+      },
+      "nhis": {
+        "resident_hash": "kcs_demo_prime_008",
+        "subscriber_type": "employee",
+        "employer_name": "현********",
+        "monthly_premium": 265875,
+        "income_level": 90000000.0,
+        "subscription_months": 120,
+        "income_verified": true,
+        "data_source": "NHIS_FIXTURE"
+      },
+      "biz_credit": {
+        "employer_registration_hash": "kcs_emp_prime_008",
+        "eq_grade": "EQ-B",
+        "limit_multiplier": 1.5,
+        "rate_adjustment": -0.2,
+        "mou_code": null,
+        "mou_rate_discount": 0.0,
+        "company_size": "large",
+        "years_in_business": 60,
+        "data_source": "BIZ_FIXTURE"
+      },
+      "mydata": {
+        "total_deposit": 30000000,
+        "total_savings": 50000000,
+        "total_investment": 20000000,
+        "total_insurance_premium": 150000,
+        "monthly_card_spend_3m_avg": 3000000,
+        "regular_transfer_monthly": 500000,
+        "data_source": "MYDATA_FIXTURE"
+      },
+      "profession": {
+        "resident_hash": "kcs_demo_prime_008",
+        "license_type": "none",
+        "is_valid": false,
+        "segment_code": null,
+        "license_date": null,
+        "specialty": null,
+        "registration_status": "not_found",
+        "data_source": "PROFESSION_FIXTURE"
+      },
+      "alternative_data": {
+        "telecom_no_delinquency": 1,
+        "health_insurance_paid_months_12m": 12,
+        "national_pension_paid_months_24m": 24,
+        "art_fund_registered": false,
+        "art_fund_registration_date": null,
+        "art_fund_field": null
+      }
+    },
+    {
+      "scenario_id": "PRIME-009",
+      "scenario_name": "치과의사 (SEG-DR)",
+      "category": "auto_approved",
+      "expected_decision": "approved",
+      "description": "CB 830, 소득 2억, SEG-DR — 치과 전문의, EQ-A",
+      "resident_hash": "kcs_demo_prime_009",
+      "employer_hash": "kcs_emp_prime_009",
+      "business_hash": "biz_kcs_demo_prime_009",
+      "profile": {
+        "age": 38,
+        "employment_type": "profession",
+        "segment_code": "SEG-DR",
+        "nice_score": 830,
+        "total_income_annual": 200000000.0,
+        "worst_delinquency_status": 0
+      },
+      "nice_cb": {
+        "inquiry_id": "NICE-kcs_demo_prime_0-FIX",
+        "resident_hash": "kcs_demo_prime_009",
+        "score": 830,
+        "grade": 4,
+        "score_date": "2025-01-15",
+        "delinquency": {
+          "has_delinquency": false,
+          "max_days_overdue": 0,
+          "delinquency_amount": 0.0,
+          "last_delinquency_date": null
+        },
+        "loans": {
+          "total_loan_count": 0,
+          "total_balance": 0,
+          "monthly_payment": 0.0,
+          "credit_card_limit": 3000000,
+          "credit_card_balance": 800000
+        },
+        "public_record_count": 0,
+        "inquiry_count_6m": 1,
+        "worst_delinquency_status": 0,
+        "data_source": "NICE_FIXTURE"
+      },
+      "kcb_cb": {
+        "inquiry_id": "KCB-kcs_demo_prime_0-FIX",
+        "resident_hash": "kcs_demo_prime_009",
+        "kcb_score": 820,
+        "kcb_grade": "4",
+        "overdue_flag": false,
+        "total_debt": 0,
+        "monthly_obligation": 0.0,
+        "data_source": "KCB_FIXTURE"
+      },
+      "nts_income": {
+        "resident_hash": "kcs_demo_prime_009",
+        "tax_year": 2024,
+        "employment_income": 200000000,
+        "business_income": 0.0,
+        "other_income": 0.0,
+        "total_income": 200000000.0,
+        "income_verified": true,
+        "employer_name": "서울치과의원",
+        "data_source": "NTS_FIXTURE"
+      },
+      "nhis": {
+        "resident_hash": "kcs_demo_prime_009",
+        "subscriber_type": "employee",
+        "employer_name": "서*****",
+        "monthly_premium": 590833,
+        "income_level": 200000000.0,
+        "subscription_months": 96,
+        "income_verified": true,
+        "data_source": "NHIS_FIXTURE"
+      },
+      "biz_credit": {
+        "employer_registration_hash": "kcs_emp_prime_009",
+        "eq_grade": "EQ-A",
+        "limit_multiplier": 1.8,
+        "rate_adjustment": -0.3,
+        "mou_code": null,
+        "mou_rate_discount": 0.0,
+        "company_size": "small",
+        "years_in_business": 8,
+        "data_source": "BIZ_FIXTURE"
+      },
+      "mydata": {
+        "total_deposit": 80000000,
+        "total_savings": 100000000,
+        "total_investment": 50000000,
+        "total_insurance_premium": 150000,
+        "monthly_card_spend_3m_avg": 6000000,
+        "regular_transfer_monthly": 500000,
+        "data_source": "MYDATA_FIXTURE"
+      },
+      "profession": {
+        "resident_hash": "kcs_demo_prime_009",
+        "license_type": "dentist",
+        "is_valid": true,
+        "segment_code": "SEG-DR",
+        "license_date": "2015-03-15",
+        "specialty": "보존과",
+        "registration_status": "active",
+        "data_source": "PROFESSION_FIXTURE"
+      },
+      "alternative_data": {
+        "telecom_no_delinquency": 1,
+        "health_insurance_paid_months_12m": 12,
+        "national_pension_paid_months_24m": 24,
+        "art_fund_registered": false,
+        "art_fund_registration_date": null,
+        "art_fund_field": null
+      }
+    },
+    {
+      "scenario_id": "PRIME-010",
+      "scenario_name": "공인회계사 (SEG-JD)",
+      "category": "auto_approved",
+      "expected_decision": "approved",
+      "description": "CB 790, 소득 1.1억, SEG-JD — 회계법인 소속, EQ-B",
+      "resident_hash": "kcs_demo_prime_010",
+      "employer_hash": "kcs_emp_prime_010",
+      "business_hash": "biz_kcs_demo_prime_010",
+      "profile": {
+        "age": 40,
+        "employment_type": "profession",
+        "segment_code": "SEG-JD",
+        "nice_score": 790,
+        "total_income_annual": 110000000.0,
+        "worst_delinquency_status": 0
+      },
+      "nice_cb": {
+        "inquiry_id": "NICE-kcs_demo_prime_0-FIX",
+        "resident_hash": "kcs_demo_prime_010",
+        "score": 790,
+        "grade": 5,
+        "score_date": "2025-01-15",
+        "delinquency": {
+          "has_delinquency": false,
+          "max_days_overdue": 0,
+          "delinquency_amount": 0.0,
+          "last_delinquency_date": null
+        },
+        "loans": {
+          "total_loan_count": 1,
+          "total_balance": 20000000,
+          "monthly_payment": 166667,
+          "credit_card_limit": 3000000,
+          "credit_card_balance": 800000
+        },
+        "public_record_count": 0,
+        "inquiry_count_6m": 1,
+        "worst_delinquency_status": 0,
+        "data_source": "NICE_FIXTURE"
+      },
+      "kcb_cb": {
+        "inquiry_id": "KCB-kcs_demo_prime_0-FIX",
+        "resident_hash": "kcs_demo_prime_010",
+        "kcb_score": 780,
+        "kcb_grade": "4",
+        "overdue_flag": false,
+        "total_debt": 20000000,
+        "monthly_obligation": 166667,
+        "data_source": "KCB_FIXTURE"
+      },
+      "nts_income": {
+        "resident_hash": "kcs_demo_prime_010",
+        "tax_year": 2024,
+        "employment_income": 110000000,
+        "business_income": 0.0,
+        "other_income": 0.0,
+        "total_income": 110000000.0,
+        "income_verified": true,
+        "employer_name": "삼일회계법인",
+        "data_source": "NTS_FIXTURE"
+      },
+      "nhis": {
+        "resident_hash": "kcs_demo_prime_010",
+        "subscriber_type": "employee",
+        "employer_name": "삼*****",
+        "monthly_premium": 324958,
+        "income_level": 110000000.0,
+        "subscription_months": 144,
+        "income_verified": true,
+        "data_source": "NHIS_FIXTURE"
+      },
+      "biz_credit": {
+        "employer_registration_hash": "kcs_emp_prime_010",
+        "eq_grade": "EQ-B",
+        "limit_multiplier": 1.5,
+        "rate_adjustment": -0.2,
+        "mou_code": null,
+        "mou_rate_discount": 0.0,
+        "company_size": "large",
+        "years_in_business": 30,
+        "data_source": "BIZ_FIXTURE"
+      },
+      "mydata": {
+        "total_deposit": 30000000,
+        "total_savings": 50000000,
+        "total_investment": 20000000,
+        "total_insurance_premium": 150000,
+        "monthly_card_spend_3m_avg": 3500000,
+        "regular_transfer_monthly": 500000,
+        "data_source": "MYDATA_FIXTURE"
+      },
+      "profession": {
+        "resident_hash": "kcs_demo_prime_010",
+        "license_type": "cpa",
+        "is_valid": true,
+        "segment_code": "SEG-JD",
+        "license_date": "2015-03-15",
+        "specialty": "세무회계",
+        "registration_status": "active",
+        "data_source": "PROFESSION_FIXTURE"
+      },
+      "alternative_data": {
+        "telecom_no_delinquency": 1,
+        "health_insurance_paid_months_12m": 12,
+        "national_pension_paid_months_24m": 24,
+        "art_fund_registered": false,
+        "art_fund_registration_date": null,
+        "art_fund_field": null
+      }
+    },
+    {
+      "scenario_id": "MANUAL-001",
+      "scenario_name": "경계 점수 직장인 (DSR 38%)",
+      "category": "manual_review",
+      "expected_decision": "manual_review",
+      "description": "CB 640, 소득 4500만, DSR 38% — 승인 기준은 넘지만 낮은 점수",
+      "resident_hash": "kcs_demo_manual_001",
+      "employer_hash": "kcs_emp_manual_001",
+      "business_hash": "biz_kcs_demo_manual_001",
+      "profile": {
+        "age": 33,
+        "employment_type": "employed",
+        "segment_code": "",
+        "nice_score": 640,
+        "total_income_annual": 45000000.0,
+        "worst_delinquency_status": 0
+      },
+      "nice_cb": {
+        "inquiry_id": "NICE-kcs_demo_manual_-FIX",
+        "resident_hash": "kcs_demo_manual_001",
+        "score": 640,
+        "grade": 7,
+        "score_date": "2025-01-15",
+        "delinquency": {
+          "has_delinquency": false,
+          "max_days_overdue": 0,
+          "delinquency_amount": 0.0,
+          "last_delinquency_date": null
+        },
+        "loans": {
+          "total_loan_count": 2,
+          "total_balance": 60000000,
+          "monthly_payment": 500000,
+          "credit_card_limit": 500000,
+          "credit_card_balance": 150000
+        },
+        "public_record_count": 0,
+        "inquiry_count_6m": 3,
+        "worst_delinquency_status": 0,
+        "data_source": "NICE_FIXTURE"
+      },
+      "kcb_cb": {
+        "inquiry_id": "KCB-kcs_demo_manual_-FIX",
+        "resident_hash": "kcs_demo_manual_001",
+        "kcb_score": 630,
+        "kcb_grade": "6",
+        "overdue_flag": false,
+        "total_debt": 60000000,
+        "monthly_obligation": 500000,
+        "data_source": "KCB_FIXTURE"
+      },
+      "nts_income": {
+        "resident_hash": "kcs_demo_manual_001",
+        "tax_year": 2024,
+        "employment_income": 45000000,
+        "business_income": 0.0,
+        "other_income": 0.0,
+        "total_income": 45000000.0,
+        "income_verified": true,
+        "employer_name": "중소기업중앙회",
+        "data_source": "NTS_FIXTURE"
+      },
+      "nhis": {
+        "resident_hash": "kcs_demo_manual_001",
+        "subscriber_type": "employee",
+        "employer_name": "중******",
+        "monthly_premium": 132938,
+        "income_level": 45000000.0,
+        "subscription_months": 48,
+        "income_verified": true,
+        "data_source": "NHIS_FIXTURE"
+      },
+      "biz_credit": {
+        "employer_registration_hash": "kcs_emp_manual_001",
+        "eq_grade": "EQ-C",
+        "limit_multiplier": 1.2,
+        "rate_adjustment": 0.0,
+        "mou_code": null,
+        "mou_rate_discount": 0.0,
+        "company_size": "small",
+        "years_in_business": 12,
+        "data_source": "BIZ_FIXTURE"
+      },
+      "mydata": {
+        "total_deposit": 3000000,
+        "total_savings": 5000000,
+        "total_investment": 0.0,
+        "total_insurance_premium": 150000,
+        "monthly_card_spend_3m_avg": 1200000,
+        "regular_transfer_monthly": 500000,
+        "data_source": "MYDATA_FIXTURE"
+      },
+      "profession": {
+        "resident_hash": "kcs_demo_manual_001",
+        "license_type": "none",
+        "is_valid": false,
+        "segment_code": null,
+        "license_date": null,
+        "specialty": null,
+        "registration_status": "not_found",
+        "data_source": "PROFESSION_FIXTURE"
+      },
+      "alternative_data": {
+        "telecom_no_delinquency": 1,
+        "health_insurance_paid_months_12m": 12,
+        "national_pension_paid_months_24m": 24,
+        "art_fund_registered": false,
+        "art_fund_registration_date": null,
+        "art_fund_field": null
+      }
+    },
+    {
+      "scenario_id": "MANUAL-002",
+      "scenario_name": "단기 재직 5개월",
+      "category": "manual_review",
+      "expected_decision": "manual_review",
+      "description": "CB 700, 소득 4000만, 재직 5개월 — 재직기간 부족으로 수동심사",
+      "resident_hash": "kcs_demo_manual_002",
+      "employer_hash": "kcs_emp_manual_002",
+      "business_hash": "biz_kcs_demo_manual_002",
+      "profile": {
+        "age": 28,
+        "employment_type": "employed",
+        "segment_code": "",
+        "nice_score": 700,
+        "total_income_annual": 40000000.0,
+        "worst_delinquency_status": 0
+      },
+      "nice_cb": {
+        "inquiry_id": "NICE-kcs_demo_manual_-FIX",
+        "resident_hash": "kcs_demo_manual_002",
+        "score": 700,
+        "grade": 6,
+        "score_date": "2025-01-15",
+        "delinquency": {
+          "has_delinquency": false,
+          "max_days_overdue": 0,
+          "delinquency_amount": 0.0,
+          "last_delinquency_date": null
+        },
+        "loans": {
+          "total_loan_count": 1,
+          "total_balance": 10000000,
+          "monthly_payment": 83333,
+          "credit_card_limit": 3000000,
+          "credit_card_balance": 800000
+        },
+        "public_record_count": 0,
+        "inquiry_count_6m": 1,
+        "worst_delinquency_status": 0,
+        "data_source": "NICE_FIXTURE"
+      },
+      "kcb_cb": {
+        "inquiry_id": "KCB-kcs_demo_manual_-FIX",
+        "resident_hash": "kcs_demo_manual_002",
+        "kcb_score": 690,
+        "kcb_grade": "6",
+        "overdue_flag": false,
+        "total_debt": 10000000,
+        "monthly_obligation": 83333,
+        "data_source": "KCB_FIXTURE"
+      },
+      "nts_income": {
+        "resident_hash": "kcs_demo_manual_002",
+        "tax_year": 2024,
+        "employment_income": 40000000,
+        "business_income": 0.0,
+        "other_income": 0.0,
+        "total_income": 40000000.0,
+        "income_verified": true,
+        "employer_name": "네이버주식회사",
+        "data_source": "NTS_FIXTURE"
+      },
+      "nhis": {
+        "resident_hash": "kcs_demo_manual_002",
+        "subscriber_type": "employee",
+        "employer_name": "네******",
+        "monthly_premium": 118167,
+        "income_level": 40000000.0,
+        "subscription_months": 5,
+        "income_verified": true,
+        "data_source": "NHIS_FIXTURE"
+      },
+      "biz_credit": {
+        "employer_registration_hash": "kcs_emp_manual_002",
+        "eq_grade": "EQ-B",
+        "limit_multiplier": 1.5,
+        "rate_adjustment": -0.2,
+        "mou_code": null,
+        "mou_rate_discount": 0.0,
+        "company_size": "large",
+        "years_in_business": 25,
+        "data_source": "BIZ_FIXTURE"
+      },
+      "mydata": {
+        "total_deposit": 5000000,
+        "total_savings": 8000000,
+        "total_investment": 0.0,
+        "total_insurance_premium": 150000,
+        "monthly_card_spend_3m_avg": 1500000,
+        "regular_transfer_monthly": 500000,
+        "data_source": "MYDATA_FIXTURE"
+      },
+      "profession": {
+        "resident_hash": "kcs_demo_manual_002",
+        "license_type": "none",
+        "is_valid": false,
+        "segment_code": null,
+        "license_date": null,
+        "specialty": null,
+        "registration_status": "not_found",
+        "data_source": "PROFESSION_FIXTURE"
+      },
+      "alternative_data": {
+        "telecom_no_delinquency": 1,
+        "health_insurance_paid_months_12m": 12,
+        "national_pension_paid_months_24m": 24,
+        "art_fund_registered": false,
+        "art_fund_registration_date": null,
+        "art_fund_field": null
+      }
+    },
+    {
+      "scenario_id": "MANUAL-003",
+      "scenario_name": "프리랜서 소득 불규칙",
+      "category": "manual_review",
+      "expected_decision": "manual_review",
+      "description": "CB 680, 사업소득 4200만 (프리랜서) — 소득 안정성 검증 필요",
+      "resident_hash": "kcs_demo_manual_003",
+      "employer_hash": "kcs_emp_manual_003",
+      "business_hash": "biz_kcs_demo_manual_003",
+      "profile": {
+        "age": 35,
+        "employment_type": "self_employed",
+        "segment_code": "",
+        "nice_score": 680,
+        "total_income_annual": 42000000.0,
+        "worst_delinquency_status": 0
+      },
+      "nice_cb": {
+        "inquiry_id": "NICE-kcs_demo_manual_-FIX",
+        "resident_hash": "kcs_demo_manual_003",
+        "score": 680,
+        "grade": 6,
+        "score_date": "2025-01-15",
+        "delinquency": {
+          "has_delinquency": false,
+          "max_days_overdue": 0,
+          "delinquency_amount": 0.0,
+          "last_delinquency_date": null
+        },
+        "loans": {
+          "total_loan_count": 1,
+          "total_balance": 15000000,
+          "monthly_payment": 125000,
+          "credit_card_limit": 500000,
+          "credit_card_balance": 150000
+        },
+        "public_record_count": 0,
+        "inquiry_count_6m": 1,
+        "worst_delinquency_status": 0,
+        "data_source": "NICE_FIXTURE"
+      },
+      "kcb_cb": {
+        "inquiry_id": "KCB-kcs_demo_manual_-FIX",
+        "resident_hash": "kcs_demo_manual_003",
+        "kcb_score": 670,
+        "kcb_grade": "6",
+        "overdue_flag": false,
+        "total_debt": 15000000,
+        "monthly_obligation": 125000,
+        "data_source": "KCB_FIXTURE"
+      },
+      "nts_income": {
+        "resident_hash": "kcs_demo_manual_003",
+        "tax_year": 2024,
+        "employment_income": 0.0,
+        "business_income": 42000000,
+        "other_income": 0.0,
+        "total_income": 42000000.0,
+        "income_verified": true,
+        "employer_name": null,
+        "data_source": "NTS_FIXTURE"
+      },
+      "nhis": {
+        "resident_hash": "kcs_demo_manual_003",
+        "subscriber_type": "regional",
+        "employer_name": null,
+        "monthly_premium": 124075,
+        "income_level": 42000000.0,
+        "subscription_months": 36,
+        "income_verified": true,
+        "data_source": "NHIS_FIXTURE"
+      },
+      "biz_credit": {
+        "employer_registration_hash": "kcs_emp_manual_003",
+        "eq_grade": "EQ-D",
+        "limit_multiplier": 1.0,
+        "rate_adjustment": 0.2,
+        "mou_code": null,
+        "mou_rate_discount": 0.0,
+        "company_size": "micro",
+        "years_in_business": 3,
+        "data_source": "BIZ_FIXTURE"
+      },
+      "mydata": {
+        "total_deposit": 4000000,
+        "total_savings": 6000000,
+        "total_investment": 0.0,
+        "total_insurance_premium": 150000,
+        "monthly_card_spend_3m_avg": 1000000,
+        "regular_transfer_monthly": 500000,
+        "data_source": "MYDATA_FIXTURE"
+      },
+      "profession": {
+        "resident_hash": "kcs_demo_manual_003",
+        "license_type": "none",
+        "is_valid": false,
+        "segment_code": null,
+        "license_date": null,
+        "specialty": null,
+        "registration_status": "not_found",
+        "data_source": "PROFESSION_FIXTURE"
+      },
+      "alternative_data": {
+        "telecom_no_delinquency": 1,
+        "health_insurance_paid_months_12m": 12,
+        "national_pension_paid_months_24m": 18,
+        "art_fund_registered": false,
+        "art_fund_registration_date": null,
+        "art_fund_field": null
+      }
+    },
+    {
+      "scenario_id": "MANUAL-004",
+      "scenario_name": "다중 대출 경계 (DSR 35%)",
+      "category": "manual_review",
+      "expected_decision": "manual_review",
+      "description": "CB 660, 소득 5500만, 대출 3건 DSR 35% — 다중채무 리스크",
+      "resident_hash": "kcs_demo_manual_004",
+      "employer_hash": "kcs_emp_manual_004",
+      "business_hash": "biz_kcs_demo_manual_004",
+      "profile": {
+        "age": 40,
+        "employment_type": "employed",
+        "segment_code": "",
+        "nice_score": 660,
+        "total_income_annual": 55000000.0,
+        "worst_delinquency_status": 0
+      },
+      "nice_cb": {
+        "inquiry_id": "NICE-kcs_demo_manual_-FIX",
+        "resident_hash": "kcs_demo_manual_004",
+        "score": 660,
+        "grade": 7,
+        "score_date": "2025-01-15",
+        "delinquency": {
+          "has_delinquency": false,
+          "max_days_overdue": 0,
+          "delinquency_amount": 0.0,
+          "last_delinquency_date": null
+        },
+        "loans": {
+          "total_loan_count": 3,
+          "total_balance": 80000000,
+          "monthly_payment": 666667,
+          "credit_card_limit": 500000,
+          "credit_card_balance": 150000
+        },
+        "public_record_count": 0,
+        "inquiry_count_6m": 4,
+        "worst_delinquency_status": 0,
+        "data_source": "NICE_FIXTURE"
+      },
+      "kcb_cb": {
+        "inquiry_id": "KCB-kcs_demo_manual_-FIX",
+        "resident_hash": "kcs_demo_manual_004",
+        "kcb_score": 650,
+        "kcb_grade": "6",
+        "overdue_flag": false,
+        "total_debt": 80000000,
+        "monthly_obligation": 666667,
+        "data_source": "KCB_FIXTURE"
+      },
+      "nts_income": {
+        "resident_hash": "kcs_demo_manual_004",
+        "tax_year": 2024,
+        "employment_income": 55000000,
+        "business_income": 0.0,
+        "other_income": 0.0,
+        "total_income": 55000000.0,
+        "income_verified": true,
+        "employer_name": "롯데백화점",
+        "data_source": "NTS_FIXTURE"
+      },
+      "nhis": {
+        "resident_hash": "kcs_demo_manual_004",
+        "subscriber_type": "employee",
+        "employer_name": "롯****",
+        "monthly_premium": 162479,
+        "income_level": 55000000.0,
+        "subscription_months": 84,
+        "income_verified": true,
+        "data_source": "NHIS_FIXTURE"
+      },
+      "biz_credit": {
+        "employer_registration_hash": "kcs_emp_manual_004",
+        "eq_grade": "EQ-C",
+        "limit_multiplier": 1.2,
+        "rate_adjustment": 0.0,
+        "mou_code": null,
+        "mou_rate_discount": 0.0,
+        "company_size": "large",
+        "years_in_business": 80,
+        "data_source": "BIZ_FIXTURE"
+      },
+      "mydata": {
+        "total_deposit": 2000000,
+        "total_savings": 4000000,
+        "total_investment": 0.0,
+        "total_insurance_premium": 150000,
+        "monthly_card_spend_3m_avg": 1500000,
+        "regular_transfer_monthly": 500000,
+        "data_source": "MYDATA_FIXTURE"
+      },
+      "profession": {
+        "resident_hash": "kcs_demo_manual_004",
+        "license_type": "none",
+        "is_valid": false,
+        "segment_code": null,
+        "license_date": null,
+        "specialty": null,
+        "registration_status": "not_found",
+        "data_source": "PROFESSION_FIXTURE"
+      },
+      "alternative_data": {
+        "telecom_no_delinquency": 1,
+        "health_insurance_paid_months_12m": 12,
+        "national_pension_paid_months_24m": 24,
+        "art_fund_registered": false,
+        "art_fund_registration_date": null,
+        "art_fund_field": null
+      }
+    },
+    {
+      "scenario_id": "MANUAL-005",
+      "scenario_name": "연체 해결 후 회복기 (1년 경과)",
+      "category": "manual_review",
+      "expected_decision": "manual_review",
+      "description": "CB 580, 1년 전 연체 해결 완료 — 점수 낮지만 연체 현재 없음",
+      "resident_hash": "kcs_demo_manual_005",
+      "employer_hash": "kcs_emp_manual_005",
+      "business_hash": "biz_kcs_demo_manual_005",
+      "profile": {
+        "age": 37,
+        "employment_type": "employed",
+        "segment_code": "",
+        "nice_score": 580,
+        "total_income_annual": 48000000.0,
+        "worst_delinquency_status": 0
+      },
+      "nice_cb": {
+        "inquiry_id": "NICE-kcs_demo_manual_-FIX",
+        "resident_hash": "kcs_demo_manual_005",
+        "score": 580,
+        "grade": 8,
+        "score_date": "2025-01-15",
+        "delinquency": {
+          "has_delinquency": false,
+          "max_days_overdue": 0,
+          "delinquency_amount": 0.0,
+          "last_delinquency_date": null
+        },
+        "loans": {
+          "total_loan_count": 1,
+          "total_balance": 20000000,
+          "monthly_payment": 166667,
+          "credit_card_limit": 500000,
+          "credit_card_balance": 150000
+        },
+        "public_record_count": 0,
+        "inquiry_count_6m": 1,
+        "worst_delinquency_status": 0,
+        "data_source": "NICE_FIXTURE"
+      },
+      "kcb_cb": {
+        "inquiry_id": "KCB-kcs_demo_manual_-FIX",
+        "resident_hash": "kcs_demo_manual_005",
+        "kcb_score": 570,
+        "kcb_grade": "7",
+        "overdue_flag": false,
+        "total_debt": 20000000,
+        "monthly_obligation": 166667,
+        "data_source": "KCB_FIXTURE"
+      },
+      "nts_income": {
+        "resident_hash": "kcs_demo_manual_005",
+        "tax_year": 2024,
+        "employment_income": 48000000,
+        "business_income": 0.0,
+        "other_income": 0.0,
+        "total_income": 48000000.0,
+        "income_verified": true,
+        "employer_name": "GS리테일",
+        "data_source": "NTS_FIXTURE"
+      },
+      "nhis": {
+        "resident_hash": "kcs_demo_manual_005",
+        "subscriber_type": "employee",
+        "employer_name": "G****",
+        "monthly_premium": 141800,
+        "income_level": 48000000.0,
+        "subscription_months": 72,
+        "income_verified": true,
+        "data_source": "NHIS_FIXTURE"
+      },
+      "biz_credit": {
+        "employer_registration_hash": "kcs_emp_manual_005",
+        "eq_grade": "EQ-D",
+        "limit_multiplier": 1.0,
+        "rate_adjustment": 0.2,
+        "mou_code": null,
+        "mou_rate_discount": 0.0,
+        "company_size": "large",
+        "years_in_business": 30,
+        "data_source": "BIZ_FIXTURE"
+      },
+      "mydata": {
+        "total_deposit": 2000000,
+        "total_savings": 3000000,
+        "total_investment": 0.0,
+        "total_insurance_premium": 150000,
+        "monthly_card_spend_3m_avg": 800000,
+        "regular_transfer_monthly": 500000,
+        "data_source": "MYDATA_FIXTURE"
+      },
+      "profession": {
+        "resident_hash": "kcs_demo_manual_005",
+        "license_type": "none",
+        "is_valid": false,
+        "segment_code": null,
+        "license_date": null,
+        "specialty": null,
+        "registration_status": "not_found",
+        "data_source": "PROFESSION_FIXTURE"
+      },
+      "alternative_data": {
+        "telecom_no_delinquency": 1,
+        "health_insurance_paid_months_12m": 11,
+        "national_pension_paid_months_24m": 24,
+        "art_fund_registered": false,
+        "art_fund_registration_date": null,
+        "art_fund_field": null
+      }
+    },
+    {
+      "scenario_id": "MANUAL-006",
+      "scenario_name": "개인사업자 창업 초기 (8개월)",
+      "category": "manual_review",
+      "expected_decision": "manual_review",
+      "description": "CB 690, 사업 8개월 — 신규 창업자, 소득 검증 부족",
+      "resident_hash": "kcs_demo_manual_006",
+      "employer_hash": "kcs_emp_manual_006",
+      "business_hash": "kcs_biz_manual_006",
+      "profile": {
+        "age": 31,
+        "employment_type": "self_employed",
+        "segment_code": "",
+        "nice_score": 690,
+        "total_income_annual": 36000000.0,
+        "worst_delinquency_status": 0
+      },
+      "nice_cb": {
+        "inquiry_id": "NICE-kcs_demo_manual_-FIX",
+        "resident_hash": "kcs_demo_manual_006",
+        "score": 690,
+        "grade": 6,
+        "score_date": "2025-01-15",
+        "delinquency": {
+          "has_delinquency": false,
+          "max_days_overdue": 0,
+          "delinquency_amount": 0.0,
+          "last_delinquency_date": null
+        },
+        "loans": {
+          "total_loan_count": 0,
+          "total_balance": 0,
+          "monthly_payment": 0.0,
+          "credit_card_limit": 500000,
+          "credit_card_balance": 150000
+        },
+        "public_record_count": 0,
+        "inquiry_count_6m": 1,
+        "worst_delinquency_status": 0,
+        "data_source": "NICE_FIXTURE"
+      },
+      "kcb_cb": {
+        "inquiry_id": "KCB-kcs_demo_manual_-FIX",
+        "resident_hash": "kcs_demo_manual_006",
+        "kcb_score": 680,
+        "kcb_grade": "6",
+        "overdue_flag": false,
+        "total_debt": 0,
+        "monthly_obligation": 0.0,
+        "data_source": "KCB_FIXTURE"
+      },
+      "nts_income": {
+        "resident_hash": "kcs_demo_manual_006",
+        "tax_year": 2024,
+        "employment_income": 0.0,
+        "business_income": 36000000,
+        "other_income": 0.0,
+        "total_income": 36000000.0,
+        "income_verified": true,
+        "employer_name": null,
+        "data_source": "NTS_FIXTURE"
+      },
+      "nhis": {
+        "resident_hash": "kcs_demo_manual_006",
+        "subscriber_type": "regional",
+        "employer_name": null,
+        "monthly_premium": 106350,
+        "income_level": 36000000.0,
+        "subscription_months": 8,
+        "income_verified": true,
+        "data_source": "NHIS_FIXTURE"
+      },
+      "biz_credit": {
+        "employer_registration_hash": "kcs_emp_manual_006",
+        "eq_grade": "EQ-D",
+        "limit_multiplier": 1.0,
+        "rate_adjustment": 0.2,
+        "mou_code": null,
+        "mou_rate_discount": 0.0,
+        "company_size": "micro",
+        "years_in_business": 1,
+        "data_source": "BIZ_FIXTURE"
+      },
+      "mydata": {
+        "total_deposit": 5000000,
+        "total_savings": 2000000,
+        "total_investment": 0.0,
+        "total_insurance_premium": 150000,
+        "monthly_card_spend_3m_avg": 1200000,
+        "regular_transfer_monthly": 500000,
+        "data_source": "MYDATA_FIXTURE"
+      },
+      "profession": {
+        "resident_hash": "kcs_demo_manual_006",
+        "license_type": "none",
+        "is_valid": false,
+        "segment_code": null,
+        "license_date": null,
+        "specialty": null,
+        "registration_status": "not_found",
+        "data_source": "PROFESSION_FIXTURE"
+      },
+      "alternative_data": {
+        "telecom_no_delinquency": 1,
+        "health_insurance_paid_months_12m": 12,
+        "national_pension_paid_months_24m": 8,
+        "art_fund_registered": false,
+        "art_fund_registration_date": null,
+        "art_fund_field": null
+      }
+    },
+    {
+      "scenario_id": "MANUAL-007",
+      "scenario_name": "고령 자영업자 (58세, 사업 15년)",
+      "category": "manual_review",
+      "expected_decision": "manual_review",
+      "description": "CB 650, 58세, 사업 15년 — 고령 자영업자, 안정적이나 수동심사",
+      "resident_hash": "kcs_demo_manual_007",
+      "employer_hash": "kcs_emp_manual_007",
+      "business_hash": "kcs_biz_manual_007",
+      "profile": {
+        "age": 58,
+        "employment_type": "self_employed",
+        "segment_code": "",
+        "nice_score": 650,
+        "total_income_annual": 60000000.0,
+        "worst_delinquency_status": 0
+      },
+      "nice_cb": {
+        "inquiry_id": "NICE-kcs_demo_manual_-FIX",
+        "resident_hash": "kcs_demo_manual_007",
+        "score": 650,
+        "grade": 7,
+        "score_date": "2025-01-15",
+        "delinquency": {
+          "has_delinquency": false,
+          "max_days_overdue": 0,
+          "delinquency_amount": 0.0,
+          "last_delinquency_date": null
+        },
+        "loans": {
+          "total_loan_count": 2,
+          "total_balance": 40000000,
+          "monthly_payment": 333333,
+          "credit_card_limit": 500000,
+          "credit_card_balance": 150000
+        },
+        "public_record_count": 0,
+        "inquiry_count_6m": 1,
+        "worst_delinquency_status": 0,
+        "data_source": "NICE_FIXTURE"
+      },
+      "kcb_cb": {
+        "inquiry_id": "KCB-kcs_demo_manual_-FIX",
+        "resident_hash": "kcs_demo_manual_007",
+        "kcb_score": 640,
+        "kcb_grade": "6",
+        "overdue_flag": false,
+        "total_debt": 40000000,
+        "monthly_obligation": 333333,
+        "data_source": "KCB_FIXTURE"
+      },
+      "nts_income": {
+        "resident_hash": "kcs_demo_manual_007",
+        "tax_year": 2024,
+        "employment_income": 0.0,
+        "business_income": 60000000,
+        "other_income": 0.0,
+        "total_income": 60000000.0,
+        "income_verified": true,
+        "employer_name": null,
+        "data_source": "NTS_FIXTURE"
+      },
+      "nhis": {
+        "resident_hash": "kcs_demo_manual_007",
+        "subscriber_type": "regional",
+        "employer_name": null,
+        "monthly_premium": 177250,
+        "income_level": 60000000.0,
+        "subscription_months": 180,
+        "income_verified": true,
+        "data_source": "NHIS_FIXTURE"
+      },
+      "biz_credit": {
+        "employer_registration_hash": "kcs_emp_manual_007",
+        "eq_grade": "EQ-C",
+        "limit_multiplier": 1.2,
+        "rate_adjustment": 0.0,
+        "mou_code": null,
+        "mou_rate_discount": 0.0,
+        "company_size": "small",
+        "years_in_business": 15,
+        "data_source": "BIZ_FIXTURE"
+      },
+      "mydata": {
+        "total_deposit": 8000000,
+        "total_savings": 15000000,
+        "total_investment": 0.0,
+        "total_insurance_premium": 150000,
+        "monthly_card_spend_3m_avg": 1800000,
+        "regular_transfer_monthly": 500000,
+        "data_source": "MYDATA_FIXTURE"
+      },
+      "profession": {
+        "resident_hash": "kcs_demo_manual_007",
+        "license_type": "none",
+        "is_valid": false,
+        "segment_code": null,
+        "license_date": null,
+        "specialty": null,
+        "registration_status": "not_found",
+        "data_source": "PROFESSION_FIXTURE"
+      },
+      "alternative_data": {
+        "telecom_no_delinquency": 1,
+        "health_insurance_paid_months_12m": 12,
+        "national_pension_paid_months_24m": 24,
+        "art_fund_registered": false,
+        "art_fund_registration_date": null,
+        "art_fund_field": null
+      }
+    },
+    {
+      "scenario_id": "REJECT-001",
+      "scenario_name": "DSR 55% 초과 (기존부채 과다)",
+      "category": "rejected",
+      "expected_decision": "rejected",
+      "description": "CB 720, 소득 3000만, 기존부채 1.2억 — DSR 55%로 자동거절",
+      "resident_hash": "kcs_demo_reject_001",
+      "employer_hash": "kcs_emp_reject_001",
+      "business_hash": "biz_kcs_demo_reject_001",
+      "profile": {
+        "age": 36,
+        "employment_type": "employed",
+        "segment_code": "",
+        "nice_score": 720,
+        "total_income_annual": 30000000.0,
+        "worst_delinquency_status": 0
+      },
+      "nice_cb": {
+        "inquiry_id": "NICE-kcs_demo_reject_-FIX",
+        "resident_hash": "kcs_demo_reject_001",
+        "score": 720,
+        "grade": 6,
+        "score_date": "2025-01-15",
+        "delinquency": {
+          "has_delinquency": false,
+          "max_days_overdue": 0,
+          "delinquency_amount": 0.0,
+          "last_delinquency_date": null
+        },
+        "loans": {
+          "total_loan_count": 3,
+          "total_balance": 120000000,
+          "monthly_payment": 1000000,
+          "credit_card_limit": 3000000,
+          "credit_card_balance": 800000
+        },
+        "public_record_count": 0,
+        "inquiry_count_6m": 5,
+        "worst_delinquency_status": 0,
+        "data_source": "NICE_FIXTURE"
+      },
+      "kcb_cb": {
+        "inquiry_id": "KCB-kcs_demo_reject_-FIX",
+        "resident_hash": "kcs_demo_reject_001",
+        "kcb_score": 710,
+        "kcb_grade": "5",
+        "overdue_flag": false,
+        "total_debt": 120000000,
+        "monthly_obligation": 1000000,
+        "data_source": "KCB_FIXTURE"
+      },
+      "nts_income": {
+        "resident_hash": "kcs_demo_reject_001",
+        "tax_year": 2024,
+        "employment_income": 30000000,
+        "business_income": 0.0,
+        "other_income": 0.0,
+        "total_income": 30000000.0,
+        "income_verified": true,
+        "employer_name": "중소제조업체",
+        "data_source": "NTS_FIXTURE"
+      },
+      "nhis": {
+        "resident_hash": "kcs_demo_reject_001",
+        "subscriber_type": "employee",
+        "employer_name": "중*****",
+        "monthly_premium": 88625,
+        "income_level": 30000000.0,
+        "subscription_months": 48,
+        "income_verified": true,
+        "data_source": "NHIS_FIXTURE"
+      },
+      "biz_credit": {
+        "employer_registration_hash": "kcs_emp_reject_001",
+        "eq_grade": "EQ-D",
+        "limit_multiplier": 1.0,
+        "rate_adjustment": 0.2,
+        "mou_code": null,
+        "mou_rate_discount": 0.0,
+        "company_size": "small",
+        "years_in_business": 8,
+        "data_source": "BIZ_FIXTURE"
+      },
+      "mydata": {
+        "total_deposit": 1000000,
+        "total_savings": 0,
+        "total_investment": 0.0,
+        "total_insurance_premium": 150000,
+        "monthly_card_spend_3m_avg": 1000000,
+        "regular_transfer_monthly": 500000,
+        "data_source": "MYDATA_FIXTURE"
+      },
+      "profession": {
+        "resident_hash": "kcs_demo_reject_001",
+        "license_type": "none",
+        "is_valid": false,
+        "segment_code": null,
+        "license_date": null,
+        "specialty": null,
+        "registration_status": "not_found",
+        "data_source": "PROFESSION_FIXTURE"
+      },
+      "alternative_data": {
+        "telecom_no_delinquency": 1,
+        "health_insurance_paid_months_12m": 12,
+        "national_pension_paid_months_24m": 24,
+        "art_fund_registered": false,
+        "art_fund_registration_date": null,
+        "art_fund_field": null
+      }
+    },
+    {
+      "scenario_id": "REJECT-002",
+      "scenario_name": "현재 연체 90일 진행중",
+      "category": "rejected",
+      "expected_decision": "rejected",
+      "description": "CB 480, 연체 90일 5백만원 — 연체 중 하드 거절",
+      "resident_hash": "kcs_demo_reject_002",
+      "employer_hash": "kcs_emp_reject_002",
+      "business_hash": "biz_kcs_demo_reject_002",
+      "profile": {
+        "age": 33,
+        "employment_type": "employed",
+        "segment_code": "",
+        "nice_score": 480,
+        "total_income_annual": 42000000.0,
+        "worst_delinquency_status": 3
+      },
+      "nice_cb": {
+        "inquiry_id": "NICE-kcs_demo_reject_-FIX",
+        "resident_hash": "kcs_demo_reject_002",
+        "score": 480,
+        "grade": 9,
+        "score_date": "2025-01-15",
+        "delinquency": {
+          "has_delinquency": true,
+          "max_days_overdue": 90,
+          "delinquency_amount": 5000000,
+          "last_delinquency_date": "2024-08-01"
+        },
+        "loans": {
+          "total_loan_count": 2,
+          "total_balance": 40000000,
+          "monthly_payment": 333333,
+          "credit_card_limit": 500000,
+          "credit_card_balance": 150000
+        },
+        "public_record_count": 0,
+        "inquiry_count_6m": 6,
+        "worst_delinquency_status": 3,
+        "data_source": "NICE_FIXTURE"
+      },
+      "kcb_cb": {
+        "inquiry_id": "KCB-kcs_demo_reject_-FIX",
+        "resident_hash": "kcs_demo_reject_002",
+        "kcb_score": 470,
+        "kcb_grade": "7",
+        "overdue_flag": true,
+        "total_debt": 40000000,
+        "monthly_obligation": 333333,
+        "data_source": "KCB_FIXTURE"
+      },
+      "nts_income": {
+        "resident_hash": "kcs_demo_reject_002",
+        "tax_year": 2024,
+        "employment_income": 42000000,
+        "business_income": 0.0,
+        "other_income": 0.0,
+        "total_income": 42000000.0,
+        "income_verified": true,
+        "employer_name": "서비스업체",
+        "data_source": "NTS_FIXTURE"
+      },
+      "nhis": {
+        "resident_hash": "kcs_demo_reject_002",
+        "subscriber_type": "employee",
+        "employer_name": "서****",
+        "monthly_premium": 124075,
+        "income_level": 42000000.0,
+        "subscription_months": 36,
+        "income_verified": true,
+        "data_source": "NHIS_FIXTURE"
+      },
+      "biz_credit": {
+        "employer_registration_hash": "kcs_emp_reject_002",
+        "eq_grade": "EQ-E",
+        "limit_multiplier": 0.7,
+        "rate_adjustment": 0.5,
+        "mou_code": null,
+        "mou_rate_discount": 0.0,
+        "company_size": "micro",
+        "years_in_business": 3,
+        "data_source": "BIZ_FIXTURE"
+      },
+      "mydata": {
+        "total_deposit": 500000,
+        "total_savings": 0,
+        "total_investment": 0.0,
+        "total_insurance_premium": 150000,
+        "monthly_card_spend_3m_avg": 800000,
+        "regular_transfer_monthly": 500000,
+        "data_source": "MYDATA_FIXTURE"
+      },
+      "profession": {
+        "resident_hash": "kcs_demo_reject_002",
+        "license_type": "none",
+        "is_valid": false,
+        "segment_code": null,
+        "license_date": null,
+        "specialty": null,
+        "registration_status": "not_found",
+        "data_source": "PROFESSION_FIXTURE"
+      },
+      "alternative_data": {
+        "telecom_no_delinquency": 0,
+        "health_insurance_paid_months_12m": 12,
+        "national_pension_paid_months_24m": 24,
+        "art_fund_registered": false,
+        "art_fund_registration_date": null,
+        "art_fund_field": null
+      }
+    },
+    {
+      "scenario_id": "REJECT-003",
+      "scenario_name": "저신용 다중채무 (CB 350)",
+      "category": "rejected",
+      "expected_decision": "rejected",
+      "description": "CB 350, 대출 5건, 공공기록 1건 — 최저 신용, 하드 거절",
+      "resident_hash": "kcs_demo_reject_003",
+      "employer_hash": "kcs_emp_reject_003",
+      "business_hash": "biz_kcs_demo_reject_003",
+      "profile": {
+        "age": 44,
+        "employment_type": "employed",
+        "segment_code": "",
+        "nice_score": 350,
+        "total_income_annual": 35000000.0,
+        "worst_delinquency_status": 3
+      },
+      "nice_cb": {
+        "inquiry_id": "NICE-kcs_demo_reject_-FIX",
+        "resident_hash": "kcs_demo_reject_003",
+        "score": 350,
+        "grade": 10,
+        "score_date": "2025-01-15",
+        "delinquency": {
+          "has_delinquency": true,
+          "max_days_overdue": 180,
+          "delinquency_amount": 15000000,
+          "last_delinquency_date": "2024-08-01"
+        },
+        "loans": {
+          "total_loan_count": 5,
+          "total_balance": 180000000,
+          "monthly_payment": 1500000,
+          "credit_card_limit": 500000,
+          "credit_card_balance": 150000
+        },
+        "public_record_count": 1,
+        "inquiry_count_6m": 8,
+        "worst_delinquency_status": 3,
+        "data_source": "NICE_FIXTURE"
+      },
+      "kcb_cb": {
+        "inquiry_id": "KCB-kcs_demo_reject_-FIX",
+        "resident_hash": "kcs_demo_reject_003",
+        "kcb_score": 340,
+        "kcb_grade": "7",
+        "overdue_flag": true,
+        "total_debt": 180000000,
+        "monthly_obligation": 1500000,
+        "data_source": "KCB_FIXTURE"
+      },
+      "nts_income": {
+        "resident_hash": "kcs_demo_reject_003",
+        "tax_year": 2024,
+        "employment_income": 35000000,
+        "business_income": 0.0,
+        "other_income": 0.0,
+        "total_income": 35000000.0,
+        "income_verified": true,
+        "employer_name": "일용직",
+        "data_source": "NTS_FIXTURE"
+      },
+      "nhis": {
+        "resident_hash": "kcs_demo_reject_003",
+        "subscriber_type": "employee",
+        "employer_name": "일**",
+        "monthly_premium": 103396,
+        "income_level": 35000000.0,
+        "subscription_months": 24,
+        "income_verified": true,
+        "data_source": "NHIS_FIXTURE"
+      },
+      "biz_credit": {
+        "employer_registration_hash": "kcs_emp_reject_003",
+        "eq_grade": "EQ-E",
+        "limit_multiplier": 0.7,
+        "rate_adjustment": 0.5,
+        "mou_code": null,
+        "mou_rate_discount": 0.0,
+        "company_size": "micro",
+        "years_in_business": 1,
+        "data_source": "BIZ_FIXTURE"
+      },
+      "mydata": {
+        "total_deposit": 0,
+        "total_savings": 0,
+        "total_investment": 0.0,
+        "total_insurance_premium": 150000,
+        "monthly_card_spend_3m_avg": 300000,
+        "regular_transfer_monthly": 500000,
+        "data_source": "MYDATA_FIXTURE"
+      },
+      "profession": {
+        "resident_hash": "kcs_demo_reject_003",
+        "license_type": "none",
+        "is_valid": false,
+        "segment_code": null,
+        "license_date": null,
+        "specialty": null,
+        "registration_status": "not_found",
+        "data_source": "PROFESSION_FIXTURE"
+      },
+      "alternative_data": {
+        "telecom_no_delinquency": 0,
+        "health_insurance_paid_months_12m": 6,
+        "national_pension_paid_months_24m": 24,
+        "art_fund_registered": false,
+        "art_fund_registration_date": null,
+        "art_fund_field": null
+      }
+    },
+    {
+      "scenario_id": "REJECT-004",
+      "scenario_name": "주담대 조정대상구역 LTV 63% 초과",
+      "category": "rejected",
+      "expected_decision": "rejected",
+      "description": "CB 750, 소득 7000만, LTV 63% (한도 60%) — 조정대상구역 초과 거절",
+      "resident_hash": "kcs_demo_reject_004",
+      "employer_hash": "kcs_emp_reject_004",
+      "business_hash": "biz_kcs_demo_reject_004",
+      "profile": {
+        "age": 40,
+        "employment_type": "employed",
+        "segment_code": "",
+        "nice_score": 750,
+        "total_income_annual": 70000000.0,
+        "worst_delinquency_status": 0
+      },
+      "nice_cb": {
+        "inquiry_id": "NICE-kcs_demo_reject_-FIX",
+        "resident_hash": "kcs_demo_reject_004",
+        "score": 750,
+        "grade": 5,
+        "score_date": "2025-01-15",
+        "delinquency": {
+          "has_delinquency": false,
+          "max_days_overdue": 0,
+          "delinquency_amount": 0.0,
+          "last_delinquency_date": null
+        },
+        "loans": {
+          "total_loan_count": 0,
+          "total_balance": 0,
+          "monthly_payment": 0.0,
+          "credit_card_limit": 3000000,
+          "credit_card_balance": 800000
+        },
+        "public_record_count": 0,
+        "inquiry_count_6m": 1,
+        "worst_delinquency_status": 0,
+        "data_source": "NICE_FIXTURE"
+      },
+      "kcb_cb": {
+        "inquiry_id": "KCB-kcs_demo_reject_-FIX",
+        "resident_hash": "kcs_demo_reject_004",
+        "kcb_score": 740,
+        "kcb_grade": "5",
+        "overdue_flag": false,
+        "total_debt": 0,
+        "monthly_obligation": 0.0,
+        "data_source": "KCB_FIXTURE"
+      },
+      "nts_income": {
+        "resident_hash": "kcs_demo_reject_004",
+        "tax_year": 2024,
+        "employment_income": 70000000,
+        "business_income": 0.0,
+        "other_income": 0.0,
+        "total_income": 70000000.0,
+        "income_verified": true,
+        "employer_name": "중견기업",
+        "data_source": "NTS_FIXTURE"
+      },
+      "nhis": {
+        "resident_hash": "kcs_demo_reject_004",
+        "subscriber_type": "employee",
+        "employer_name": "중***",
+        "monthly_premium": 206792,
+        "income_level": 70000000.0,
+        "subscription_months": 96,
+        "income_verified": true,
+        "data_source": "NHIS_FIXTURE"
+      },
+      "biz_credit": {
+        "employer_registration_hash": "kcs_emp_reject_004",
+        "eq_grade": "EQ-C",
+        "limit_multiplier": 1.2,
+        "rate_adjustment": 0.0,
+        "mou_code": null,
+        "mou_rate_discount": 0.0,
+        "company_size": "mid",
+        "years_in_business": 20,
+        "data_source": "BIZ_FIXTURE"
+      },
+      "mydata": {
+        "total_deposit": 10000000,
+        "total_savings": 20000000,
+        "total_investment": 0.0,
+        "total_insurance_premium": 150000,
+        "monthly_card_spend_3m_avg": 2000000,
+        "regular_transfer_monthly": 500000,
+        "data_source": "MYDATA_FIXTURE"
+      },
+      "profession": {
+        "resident_hash": "kcs_demo_reject_004",
+        "license_type": "none",
+        "is_valid": false,
+        "segment_code": null,
+        "license_date": null,
+        "specialty": null,
+        "registration_status": "not_found",
+        "data_source": "PROFESSION_FIXTURE"
+      },
+      "alternative_data": {
+        "telecom_no_delinquency": 1,
+        "health_insurance_paid_months_12m": 12,
+        "national_pension_paid_months_24m": 24,
+        "art_fund_registered": false,
+        "art_fund_registration_date": null,
+        "art_fund_field": null
+      }
+    },
+    {
+      "scenario_id": "REJECT-005",
+      "scenario_name": "주담대 투기과열구역 LTV 42% 초과",
+      "category": "rejected",
+      "expected_decision": "rejected",
+      "description": "CB 800, 소득 8000만, LTV 42% (한도 40%) — 투기과열구역 초과 거절",
+      "resident_hash": "kcs_demo_reject_005",
+      "employer_hash": "kcs_emp_reject_005",
+      "business_hash": "biz_kcs_demo_reject_005",
+      "profile": {
+        "age": 45,
+        "employment_type": "employed",
+        "segment_code": "",
+        "nice_score": 800,
+        "total_income_annual": 80000000.0,
+        "worst_delinquency_status": 0
+      },
+      "nice_cb": {
+        "inquiry_id": "NICE-kcs_demo_reject_-FIX",
+        "resident_hash": "kcs_demo_reject_005",
+        "score": 800,
+        "grade": 5,
+        "score_date": "2025-01-15",
+        "delinquency": {
+          "has_delinquency": false,
+          "max_days_overdue": 0,
+          "delinquency_amount": 0.0,
+          "last_delinquency_date": null
+        },
+        "loans": {
+          "total_loan_count": 0,
+          "total_balance": 0,
+          "monthly_payment": 0.0,
+          "credit_card_limit": 3000000,
+          "credit_card_balance": 800000
+        },
+        "public_record_count": 0,
+        "inquiry_count_6m": 1,
+        "worst_delinquency_status": 0,
+        "data_source": "NICE_FIXTURE"
+      },
+      "kcb_cb": {
+        "inquiry_id": "KCB-kcs_demo_reject_-FIX",
+        "resident_hash": "kcs_demo_reject_005",
+        "kcb_score": 790,
+        "kcb_grade": "4",
+        "overdue_flag": false,
+        "total_debt": 0,
+        "monthly_obligation": 0.0,
+        "data_source": "KCB_FIXTURE"
+      },
+      "nts_income": {
+        "resident_hash": "kcs_demo_reject_005",
+        "tax_year": 2024,
+        "employment_income": 80000000,
+        "business_income": 0.0,
+        "other_income": 0.0,
+        "total_income": 80000000.0,
+        "income_verified": true,
+        "employer_name": "대기업",
+        "data_source": "NTS_FIXTURE"
+      },
+      "nhis": {
+        "resident_hash": "kcs_demo_reject_005",
+        "subscriber_type": "employee",
+        "employer_name": "대**",
+        "monthly_premium": 236333,
+        "income_level": 80000000.0,
+        "subscription_months": 120,
+        "income_verified": true,
+        "data_source": "NHIS_FIXTURE"
+      },
+      "biz_credit": {
+        "employer_registration_hash": "kcs_emp_reject_005",
+        "eq_grade": "EQ-B",
+        "limit_multiplier": 1.5,
+        "rate_adjustment": -0.2,
+        "mou_code": null,
+        "mou_rate_discount": 0.0,
+        "company_size": "large",
+        "years_in_business": 50,
+        "data_source": "BIZ_FIXTURE"
+      },
+      "mydata": {
+        "total_deposit": 30000000,
+        "total_savings": 50000000,
+        "total_investment": 0.0,
+        "total_insurance_premium": 150000,
+        "monthly_card_spend_3m_avg": 3000000,
+        "regular_transfer_monthly": 500000,
+        "data_source": "MYDATA_FIXTURE"
+      },
+      "profession": {
+        "resident_hash": "kcs_demo_reject_005",
+        "license_type": "none",
+        "is_valid": false,
+        "segment_code": null,
+        "license_date": null,
+        "specialty": null,
+        "registration_status": "not_found",
+        "data_source": "PROFESSION_FIXTURE"
+      },
+      "alternative_data": {
+        "telecom_no_delinquency": 1,
+        "health_insurance_paid_months_12m": 12,
+        "national_pension_paid_months_24m": 24,
+        "art_fund_registered": false,
+        "art_fund_registration_date": null,
+        "art_fund_field": null
+      }
+    },
+    {
+      "scenario_id": "REJECT-006",
+      "scenario_name": "무직 소득 없음",
+      "category": "rejected",
+      "expected_decision": "rejected",
+      "description": "CB 600, 소득 0 — 무직, 소득 미검증으로 자동 거절",
+      "resident_hash": "kcs_demo_reject_006",
+      "employer_hash": "kcs_emp_reject_006",
+      "business_hash": "biz_kcs_demo_reject_006",
+      "profile": {
+        "age": 29,
+        "employment_type": "unemployed",
+        "segment_code": "",
+        "nice_score": 600,
+        "total_income_annual": 0.0,
+        "worst_delinquency_status": 0
+      },
+      "nice_cb": {
+        "inquiry_id": "NICE-kcs_demo_reject_-FIX",
+        "resident_hash": "kcs_demo_reject_006",
+        "score": 600,
+        "grade": 7,
+        "score_date": "2025-01-15",
+        "delinquency": {
+          "has_delinquency": false,
+          "max_days_overdue": 0,
+          "delinquency_amount": 0.0,
+          "last_delinquency_date": null
+        },
+        "loans": {
+          "total_loan_count": 0,
+          "total_balance": 0,
+          "monthly_payment": 0.0,
+          "credit_card_limit": 500000,
+          "credit_card_balance": 150000
+        },
+        "public_record_count": 0,
+        "inquiry_count_6m": 1,
+        "worst_delinquency_status": 0,
+        "data_source": "NICE_FIXTURE"
+      },
+      "kcb_cb": {
+        "inquiry_id": "KCB-kcs_demo_reject_-FIX",
+        "resident_hash": "kcs_demo_reject_006",
+        "kcb_score": 590,
+        "kcb_grade": "7",
+        "overdue_flag": false,
+        "total_debt": 0,
+        "monthly_obligation": 0.0,
+        "data_source": "KCB_FIXTURE"
+      },
+      "nts_income": {
+        "resident_hash": "kcs_demo_reject_006",
+        "tax_year": 2024,
+        "employment_income": 0,
+        "business_income": 0.0,
+        "other_income": 0.0,
+        "total_income": 0.0,
+        "income_verified": false,
+        "employer_name": null,
+        "data_source": "NTS_FIXTURE"
+      },
+      "nhis": {
+        "resident_hash": "kcs_demo_reject_006",
+        "subscriber_type": "regional",
+        "employer_name": null,
+        "monthly_premium": 0,
+        "income_level": 0.0,
+        "subscription_months": 0,
+        "income_verified": true,
+        "data_source": "NHIS_FIXTURE"
+      },
+      "biz_credit": {
+        "employer_registration_hash": "kcs_emp_reject_006",
+        "eq_grade": "EQ-D",
+        "limit_multiplier": 1.0,
+        "rate_adjustment": 0.2,
+        "mou_code": null,
+        "mou_rate_discount": 0.0,
+        "company_size": "micro",
+        "years_in_business": 0,
+        "data_source": "BIZ_FIXTURE"
+      },
+      "mydata": {
+        "total_deposit": 2000000,
+        "total_savings": 0,
+        "total_investment": 0.0,
+        "total_insurance_premium": 150000,
+        "monthly_card_spend_3m_avg": 300000,
+        "regular_transfer_monthly": 500000,
+        "data_source": "MYDATA_FIXTURE"
+      },
+      "profession": {
+        "resident_hash": "kcs_demo_reject_006",
+        "license_type": "none",
+        "is_valid": false,
+        "segment_code": null,
+        "license_date": null,
+        "specialty": null,
+        "registration_status": "not_found",
+        "data_source": "PROFESSION_FIXTURE"
+      },
+      "alternative_data": {
+        "telecom_no_delinquency": 1,
+        "health_insurance_paid_months_12m": 0,
+        "national_pension_paid_months_24m": 0,
+        "art_fund_registered": false,
+        "art_fund_registration_date": null,
+        "art_fund_field": null
+      }
+    },
+    {
+      "scenario_id": "REJECT-007",
+      "scenario_name": "연체 2개월 진행중 (worst_status=2)",
+      "category": "rejected",
+      "expected_decision": "rejected",
+      "description": "CB 520, 연체 65일 — worst_delinquency_status=2 하드 거절",
+      "resident_hash": "kcs_demo_reject_007",
+      "employer_hash": "kcs_emp_reject_007",
+      "business_hash": "biz_kcs_demo_reject_007",
+      "profile": {
+        "age": 39,
+        "employment_type": "employed",
+        "segment_code": "",
+        "nice_score": 520,
+        "total_income_annual": 40000000.0,
+        "worst_delinquency_status": 2
+      },
+      "nice_cb": {
+        "inquiry_id": "NICE-kcs_demo_reject_-FIX",
+        "resident_hash": "kcs_demo_reject_007",
+        "score": 520,
+        "grade": 8,
+        "score_date": "2025-01-15",
+        "delinquency": {
+          "has_delinquency": true,
+          "max_days_overdue": 65,
+          "delinquency_amount": 3000000,
+          "last_delinquency_date": "2024-08-01"
+        },
+        "loans": {
+          "total_loan_count": 3,
+          "total_balance": 70000000,
+          "monthly_payment": 583333,
+          "credit_card_limit": 500000,
+          "credit_card_balance": 150000
+        },
+        "public_record_count": 0,
+        "inquiry_count_6m": 1,
+        "worst_delinquency_status": 2,
+        "data_source": "NICE_FIXTURE"
+      },
+      "kcb_cb": {
+        "inquiry_id": "KCB-kcs_demo_reject_-FIX",
+        "resident_hash": "kcs_demo_reject_007",
+        "kcb_score": 510,
+        "kcb_grade": "7",
+        "overdue_flag": true,
+        "total_debt": 70000000,
+        "monthly_obligation": 583333,
+        "data_source": "KCB_FIXTURE"
+      },
+      "nts_income": {
+        "resident_hash": "kcs_demo_reject_007",
+        "tax_year": 2024,
+        "employment_income": 40000000,
+        "business_income": 0.0,
+        "other_income": 0.0,
+        "total_income": 40000000.0,
+        "income_verified": true,
+        "employer_name": "소규모 사업장",
+        "data_source": "NTS_FIXTURE"
+      },
+      "nhis": {
+        "resident_hash": "kcs_demo_reject_007",
+        "subscriber_type": "employee",
+        "employer_name": "소******",
+        "monthly_premium": 118167,
+        "income_level": 40000000.0,
+        "subscription_months": 36,
+        "income_verified": true,
+        "data_source": "NHIS_FIXTURE"
+      },
+      "biz_credit": {
+        "employer_registration_hash": "kcs_emp_reject_007",
+        "eq_grade": "EQ-E",
+        "limit_multiplier": 0.7,
+        "rate_adjustment": 0.5,
+        "mou_code": null,
+        "mou_rate_discount": 0.0,
+        "company_size": "micro",
+        "years_in_business": 2,
+        "data_source": "BIZ_FIXTURE"
+      },
+      "mydata": {
+        "total_deposit": 300000,
+        "total_savings": 0,
+        "total_investment": 0.0,
+        "total_insurance_premium": 150000,
+        "monthly_card_spend_3m_avg": 600000,
+        "regular_transfer_monthly": 500000,
+        "data_source": "MYDATA_FIXTURE"
+      },
+      "profession": {
+        "resident_hash": "kcs_demo_reject_007",
+        "license_type": "none",
+        "is_valid": false,
+        "segment_code": null,
+        "license_date": null,
+        "specialty": null,
+        "registration_status": "not_found",
+        "data_source": "PROFESSION_FIXTURE"
+      },
+      "alternative_data": {
+        "telecom_no_delinquency": 0,
+        "health_insurance_paid_months_12m": 12,
+        "national_pension_paid_months_24m": 24,
+        "art_fund_registered": false,
+        "art_fund_registration_date": null,
+        "art_fund_field": null
+      }
+    },
+    {
+      "scenario_id": "REJECT-008",
+      "scenario_name": "고위험 다중연체 (CB 430)",
+      "category": "rejected",
+      "expected_decision": "rejected",
+      "description": "CB 430, 연체 150일, 대출 4건 — 심각한 연체, 자동 거절",
+      "resident_hash": "kcs_demo_reject_008",
+      "employer_hash": "kcs_emp_reject_008",
+      "business_hash": "biz_kcs_demo_reject_008",
+      "profile": {
+        "age": 42,
+        "employment_type": "employed",
+        "segment_code": "",
+        "nice_score": 430,
+        "total_income_annual": 35000000.0,
+        "worst_delinquency_status": 3
+      },
+      "nice_cb": {
+        "inquiry_id": "NICE-kcs_demo_reject_-FIX",
+        "resident_hash": "kcs_demo_reject_008",
+        "score": 430,
+        "grade": 10,
+        "score_date": "2025-01-15",
+        "delinquency": {
+          "has_delinquency": true,
+          "max_days_overdue": 150,
+          "delinquency_amount": 8000000,
+          "last_delinquency_date": "2024-08-01"
+        },
+        "loans": {
+          "total_loan_count": 4,
+          "total_balance": 100000000,
+          "monthly_payment": 833333,
+          "credit_card_limit": 500000,
+          "credit_card_balance": 150000
+        },
+        "public_record_count": 1,
+        "inquiry_count_6m": 7,
+        "worst_delinquency_status": 3,
+        "data_source": "NICE_FIXTURE"
+      },
+      "kcb_cb": {
+        "inquiry_id": "KCB-kcs_demo_reject_-FIX",
+        "resident_hash": "kcs_demo_reject_008",
+        "kcb_score": 420,
+        "kcb_grade": "7",
+        "overdue_flag": true,
+        "total_debt": 100000000,
+        "monthly_obligation": 833333,
+        "data_source": "KCB_FIXTURE"
+      },
+      "nts_income": {
+        "resident_hash": "kcs_demo_reject_008",
+        "tax_year": 2024,
+        "employment_income": 35000000,
+        "business_income": 0.0,
+        "other_income": 0.0,
+        "total_income": 35000000.0,
+        "income_verified": true,
+        "employer_name": "임시직",
+        "data_source": "NTS_FIXTURE"
+      },
+      "nhis": {
+        "resident_hash": "kcs_demo_reject_008",
+        "subscriber_type": "employee",
+        "employer_name": "임**",
+        "monthly_premium": 103396,
+        "income_level": 35000000.0,
+        "subscription_months": 12,
+        "income_verified": true,
+        "data_source": "NHIS_FIXTURE"
+      },
+      "biz_credit": {
+        "employer_registration_hash": "kcs_emp_reject_008",
+        "eq_grade": "EQ-E",
+        "limit_multiplier": 0.7,
+        "rate_adjustment": 0.5,
+        "mou_code": null,
+        "mou_rate_discount": 0.0,
+        "company_size": "micro",
+        "years_in_business": 1,
+        "data_source": "BIZ_FIXTURE"
+      },
+      "mydata": {
+        "total_deposit": 0,
+        "total_savings": 0,
+        "total_investment": 0.0,
+        "total_insurance_premium": 150000,
+        "monthly_card_spend_3m_avg": 200000,
+        "regular_transfer_monthly": 500000,
+        "data_source": "MYDATA_FIXTURE"
+      },
+      "profession": {
+        "resident_hash": "kcs_demo_reject_008",
+        "license_type": "none",
+        "is_valid": false,
+        "segment_code": null,
+        "license_date": null,
+        "specialty": null,
+        "registration_status": "not_found",
+        "data_source": "PROFESSION_FIXTURE"
+      },
+      "alternative_data": {
+        "telecom_no_delinquency": 0,
+        "health_insurance_paid_months_12m": 4,
+        "national_pension_paid_months_24m": 24,
+        "art_fund_registered": false,
+        "art_fund_registration_date": null,
+        "art_fund_field": null
+      }
+    },
+    {
+      "scenario_id": "REJECT-009",
+      "scenario_name": "파산 이력 (공공기록 2건, CB 310)",
+      "category": "rejected",
+      "expected_decision": "rejected",
+      "description": "CB 310, 공공기록(파산/압류) 2건 — 최저신용, 즉시 거절",
+      "resident_hash": "kcs_demo_reject_009",
+      "employer_hash": "kcs_emp_reject_009",
+      "business_hash": "biz_kcs_demo_reject_009",
+      "profile": {
+        "age": 50,
+        "employment_type": "employed",
+        "segment_code": "",
+        "nice_score": 310,
+        "total_income_annual": 32000000.0,
+        "worst_delinquency_status": 3
+      },
+      "nice_cb": {
+        "inquiry_id": "NICE-kcs_demo_reject_-FIX",
+        "resident_hash": "kcs_demo_reject_009",
+        "score": 310,
+        "grade": 10,
+        "score_date": "2025-01-15",
+        "delinquency": {
+          "has_delinquency": true,
+          "max_days_overdue": 365,
+          "delinquency_amount": 20000000,
+          "last_delinquency_date": "2024-08-01"
+        },
+        "loans": {
+          "total_loan_count": 1,
+          "total_balance": 10000000,
+          "monthly_payment": 83333,
+          "credit_card_limit": 500000,
+          "credit_card_balance": 150000
+        },
+        "public_record_count": 2,
+        "inquiry_count_6m": 8,
+        "worst_delinquency_status": 3,
+        "data_source": "NICE_FIXTURE"
+      },
+      "kcb_cb": {
+        "inquiry_id": "KCB-kcs_demo_reject_-FIX",
+        "resident_hash": "kcs_demo_reject_009",
+        "kcb_score": 300,
+        "kcb_grade": "7",
+        "overdue_flag": true,
+        "total_debt": 10000000,
+        "monthly_obligation": 83333,
+        "data_source": "KCB_FIXTURE"
+      },
+      "nts_income": {
+        "resident_hash": "kcs_demo_reject_009",
+        "tax_year": 2024,
+        "employment_income": 32000000,
+        "business_income": 0.0,
+        "other_income": 0.0,
+        "total_income": 32000000.0,
+        "income_verified": true,
+        "employer_name": "일용직",
+        "data_source": "NTS_FIXTURE"
+      },
+      "nhis": {
+        "resident_hash": "kcs_demo_reject_009",
+        "subscriber_type": "employee",
+        "employer_name": "일**",
+        "monthly_premium": 94533,
+        "income_level": 32000000.0,
+        "subscription_months": 24,
+        "income_verified": true,
+        "data_source": "NHIS_FIXTURE"
+      },
+      "biz_credit": {
+        "employer_registration_hash": "kcs_emp_reject_009",
+        "eq_grade": "EQ-E",
+        "limit_multiplier": 0.7,
+        "rate_adjustment": 0.5,
+        "mou_code": null,
+        "mou_rate_discount": 0.0,
+        "company_size": "micro",
+        "years_in_business": 0,
+        "data_source": "BIZ_FIXTURE"
+      },
+      "mydata": {
+        "total_deposit": 0,
+        "total_savings": 0,
+        "total_investment": 0.0,
+        "total_insurance_premium": 150000,
+        "monthly_card_spend_3m_avg": 100000,
+        "regular_transfer_monthly": 500000,
+        "data_source": "MYDATA_FIXTURE"
+      },
+      "profession": {
+        "resident_hash": "kcs_demo_reject_009",
+        "license_type": "none",
+        "is_valid": false,
+        "segment_code": null,
+        "license_date": null,
+        "specialty": null,
+        "registration_status": "not_found",
+        "data_source": "PROFESSION_FIXTURE"
+      },
+      "alternative_data": {
+        "telecom_no_delinquency": 0,
+        "health_insurance_paid_months_12m": 3,
+        "national_pension_paid_months_24m": 6,
+        "art_fund_registered": false,
+        "art_fund_registration_date": null,
+        "art_fund_field": null
+      }
+    },
+    {
+      "scenario_id": "REJECT-010",
+      "scenario_name": "극저소득 알바 (연 700만)",
+      "category": "rejected",
+      "expected_decision": "rejected",
+      "description": "CB 680, 소득 700만 — 최소 소득 1200만 미충족, 자동 거절",
+      "resident_hash": "kcs_demo_reject_010",
+      "employer_hash": "kcs_emp_reject_010",
+      "business_hash": "biz_kcs_demo_reject_010",
+      "profile": {
+        "age": 22,
+        "employment_type": "employed",
+        "segment_code": "",
+        "nice_score": 680,
+        "total_income_annual": 7000000.0,
+        "worst_delinquency_status": 0
+      },
+      "nice_cb": {
+        "inquiry_id": "NICE-kcs_demo_reject_-FIX",
+        "resident_hash": "kcs_demo_reject_010",
+        "score": 680,
+        "grade": 6,
+        "score_date": "2025-01-15",
+        "delinquency": {
+          "has_delinquency": false,
+          "max_days_overdue": 0,
+          "delinquency_amount": 0.0,
+          "last_delinquency_date": null
+        },
+        "loans": {
+          "total_loan_count": 0,
+          "total_balance": 0,
+          "monthly_payment": 0.0,
+          "credit_card_limit": 500000,
+          "credit_card_balance": 150000
+        },
+        "public_record_count": 0,
+        "inquiry_count_6m": 1,
+        "worst_delinquency_status": 0,
+        "data_source": "NICE_FIXTURE"
+      },
+      "kcb_cb": {
+        "inquiry_id": "KCB-kcs_demo_reject_-FIX",
+        "resident_hash": "kcs_demo_reject_010",
+        "kcb_score": 670,
+        "kcb_grade": "6",
+        "overdue_flag": false,
+        "total_debt": 0,
+        "monthly_obligation": 0.0,
+        "data_source": "KCB_FIXTURE"
+      },
+      "nts_income": {
+        "resident_hash": "kcs_demo_reject_010",
+        "tax_year": 2024,
+        "employment_income": 7000000,
+        "business_income": 0.0,
+        "other_income": 0,
+        "total_income": 7000000.0,
+        "income_verified": true,
+        "employer_name": "편의점알바",
+        "data_source": "NTS_FIXTURE"
+      },
+      "nhis": {
+        "resident_hash": "kcs_demo_reject_010",
+        "subscriber_type": "employee",
+        "employer_name": "편****",
+        "monthly_premium": 20679,
+        "income_level": 7000000.0,
+        "subscription_months": 6,
+        "income_verified": true,
+        "data_source": "NHIS_FIXTURE"
+      },
+      "biz_credit": {
+        "employer_registration_hash": "kcs_emp_reject_010",
+        "eq_grade": "EQ-D",
+        "limit_multiplier": 1.0,
+        "rate_adjustment": 0.2,
+        "mou_code": null,
+        "mou_rate_discount": 0.0,
+        "company_size": "micro",
+        "years_in_business": 1,
+        "data_source": "BIZ_FIXTURE"
+      },
+      "mydata": {
+        "total_deposit": 500000,
+        "total_savings": 0,
+        "total_investment": 0.0,
+        "total_insurance_premium": 150000,
+        "monthly_card_spend_3m_avg": 200000,
+        "regular_transfer_monthly": 500000,
+        "data_source": "MYDATA_FIXTURE"
+      },
+      "profession": {
+        "resident_hash": "kcs_demo_reject_010",
+        "license_type": "none",
+        "is_valid": false,
+        "segment_code": null,
+        "license_date": null,
+        "specialty": null,
+        "registration_status": "not_found",
+        "data_source": "PROFESSION_FIXTURE"
+      },
+      "alternative_data": {
+        "telecom_no_delinquency": 1,
+        "health_insurance_paid_months_12m": 12,
+        "national_pension_paid_months_24m": 6,
+        "art_fund_registered": false,
+        "art_fund_registration_date": null,
+        "art_fund_field": null
+      }
+    },
+    {
+      "scenario_id": "SPECIAL-001",
+      "scenario_name": "예술인복지재단 등록 예술가 (SEG-ART)",
+      "category": "special",
+      "expected_decision": "manual_review",
+      "description": "CB 620, 사업소득 2400만 (불규칙) — SEG-ART 12개월 소득 평활화",
+      "resident_hash": "kcs_demo_special_001",
+      "employer_hash": "kcs_emp_special_001",
+      "business_hash": "biz_kcs_demo_special_001",
+      "profile": {
+        "age": 32,
+        "employment_type": "self_employed",
+        "segment_code": "SEG-ART",
+        "nice_score": 620,
+        "total_income_annual": 27000000.0,
+        "worst_delinquency_status": 0
+      },
+      "nice_cb": {
+        "inquiry_id": "NICE-kcs_demo_special-FIX",
+        "resident_hash": "kcs_demo_special_001",
+        "score": 620,
+        "grade": 7,
+        "score_date": "2025-01-15",
+        "delinquency": {
+          "has_delinquency": false,
+          "max_days_overdue": 0,
+          "delinquency_amount": 0.0,
+          "last_delinquency_date": null
+        },
+        "loans": {
+          "total_loan_count": 0,
+          "total_balance": 0,
+          "monthly_payment": 0.0,
+          "credit_card_limit": 500000,
+          "credit_card_balance": 150000
+        },
+        "public_record_count": 0,
+        "inquiry_count_6m": 1,
+        "worst_delinquency_status": 0,
+        "data_source": "NICE_FIXTURE"
+      },
+      "kcb_cb": {
+        "inquiry_id": "KCB-kcs_demo_special-FIX",
+        "resident_hash": "kcs_demo_special_001",
+        "kcb_score": 610,
+        "kcb_grade": "7",
+        "overdue_flag": false,
+        "total_debt": 0,
+        "monthly_obligation": 0.0,
+        "data_source": "KCB_FIXTURE"
+      },
+      "nts_income": {
+        "resident_hash": "kcs_demo_special_001",
+        "tax_year": 2024,
+        "employment_income": 0.0,
+        "business_income": 24000000,
+        "other_income": 3000000,
+        "total_income": 27000000.0,
+        "income_verified": true,
+        "employer_name": null,
+        "data_source": "NTS_FIXTURE"
+      },
+      "nhis": {
+        "resident_hash": "kcs_demo_special_001",
+        "subscriber_type": "regional",
+        "employer_name": null,
+        "monthly_premium": 79762,
+        "income_level": 27000000.0,
+        "subscription_months": 36,
+        "income_verified": true,
+        "data_source": "NHIS_FIXTURE"
+      },
+      "biz_credit": {
+        "employer_registration_hash": "kcs_emp_special_001",
+        "eq_grade": "EQ-D",
+        "limit_multiplier": 1.0,
+        "rate_adjustment": 0.2,
+        "mou_code": null,
+        "mou_rate_discount": 0.0,
+        "company_size": "micro",
+        "years_in_business": 4,
+        "data_source": "BIZ_FIXTURE"
+      },
+      "mydata": {
+        "total_deposit": 1500000,
+        "total_savings": 2000000,
+        "total_investment": 0.0,
+        "total_insurance_premium": 150000,
+        "monthly_card_spend_3m_avg": 600000,
+        "regular_transfer_monthly": 500000,
+        "data_source": "MYDATA_FIXTURE"
+      },
+      "profession": {
+        "resident_hash": "kcs_demo_special_001",
+        "license_type": "artist",
+        "is_valid": true,
+        "segment_code": "SEG-ART",
+        "license_date": "2019-06-01",
+        "specialty": "시각예술",
+        "registration_status": "active",
+        "data_source": "PROFESSION_FIXTURE"
+      },
+      "alternative_data": {
+        "telecom_no_delinquency": 1,
+        "health_insurance_paid_months_12m": 12,
+        "national_pension_paid_months_24m": 18,
+        "art_fund_registered": true,
+        "art_fund_registration_date": "2020-03-01",
+        "art_fund_field": "시각예술"
+      }
+    },
+    {
+      "scenario_id": "SPECIAL-002",
+      "scenario_name": "사회초년생 소액론 (만 24세)",
+      "category": "special",
+      "expected_decision": "manual_review",
+      "description": "CB 580, 소득 2600만, 만 24세 — 소액론 신청, 신용 이력 짧음",
+      "resident_hash": "kcs_demo_special_002",
+      "employer_hash": "kcs_emp_special_002",
+      "business_hash": "biz_kcs_demo_special_002",
+      "profile": {
+        "age": 24,
+        "employment_type": "employed",
+        "segment_code": "",
+        "nice_score": 580,
+        "total_income_annual": 26000000.0,
+        "worst_delinquency_status": 0
+      },
+      "nice_cb": {
+        "inquiry_id": "NICE-kcs_demo_special-FIX",
+        "resident_hash": "kcs_demo_special_002",
+        "score": 580,
+        "grade": 8,
+        "score_date": "2025-01-15",
+        "delinquency": {
+          "has_delinquency": false,
+          "max_days_overdue": 0,
+          "delinquency_amount": 0.0,
+          "last_delinquency_date": null
+        },
+        "loans": {
+          "total_loan_count": 0,
+          "total_balance": 0,
+          "monthly_payment": 0.0,
+          "credit_card_limit": 500000,
+          "credit_card_balance": 150000
+        },
+        "public_record_count": 0,
+        "inquiry_count_6m": 1,
+        "worst_delinquency_status": 0,
+        "data_source": "NICE_FIXTURE"
+      },
+      "kcb_cb": {
+        "inquiry_id": "KCB-kcs_demo_special-FIX",
+        "resident_hash": "kcs_demo_special_002",
+        "kcb_score": 570,
+        "kcb_grade": "7",
+        "overdue_flag": false,
+        "total_debt": 0,
+        "monthly_obligation": 0.0,
+        "data_source": "KCB_FIXTURE"
+      },
+      "nts_income": {
+        "resident_hash": "kcs_demo_special_002",
+        "tax_year": 2024,
+        "employment_income": 26000000,
+        "business_income": 0.0,
+        "other_income": 0.0,
+        "total_income": 26000000.0,
+        "income_verified": true,
+        "employer_name": "스타트업",
+        "data_source": "NTS_FIXTURE"
+      },
+      "nhis": {
+        "resident_hash": "kcs_demo_special_002",
+        "subscriber_type": "employee",
+        "employer_name": "스***",
+        "monthly_premium": 76808,
+        "income_level": 26000000.0,
+        "subscription_months": 8,
+        "income_verified": true,
+        "data_source": "NHIS_FIXTURE"
+      },
+      "biz_credit": {
+        "employer_registration_hash": "kcs_emp_special_002",
+        "eq_grade": "EQ-C",
+        "limit_multiplier": 1.2,
+        "rate_adjustment": 0.0,
+        "mou_code": null,
+        "mou_rate_discount": 0.0,
+        "company_size": "small",
+        "years_in_business": 3,
+        "data_source": "BIZ_FIXTURE"
+      },
+      "mydata": {
+        "total_deposit": 800000,
+        "total_savings": 500000,
+        "total_investment": 0.0,
+        "total_insurance_premium": 150000,
+        "monthly_card_spend_3m_avg": 500000,
+        "regular_transfer_monthly": 500000,
+        "data_source": "MYDATA_FIXTURE"
+      },
+      "profession": {
+        "resident_hash": "kcs_demo_special_002",
+        "license_type": "none",
+        "is_valid": false,
+        "segment_code": null,
+        "license_date": null,
+        "specialty": null,
+        "registration_status": "not_found",
+        "data_source": "PROFESSION_FIXTURE"
+      },
+      "alternative_data": {
+        "telecom_no_delinquency": 1,
+        "health_insurance_paid_months_12m": 12,
+        "national_pension_paid_months_24m": 8,
+        "art_fund_registered": false,
+        "art_fund_registration_date": null,
+        "art_fund_field": null
+      }
+    },
+    {
+      "scenario_id": "SPECIAL-003",
+      "scenario_name": "주담대 투기과열구역 우량 (LTV 38%)",
+      "category": "special",
+      "expected_decision": "approved",
+      "description": "CB 830, 소득 1.2억, 투기과열 LTV 38% (한도 40% 이내) — 승인",
+      "resident_hash": "kcs_demo_special_003",
+      "employer_hash": "kcs_emp_special_003",
+      "business_hash": "biz_kcs_demo_special_003",
+      "profile": {
+        "age": 45,
+        "employment_type": "employed",
+        "segment_code": "",
+        "nice_score": 830,
+        "total_income_annual": 120000000.0,
+        "worst_delinquency_status": 0
+      },
+      "nice_cb": {
+        "inquiry_id": "NICE-kcs_demo_special-FIX",
+        "resident_hash": "kcs_demo_special_003",
+        "score": 830,
+        "grade": 4,
+        "score_date": "2025-01-15",
+        "delinquency": {
+          "has_delinquency": false,
+          "max_days_overdue": 0,
+          "delinquency_amount": 0.0,
+          "last_delinquency_date": null
+        },
+        "loans": {
+          "total_loan_count": 0,
+          "total_balance": 0,
+          "monthly_payment": 0.0,
+          "credit_card_limit": 3000000,
+          "credit_card_balance": 800000
+        },
+        "public_record_count": 0,
+        "inquiry_count_6m": 1,
+        "worst_delinquency_status": 0,
+        "data_source": "NICE_FIXTURE"
+      },
+      "kcb_cb": {
+        "inquiry_id": "KCB-kcs_demo_special-FIX",
+        "resident_hash": "kcs_demo_special_003",
+        "kcb_score": 820,
+        "kcb_grade": "4",
+        "overdue_flag": false,
+        "total_debt": 0,
+        "monthly_obligation": 0.0,
+        "data_source": "KCB_FIXTURE"
+      },
+      "nts_income": {
+        "resident_hash": "kcs_demo_special_003",
+        "tax_year": 2024,
+        "employment_income": 120000000,
+        "business_income": 0.0,
+        "other_income": 0.0,
+        "total_income": 120000000.0,
+        "income_verified": true,
+        "employer_name": "외국계금융사",
+        "data_source": "NTS_FIXTURE"
+      },
+      "nhis": {
+        "resident_hash": "kcs_demo_special_003",
+        "subscriber_type": "employee",
+        "employer_name": "외*****",
+        "monthly_premium": 354500,
+        "income_level": 120000000.0,
+        "subscription_months": 144,
+        "income_verified": true,
+        "data_source": "NHIS_FIXTURE"
+      },
+      "biz_credit": {
+        "employer_registration_hash": "kcs_emp_special_003",
+        "eq_grade": "EQ-A",
+        "limit_multiplier": 1.8,
+        "rate_adjustment": -0.3,
+        "mou_code": null,
+        "mou_rate_discount": 0.0,
+        "company_size": "large",
+        "years_in_business": 50,
+        "data_source": "BIZ_FIXTURE"
+      },
+      "mydata": {
+        "total_deposit": 50000000,
+        "total_savings": 80000000,
+        "total_investment": 30000000,
+        "total_insurance_premium": 150000,
+        "monthly_card_spend_3m_avg": 5000000,
+        "regular_transfer_monthly": 500000,
+        "data_source": "MYDATA_FIXTURE"
+      },
+      "profession": {
+        "resident_hash": "kcs_demo_special_003",
+        "license_type": "none",
+        "is_valid": false,
+        "segment_code": null,
+        "license_date": null,
+        "specialty": null,
+        "registration_status": "not_found",
+        "data_source": "PROFESSION_FIXTURE"
+      },
+      "alternative_data": {
+        "telecom_no_delinquency": 1,
+        "health_insurance_paid_months_12m": 12,
+        "national_pension_paid_months_24m": 24,
+        "art_fund_registered": false,
+        "art_fund_registration_date": null,
+        "art_fund_field": null
+      }
+    }
+  ]
+}

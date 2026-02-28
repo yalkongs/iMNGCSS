@@ -8,6 +8,8 @@ import random
 from fastapi import APIRouter, Header
 from pydantic import BaseModel
 
+from mock_server.routers._fixture_loader import get_fixture_by_employer
+
 router = APIRouter()
 
 # 사전 정의된 MOU 기업 목록 (협약 코드 포함)
@@ -47,6 +49,11 @@ async def get_company_info(
     x_api_key: str = Header(..., alias="X-API-Key"),
 ):
     """기업 신용정보 조회 → EQ Grade 반환"""
+    # 픽스처 우선 조회
+    fixture = get_fixture_by_employer(employer_registration_hash)
+    if fixture:
+        return CompanyInfoResponse(**fixture["biz_credit"])
+
     # MOU 기업 목록 체크 (해시 앞 8자리 기반)
     hash_prefix = employer_registration_hash[:8].lower()
     for key, company in MOU_COMPANIES.items():

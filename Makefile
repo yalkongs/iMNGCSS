@@ -1,5 +1,5 @@
 .PHONY: help up up-tools up-kafka up-ml down build logs logs-all status migrate migrate-create install \
-        mock-server seed-data gen-synthetic train \
+        mock-server seed-data gen-fixtures gen-synthetic train \
         test test-unit test-auth test-integration test-regulatory test-stress test-fairness test-model test-all-validation \
         test-audit test-regulatory-disclosure test-performance load-test \
         k8s-deploy k8s-delete k8s-status \
@@ -20,7 +20,8 @@ help:
 	@echo "  make build           - Docker 이미지 빌드"
 	@echo "  make migrate         - DB 마이그레이션 실행"
 	@echo "  make train           - ML 모델 학습 (합성 데이터)"
-	@echo "  make gen-synthetic   - 합성 학습 데이터 생성 (10만건)"
+	@echo "  make gen-fixtures    - Mock Server 시나리오 픽스처 생성 (30개)
+  make gen-synthetic   - 합성 학습 데이터 생성 (10만건)"
 	@echo "  make seed-data       - regulation_params 초기 시드"
 	@echo "  make test                - 전체 테스트 실행 (단위 + 통합 + 검증)"
 	@echo "  make test-unit           - 단위 테스트 (scoring_engine, monitoring_engine)"
@@ -129,6 +130,10 @@ migrate-create:
 
 install:
 	pip install -r $(BACKEND_DIR)/requirements.txt
+
+gen-fixtures:
+	python mock_server/fixtures/generate_fixtures.py
+	@echo "픽스처 생성 완료: mock_server/fixtures/scenario_customers.json (30개 시나리오)"
 
 gen-synthetic:
 	cd $(ML_DIR) && python data/synthetic_data.py

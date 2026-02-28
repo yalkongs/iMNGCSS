@@ -8,6 +8,8 @@ from datetime import datetime
 from fastapi import APIRouter, Header
 from pydantic import BaseModel
 
+from mock_server.routers._fixture_loader import get_fixture_by_resident
+
 router = APIRouter()
 
 
@@ -29,6 +31,10 @@ async def get_nhis_income(
     x_api_key: str = Header(..., alias="X-API-Key"),
 ):
     """건강보험공단 소득 검증"""
+    fixture = get_fixture_by_resident(resident_hash)
+    if fixture:
+        return NhisIncomeResponse(**fixture["nhis"])
+
     seed = int(resident_hash[:8], 16) % 10000 + 9999
     rng = random.Random(seed)
 
