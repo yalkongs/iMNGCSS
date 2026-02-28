@@ -10,6 +10,9 @@ BASE_DIR := $(shell pwd)
 BACKEND_DIR := $(BASE_DIR)/backend
 ML_DIR := $(BASE_DIR)/ml_pipeline
 
+# 가상환경 $(PYTEST) 우선 사용 (없으면 시스템 $(PYTEST) 폴백)
+PYTEST := $(shell test -f "$(BASE_DIR)/.venv/bin/pytest" && echo '"$(BASE_DIR)/.venv/bin/pytest"' || echo pytest)
+
 help:
 	@echo "Korea Credit Scoring System - 사용 가능한 명령어:"
 	@echo ""
@@ -150,27 +153,27 @@ train:
 
 test:
 	@echo "전체 테스트 실행 (단위 + 통합 + 검증)..."
-	cd "$(BASE_DIR)" && pytest tests/ validation/ -v --tb=short
+	cd "$(BASE_DIR)" && $(PYTEST) tests/ validation/ -v --tb=short
 
 test-unit:
 	@echo "단위 테스트 실행..."
-	cd "$(BASE_DIR)" && pytest tests/unit/ -v
+	cd "$(BASE_DIR)" && $(PYTEST) tests/unit/ -v
 
 test-auth:
 	@echo "인증/RBAC 단위 테스트 실행..."
-	cd "$(BASE_DIR)" && pytest tests/unit/test_auth.py -v
+	cd "$(BASE_DIR)" && $(PYTEST) tests/unit/test_auth.py -v
 
 test-audit:
 	@echo "내부감사 테스트 실행 (감사추적/접근통제/개인정보보호)..."
-	cd "$(BASE_DIR)" && pytest validation/roles/internal_audit/ -v -s
+	cd "$(BASE_DIR)" && $(PYTEST) validation/roles/internal_audit/ -v -s
 
 test-regulatory-disclosure:
 	@echo "규제공시 테스트 실행 (DSR/LTV/거절사유/스트레스DSR)..."
-	cd "$(BASE_DIR)" && pytest validation/roles/regulatory/ -v -s
+	cd "$(BASE_DIR)" && $(PYTEST) validation/roles/regulatory/ -v -s
 
 test-performance:
 	@echo "성능 테스트 실행 (ScoringEngine/JWT/해시 응답시간)..."
-	cd "$(BASE_DIR)" && pytest tests/performance/ -v -s
+	cd "$(BASE_DIR)" && $(PYTEST) tests/performance/ -v -s
 
 load-test:
 	@echo "Locust 부하 테스트 실행 (API 서버가 http://localhost:8000 에서 실행 중이어야 함)..."
@@ -181,30 +184,30 @@ load-test:
 
 test-integration:
 	@echo "통합 테스트 실행..."
-	cd "$(BASE_DIR)" && pytest tests/integration/ -v -s
+	cd "$(BASE_DIR)" && $(PYTEST) tests/integration/ -v -s
 
 test-regulatory:
 	@echo "규제 준수 테스트 실행 중 (DSR/LTV/금리 한도 검증)..."
-	cd "$(BASE_DIR)" && pytest tests/regulatory/ \
+	cd "$(BASE_DIR)" && $(PYTEST) tests/regulatory/ \
 	    validation/roles/developer/test_regulatory_compliance.py \
 	    validation/roles/risk_management/test_regulatory_validation.py -v -s
 
 test-stress:
 	@echo "스트레스 테스트 실행 중 (금리/부동산/경기침체 시나리오)..."
-	cd "$(BASE_DIR)" && pytest validation/roles/risk_management/test_stress_scenarios.py -v -s
+	cd "$(BASE_DIR)" && $(PYTEST) validation/roles/risk_management/test_stress_scenarios.py -v -s
 
 test-fairness:
 	@echo "공정성 테스트 실행 중 (AI 가이드라인 7대 원칙)..."
-	cd "$(BASE_DIR)" && pytest validation/roles/compliance/test_fairness.py -v -s
+	cd "$(BASE_DIR)" && $(PYTEST) validation/roles/compliance/test_fairness.py -v -s
 
 test-model:
 	@echo "모델 성능 테스트 실행 중..."
-	cd "$(BASE_DIR)" && pytest validation/roles/developer/test_model_performance.py \
+	cd "$(BASE_DIR)" && $(PYTEST) validation/roles/developer/test_model_performance.py \
 	    validation/roles/risk_management/test_risk_profitability.py -v -s
 
 test-all-validation:
 	@echo "전체 검증 테스트 실행..."
-	cd "$(BASE_DIR)" && pytest validation/ -v -s --tb=short
+	cd "$(BASE_DIR)" && $(PYTEST) validation/ -v -s --tb=short
 
 k8s-deploy:
 	@echo "Kubernetes 배포 시작 (kubectl 컨텍스트: $$(kubectl config current-context))..."
