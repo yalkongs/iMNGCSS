@@ -3,14 +3,15 @@
 ======================================
 내부 심사 시스템 연동용 (Batch 평가, Shadow 모드)
 """
-import uuid
 import logging
-from fastapi import APIRouter, Depends, HTTPException
+import uuid
+
+from fastapi import APIRouter, Depends
 from pydantic import BaseModel, Field
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from app.core.scoring_engine import ScoringEngine, ScoringInput
 from app.db.session import get_db
-from app.core.scoring_engine import ScoringInput, ScoringEngine
 
 router = APIRouter()
 logger = logging.getLogger(__name__)
@@ -61,7 +62,6 @@ async def direct_evaluate(
     직접 신용평가 (내부 시스템/데모용).
     shadow_mode=True이면 결과를 DB에 저장하지 않음.
     """
-    from app.services.scoring_service import ScoringService
 
     # ScoringInput 조립
     inp = ScoringInput(
@@ -93,9 +93,10 @@ async def direct_evaluate(
     )
 
     # PolicyEngine에서 파라미터 조회
-    from app.core.policy_engine import PolicyEngine
-    from app.config import settings
     from datetime import datetime
+
+    from app.config import settings
+    from app.core.policy_engine import PolicyEngine
 
     pe = PolicyEngine(db)
     eff = datetime.utcnow()
@@ -150,7 +151,7 @@ async def direct_evaluate(
 @router.get("/score-scale")
 async def get_score_scale():
     """신용점수 스케일 정보 조회"""
-    from app.core.scoring_engine import SCORE_BASE, SCORE_PDO, BASE_PD, GRADE_PD_MAP
+    from app.core.scoring_engine import BASE_PD, GRADE_PD_MAP, SCORE_BASE, SCORE_PDO
     return {
         "scale": {"min": 300, "max": 900, "base": SCORE_BASE, "pdo": SCORE_PDO, "base_pd": BASE_PD},
         "grade_ranges": {

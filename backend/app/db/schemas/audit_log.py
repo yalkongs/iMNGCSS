@@ -4,10 +4,12 @@
 금감원 모범규준: 모든 평가 이력 추적
 """
 from datetime import datetime
-from sqlalchemy import String, DateTime, BigInteger, Text
+
+from sqlalchemy import BigInteger, DateTime, String, Text
 from sqlalchemy.orm import Mapped, mapped_column
-from app.db.types import UUID, JSONB, INET
+
 from app.db.base import Base
+from app.db.compat import JSONB
 
 
 class AuditLog(Base):

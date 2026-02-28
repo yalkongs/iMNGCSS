@@ -4,12 +4,14 @@
 바젤III IRB: PD/LGD/EAD + RW + RAROC 저장
 v1.1 추가: RAROC 금리 분해, 칼리브레이션 메타, EAD/CCF 구분
 """
-import uuid
 from datetime import datetime
-from sqlalchemy import String, Integer, Numeric, DateTime, ForeignKey, CheckConstraint, Boolean
+import uuid
+
+from sqlalchemy import Boolean, CheckConstraint, DateTime, ForeignKey, Integer, Numeric, String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
-from app.db.types import UUID, JSONB
+
 from app.db.base import Base
+from app.db.compat import JSONB, UUID
 
 
 class CreditScore(Base):
@@ -102,7 +104,7 @@ class CreditScore(Base):
     scored_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=datetime.utcnow)
 
     # ── ORM 관계 ─────────────────────────────────────────────────────
-    application: Mapped["LoanApplication"] = relationship(
+    application: Mapped["LoanApplication"] = relationship(  # noqa: F821
         "LoanApplication",
         back_populates="credit_scores",
         lazy="select",

@@ -3,12 +3,14 @@
 개인정보 보호법: 주민번호는 해시값만 저장, 성명은 가명처리
 v1.1 추가: applicant_type(개인/개인사업자), EQ Grade, IRG, OSI Score, 특수직역 세그먼트, SOHO 필드
 """
-import uuid
 from datetime import datetime
-from sqlalchemy import String, Integer, Numeric, DateTime, Boolean, Text
+import uuid
+
+from sqlalchemy import Boolean, DateTime, Integer, Numeric, String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
-from app.db.types import UUID, JSONB
+
 from app.db.base import Base
+from app.db.compat import UUID
 
 
 class Applicant(Base):
@@ -150,7 +152,7 @@ class Applicant(Base):
     )
 
     # ── ORM 관계 ─────────────────────────────────────────────────────
-    loan_applications: Mapped[list["LoanApplication"]] = relationship(
+    loan_applications: Mapped[list["LoanApplication"]] = relationship(  # noqa: F821
         "LoanApplication",
         back_populates="applicant",
         cascade="all, delete-orphan",

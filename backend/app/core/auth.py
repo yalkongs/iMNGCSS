@@ -18,7 +18,7 @@ python-jose + passlib 기반 JWT 토큰 발급/검증.
 """
 from __future__ import annotations
 
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta
 from typing import Any
 
 from fastapi import Depends, HTTPException, status
@@ -101,14 +101,14 @@ def create_access_token(
     role: str,
     expires_delta: timedelta | None = None,
 ) -> str:
-    expire = datetime.now(timezone.utc) + (
+    expire = datetime.now(UTC) + (
         expires_delta or timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES)
     )
     payload = {
         "sub": subject,
         "role": role,
         "exp": expire,
-        "iat": datetime.now(timezone.utc),
+        "iat": datetime.now(UTC),
     }
     return jwt.encode(payload, settings.SECRET_KEY, algorithm=settings.ALGORITHM)
 
@@ -118,12 +118,12 @@ def create_access_token(
 def _decode_token(token: str) -> dict[str, Any]:
     try:
         return jwt.decode(token, settings.SECRET_KEY, algorithms=[settings.ALGORITHM])
-    except JWTError:
+    except JWTError as err:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="유효하지 않은 토큰입니다.",
             headers={"WWW-Authenticate": "Bearer"},
-        )
+        ) from err
 
 
 # ── FastAPI 의존성 ──────────────────────────────────────────────

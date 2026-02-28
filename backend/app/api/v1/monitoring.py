@@ -7,21 +7,19 @@ FR-MON-005: 칼리브레이션 (ECE/Brier Score)
 
 MonitoringEngine을 통한 실제 계산 + DB 데이터 없을 시 데모 응답.
 """
-import logging
 from datetime import datetime, timedelta
-from fastapi import APIRouter, Depends, HTTPException, Query
+import logging
+
+from fastapi import APIRouter, Depends, Query
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.db.session import get_db
 from app.core.monitoring_engine import (
-    MonitoringEngine,
-    compute_psi,
-    compute_score_psi,
-    compute_target_psi,
-    compute_calibration,
     PSI_GREEN,
     PSI_YELLOW,
+    MonitoringEngine,
+    compute_target_psi,
 )
+from app.db.session import get_db
 
 router = APIRouter()
 logger = logging.getLogger(__name__)
@@ -153,9 +151,8 @@ async def get_vintage_analysis(
     """
     # DB에서 cohort 데이터 조회 시도
     try:
-        from sqlalchemy import select, text
-        from app.db.schemas.credit_score import CreditScore
-        from app.db.schemas.loan_application import LoanApplication
+        from sqlalchemy import text
+
 
         # 코호트별 월간 실적 집계 (DB 있을 때만)
         stmt = text("""
@@ -221,9 +218,9 @@ async def get_portfolio_summary(
     db: AsyncSession = Depends(get_db),
 ):
     """포트폴리오 요약 (대출 잔액, 부도율, DSR 분포, EL/RWA)."""
-    from sqlalchemy import select, func
+    from sqlalchemy import func, select
+
     from app.db.schemas.credit_score import CreditScore
-    from app.db.schemas.loan_application import LoanApplication
 
     # 심사 결과 집계
     stmt = select(
@@ -259,7 +256,7 @@ async def get_portfolio_summary(
         "avg_pd": round(avg_pd, 4),
         "avg_score": round(float(row.avg_score or 0), 1),
         "decisions": decisions,
-        "approval_rate": round(decisions.get("approved", 0) / total if total else 0, 4),
+        "approval_rate": round(decisions.get("approved", 0) / total if total else 0, 4),  # type: ignore[operator]
         "el_estimate": round(el_estimate, 0),
         "el_rate": round(avg_pd * 0.45, 4),
     }

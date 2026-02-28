@@ -9,18 +9,19 @@
   POST (등록)  → risk_manager 역할 필요
   DELETE       → risk_manager 역할 필요
 """
-import uuid
-import logging
 from datetime import datetime
+import logging
 from typing import Any
+import uuid
+
 from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel, Field
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.db.session import get_db
-from app.core.policy_engine import PolicyEngine
 from app.core.auth import require_role
+from app.core.policy_engine import PolicyEngine
+from app.db.session import get_db
 
 router = APIRouter()
 logger = logging.getLogger(__name__)
@@ -47,8 +48,9 @@ async def list_regulation_params(
     db: AsyncSession = Depends(get_db),
 ):
     """현재 활성화된 규제 파라미터 목록 조회"""
-    from app.db.schemas.regulation_params import RegulationParam
     from sqlalchemy import and_
+
+    from app.db.schemas.regulation_params import RegulationParam
 
     conditions = [RegulationParam.is_active == is_active]
     if param_category:

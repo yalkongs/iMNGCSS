@@ -15,12 +15,12 @@ Redis 캐시(TTL 5분) + PostgreSQL JSONB fallback.
     ltv_limit = await engine.get_ltv_limit("speculation_area")
     eq_benefit = await engine.get_eq_grade_benefit("EQ-S")
 """
+from datetime import datetime
 import json
 import logging
-from datetime import datetime, date
 from typing import Any
 
-from sqlalchemy import select, and_
+from sqlalchemy import and_, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 logger = logging.getLogger(__name__)
@@ -344,7 +344,7 @@ class PolicyEngine:
             benefit = value
 
         await self._set_cached(cache_key, benefit)
-        return benefit
+        return benefit  # type: ignore[return-value]
 
     # ── 최고금리 조회 ────────────────────────────────────────────
 

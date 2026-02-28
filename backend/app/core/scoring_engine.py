@@ -21,11 +21,11 @@ LightGBM 모델 로드 → 피처 전처리 → 점수 산출 → SHAP 설명 �
   - 점수 < 400 → 거절
   - 400 ≤ 점수 < 500 → 수동 심사
 """
+from dataclasses import dataclass, field
+from datetime import datetime, timedelta
 import logging
 import math
 import os
-from dataclasses import dataclass, field
-from datetime import datetime, timedelta
 from typing import Any
 
 import numpy as np
@@ -219,7 +219,7 @@ class ScoringEngine:
     def __init__(self, artifacts_path: str = "./artifacts", policy_engine=None, model_path=None):
         self._artifacts_path = artifacts_path
         self._policy_engine = policy_engine
-        self._model = None
+        self._model: Any = None
         self._model_version = "demo-v1.0"
         self._load_model()
 
@@ -295,7 +295,7 @@ class ScoringEngine:
     @staticmethod
     def score_to_grade(score: int) -> str:
         """스코어 → 신용등급"""
-        for grade, (pd_val, upper, lower) in GRADE_PD_MAP.items():
+        for grade, (_pd_val, upper, lower) in GRADE_PD_MAP.items():
             if lower <= score <= upper:
                 return grade
         return "D"

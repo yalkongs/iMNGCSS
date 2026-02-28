@@ -20,11 +20,10 @@ Brier Score:
   BS = (1/n) Σ (f_t - o_t)²
   목표: BS ≤ 0.07 (신용평가 기준)
 """
-import math
-import logging
 from dataclasses import dataclass, field
 from datetime import datetime
-from typing import Optional
+import logging
+import math
 
 import numpy as np
 
@@ -112,7 +111,7 @@ def compute_psi(
     reference: np.ndarray,
     current: np.ndarray,
     n_bins: int = 10,
-    bins: Optional[np.ndarray] = None,
+    bins: np.ndarray | None = None,
 ) -> PSIResult:
     """
     PSI = Σ (Actual% - Expected%) × ln(Actual% / Expected%)
@@ -172,7 +171,7 @@ def compute_psi(
 def compute_score_psi(
     reference_scores: np.ndarray,
     current_scores: np.ndarray,
-    score_bins: Optional[list[float]] = None,
+    score_bins: list[float] | None = None,
 ) -> PSIResult:
     """
     신용점수 PSI.
@@ -328,7 +327,7 @@ def compute_vintage(
     cohort_col: str = "cohort_month",
     mob_col: str = "months_on_book",
     bad_col: str = "is_bad",
-    mob_checkpoints: list[int] = None,
+    mob_checkpoints: list[int] | None = None,
 ) -> VintageResult:
     """
     빈티지 분석: 코호트별 기간별 부도율(DPD Cumulative).
@@ -384,7 +383,7 @@ class MonitoringEngine:
 
     async def compute_score_psi_from_db(
         self,
-        model_version: Optional[str] = None,
+        model_version: str | None = None,
         reference_days: int = 180,
         current_days: int = 30,
     ) -> dict:
@@ -394,7 +393,9 @@ class MonitoringEngine:
 
         try:
             from datetime import timedelta
+
             from sqlalchemy import select
+
             from app.db.schemas.credit_score import CreditScore
 
             now = datetime.utcnow()
@@ -431,7 +432,7 @@ class MonitoringEngine:
 
     async def compute_calibration_from_db(
         self,
-        model_version: Optional[str] = None,
+        model_version: str | None = None,
         n_bins: int = 10,
         lookback_days: int = 365,
     ) -> dict:
@@ -441,7 +442,9 @@ class MonitoringEngine:
 
         try:
             from datetime import timedelta
+
             from sqlalchemy import select
+
             from app.db.schemas.credit_score import CreditScore
 
             now = datetime.utcnow()
@@ -523,7 +526,9 @@ class MonitoringEngine:
 
         try:
             from datetime import timedelta
+
             from sqlalchemy import select
+
             from app.db.schemas.credit_score import CreditScore
 
             now = datetime.utcnow()
@@ -575,7 +580,9 @@ class MonitoringEngine:
 
         try:
             from datetime import timedelta
-            from sqlalchemy import select, func
+
+            from sqlalchemy import func, select
+
             from app.db.schemas.credit_score import CreditScore
 
             now = datetime.utcnow()
@@ -596,8 +603,8 @@ class MonitoringEngine:
 
     async def full_report(
         self,
-        model_version: Optional[str] = None,
-        feature_names: Optional[list[str]] = None,
+        model_version: str | None = None,
+        feature_names: list[str] | None = None,
     ) -> dict:
         """전체 모니터링 보고서 생성."""
         score_psi = await self.compute_score_psi_from_db(model_version)

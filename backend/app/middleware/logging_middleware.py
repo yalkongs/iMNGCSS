@@ -5,9 +5,9 @@
 - 요청 메서드·경로·상태코드·소요시간 구조화 로깅
 - 헬스체크(/health)는 로깅 제외
 """
+import logging
 import time
 import uuid
-import logging
 
 from starlette.middleware.base import BaseHTTPMiddleware, RequestResponseEndpoint
 from starlette.requests import Request

@@ -4,9 +4,9 @@ ScoringService
 PolicyEngine (BRMS) + ScoringEngine 통합 서비스.
 신청/신청인 데이터 → 규제 파라미터 조회 → 스코어링 → 결과 반환.
 """
+from datetime import datetime
 import logging
 import os
-from datetime import datetime
 
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -190,8 +190,9 @@ class ScoringService:
             try:
                 # 각 신청서 조회 및 평가
                 from sqlalchemy import select
-                from app.db.schemas.loan_application import LoanApplication
+
                 from app.db.schemas.applicant import Applicant
+                from app.db.schemas.loan_application import LoanApplication
 
                 stmt = select(LoanApplication).where(LoanApplication.id == app_id)
                 r = await self._db.execute(stmt)

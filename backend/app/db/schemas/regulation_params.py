@@ -8,12 +8,14 @@ effective_from/effective_to로 버전 이력 관리 (은행업감독규정 개�
 - 모든 변경은 audit 추적
 - Redis 캐시 (TTL 5분) + PostgreSQL JSONB
 """
-import uuid
 from datetime import datetime
-from sqlalchemy import String, DateTime, Boolean, Text, Index, UniqueConstraint
+import uuid
+
+from sqlalchemy import Boolean, DateTime, Index, String, Text, UniqueConstraint
 from sqlalchemy.orm import Mapped, mapped_column
-from app.db.types import UUID, JSONB
+
 from app.db.base import Base
+from app.db.compat import JSONB, UUID
 
 
 class RegulationParam(Base):

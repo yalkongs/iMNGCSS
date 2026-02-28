@@ -3,12 +3,14 @@
 상품 유형별 (신용대출/주택담보대출/소액론) 정보 저장
 v1.1 추가: owned_property_count, stress_dsr, EQ/IRG 적용값, shadow 점수, 비대면 채널 정보
 """
-import uuid
 from datetime import datetime
-from sqlalchemy import String, Numeric, DateTime, ForeignKey, Text, Integer, Boolean
+import uuid
+
+from sqlalchemy import Boolean, DateTime, ForeignKey, Integer, Numeric, String, Text
 from sqlalchemy.orm import Mapped, mapped_column, relationship
-from app.db.types import UUID, JSONB
+
 from app.db.base import Base
+from app.db.compat import JSONB, UUID
 
 
 class LoanApplication(Base):
@@ -139,12 +141,12 @@ class LoanApplication(Base):
     )
 
     # ── ORM 관계 ─────────────────────────────────────────────────────
-    applicant: Mapped["Applicant"] = relationship(
+    applicant: Mapped["Applicant"] = relationship(  # noqa: F821
         "Applicant",
         back_populates="loan_applications",
         lazy="select",
     )
-    credit_scores: Mapped[list["CreditScore"]] = relationship(
+    credit_scores: Mapped[list["CreditScore"]] = relationship(  # noqa: F821
         "CreditScore",
         back_populates="application",
         cascade="all, delete-orphan",

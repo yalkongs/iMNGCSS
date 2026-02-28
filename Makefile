@@ -237,7 +237,7 @@ k8s-status:
 	kubectl get hpa -n kcs
 
 lint:
-	cd "$(BACKEND_DIR)" && python -m ruff check app/ && python -m mypy app/ --ignore-missing-imports
+	cd "$(BACKEND_DIR)" && $(PYTHON) -m ruff check app/ && $(PYTHON) -m mypy app/ --ignore-missing-imports --explicit-package-bases
 
 demo:
 	@echo "API 데모 시나리오 실행 (API 서버가 실행 중이어야 함)..."

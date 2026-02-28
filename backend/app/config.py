@@ -2,8 +2,9 @@
 설정 및 규제 파라미터
 금융감독원·금융위원회 기준 하드코딩된 규제값 + 환경 변수 설정
 """
-from pydantic_settings import BaseSettings, SettingsConfigDict
 from functools import lru_cache
+
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Settings(BaseSettings):

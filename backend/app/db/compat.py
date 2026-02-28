@@ -9,7 +9,9 @@ INET: PostgreSQL 전용, SQLite 폴백은 String(45).
 """
 import os
 import uuid as _uuid_mod
-from sqlalchemy import String, types as _sa_types
+
+from sqlalchemy import String
+from sqlalchemy import types as _sa_types
 from sqlalchemy.dialects import postgresql as _pg
 
 _db_url = os.getenv("DATABASE_URL", "postgresql://")

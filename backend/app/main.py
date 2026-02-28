@@ -12,11 +12,11 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware.gzip import GZipMiddleware
 from prometheus_fastapi_instrumentator import Instrumentator
 
+from app.api.v1 import admin, applications, auth, monitoring, scoring
 from app.config import settings
-from app.db.session import engine, AsyncSessionLocal
 from app.db.base import Base
 import app.db.schemas  # noqa: F401 - 모든 ORM 모델을 Base.metadata에 등록
-from app.api.v1 import applications, scoring, admin, monitoring, auth
+from app.db.session import AsyncSessionLocal, engine
 from app.middleware import LoggingMiddleware, RateLimitMiddleware
 
 logger = logging.getLogger(__name__)

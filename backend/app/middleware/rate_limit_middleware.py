@@ -6,9 +6,9 @@ Redis 슬라이딩 윈도우 Rate Limiting 미들웨어
 - 초과 시 HTTP 429 반환 + Retry-After 헤더
 - Redis 미연결 시 Rate Limiting 우회 (Fail-Open)
 """
-import time
 import logging
 import os
+import time
 
 from starlette.middleware.base import BaseHTTPMiddleware, RequestResponseEndpoint
 from starlette.requests import Request

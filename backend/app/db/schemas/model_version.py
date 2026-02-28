@@ -2,12 +2,14 @@
 모델 버전 관리 테이블
 금감원 신용위험 모범규준: 모델 문서화, 검증 이력 유지
 """
-import uuid
 from datetime import datetime
-from sqlalchemy import String, DateTime, Boolean, Text, Numeric
+import uuid
+
+from sqlalchemy import Boolean, DateTime, Numeric, String, Text
 from sqlalchemy.orm import Mapped, mapped_column
-from app.db.types import UUID, JSONB
+
 from app.db.base import Base
+from app.db.compat import JSONB, UUID
 
 
 class ModelVersion(Base):

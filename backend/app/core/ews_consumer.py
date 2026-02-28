@@ -20,15 +20,14 @@ EWS 신호 소스:
 실행: python -m app.core.ews_consumer
 """
 import asyncio
+from dataclasses import dataclass, field
+from datetime import datetime
+from enum import Enum
 import json
 import logging
 import os
 import signal
-import sys
-from dataclasses import dataclass, field
-from datetime import datetime, timedelta
-from enum import Enum
-from typing import Any, Optional
+from typing import Any
 
 logger = logging.getLogger(__name__)
 
@@ -45,13 +44,13 @@ YELLOW_INQUIRY_SPIKE = 5          # 30일 내 조회 5건 → YELLOW
 RED_MULTI_SIGNAL_COUNT = 2        # 복수 신호 발생 → RED 즉시 전환
 
 
-class EWSeverity(str, Enum):
+class EWSeverity(str, Enum):  # noqa: UP042
     RED = "RED"
     AMBER = "AMBER"
     YELLOW = "YELLOW"
 
 
-class EWSignalType(str, Enum):
+class EWSignalType(str, Enum):  # noqa: UP042
     MISSED_PAYMENT = "missed_payment"
     CB_SCORE_DROP = "cb_score_drop"
     CROSS_BANK_DELINQUENCY = "cross_bank_delinquency"
@@ -67,7 +66,7 @@ class EWSAlert:
     """EWS 이상징후 알림 메시지."""
     alert_id: str
     applicant_id: str
-    application_id: Optional[str]
+    application_id: str | None
     severity: EWSeverity
     signals: list[str]
     signal_details: dict[str, Any] = field(default_factory=dict)
@@ -95,7 +94,7 @@ class EWSAction:
     applicant_id: str
     severity: EWSeverity
     actions_taken: list[str]
-    limit_change: Optional[float] = None  # None=변경없음, 0=즉시동결, 0.5=50%축소
+    limit_change: float | None = None  # None=변경없음, 0=즉시동결, 0.5=50%축소
     rescore_triggered: bool = False
     notification_sent: bool = False
     processed_at: str = field(default_factory=lambda: datetime.utcnow().isoformat())
@@ -244,6 +243,7 @@ class EWSProcessor:
         if not self._db:
             return
         from sqlalchemy import update
+
         from app.db.schemas.loan_application import LoanApplication
         stmt = (
             update(LoanApplication)
@@ -265,6 +265,7 @@ class EWSProcessor:
         if not self._db:
             return
         from sqlalchemy import update
+
         from app.db.schemas.loan_application import LoanApplication
         stmt = (
             update(LoanApplication)
@@ -295,7 +296,7 @@ def classify_severity(signals: list[str], signal_details: dict) -> EWSeverity:
 
     delinquency_days = signal_details.get("delinquency_days", 0)
     cb_drop = signal_details.get("cb_score_drop", 0)
-    inquiry_count = signal_details.get("inquiry_count_30d", 0)
+    _inquiry_count = signal_details.get("inquiry_count_30d", 0)
 
     # RED 조건
     if delinquency_days >= RED_DELINQUENCY_DAYS:
@@ -323,7 +324,7 @@ class EWSConsumer:
 
     def __init__(self, db_factory=None):
         self._db_factory = db_factory
-        self._processor: Optional[EWSProcessor] = None
+        self._processor: EWSProcessor | None = None
         self._running = False
         self._processed_count = 0
         self._error_count = 0

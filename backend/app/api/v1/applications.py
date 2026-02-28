@@ -11,11 +11,11 @@
   7. GET  /{id}/result    - 심사 결과 조회
   8. POST /{id}/appeal    - 거절 이의제기 (신용정보법 §39의5)
 """
-import uuid
-import logging
 from datetime import datetime
+import logging
+import uuid
 
-from fastapi import APIRouter, Depends, HTTPException, Header
+from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel, Field
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -180,6 +180,7 @@ async def submit_consent(
         )
 
     from sqlalchemy import select
+
     from app.db.schemas.loan_application import LoanApplication
     stmt = select(LoanApplication).where(LoanApplication.id == uuid.UUID(application_id))
     result = await db.execute(stmt)
@@ -210,6 +211,7 @@ async def submit_applicant_info(
     특수 직역 자격 검증 (외부 API 호출 - Mock Server).
     """
     from sqlalchemy import select
+
     from app.db.schemas.applicant import Applicant
     from app.db.schemas.loan_application import LoanApplication
 
@@ -280,6 +282,7 @@ async def submit_financial_info(
 ):
     """재무 정보 입력 (기존 부채, 주담대 담보 정보)"""
     from sqlalchemy import select
+
     from app.db.schemas.loan_application import LoanApplication
 
     stmt = select(LoanApplication).where(LoanApplication.id == uuid.UUID(application_id))
@@ -316,6 +319,7 @@ async def submit_product_selection(
 ):
     """상품/한도/기간 선택"""
     from sqlalchemy import select
+
     from app.db.schemas.loan_application import LoanApplication
 
     stmt = select(LoanApplication).where(LoanApplication.id == uuid.UUID(application_id))
@@ -358,9 +362,10 @@ async def submit_application(
         raise HTTPException(status_code=400, detail="최종 확인이 필요합니다.")
 
     from sqlalchemy import select
-    from app.db.schemas.loan_application import LoanApplication
+
     from app.db.schemas.applicant import Applicant
     from app.db.schemas.credit_score import CreditScore
+    from app.db.schemas.loan_application import LoanApplication
 
     # 신청서 조회
     stmt = select(LoanApplication).where(LoanApplication.id == uuid.UUID(application_id))
@@ -461,6 +466,7 @@ async def get_result(
 ):
     """심사 결과 상세 조회"""
     from sqlalchemy import select
+
     from app.db.schemas.credit_score import CreditScore
 
     stmt = select(CreditScore).where(
@@ -498,9 +504,11 @@ async def submit_appeal(
     db: AsyncSession = Depends(get_db),
 ):
     """이의제기 제출 (신용정보법 §39의5)"""
-    from sqlalchemy import select
-    from app.db.schemas.credit_score import CreditScore
     from datetime import datetime as dt
+
+    from sqlalchemy import select
+
+    from app.db.schemas.credit_score import CreditScore
 
     stmt = select(CreditScore).where(
         CreditScore.application_id == uuid.UUID(application_id)
@@ -536,10 +544,14 @@ async def submit_appeal(
 # ── 유틸리티 ─────────────────────────────────────────────────────
 
 def _get_age_band(age: int) -> str:
-    if age < 30: return "20s"
-    if age < 40: return "30s"
-    if age < 50: return "40s"
-    if age < 60: return "50s"
+    if age < 30:
+        return "20s"
+    if age < 40:
+        return "30s"
+    if age < 50:
+        return "40s"
+    if age < 60:
+        return "50s"
     return "60+"
 
 
@@ -556,8 +568,9 @@ async def _verify_segment(
     occupation_code: str, license_number: str, resident_hash: str
 ) -> str:
     """외부 API(Mock Server)에서 전문직 면허 검증 후 세그먼트 코드 반환"""
-    import httpx
     import os
+
+    import httpx
 
     mock_url = os.getenv("MOCK_SERVER_URL", "http://mock-server:8001")
     api_key = os.getenv("MOCK_API_KEY", "kcs-mock-api-key-dev")

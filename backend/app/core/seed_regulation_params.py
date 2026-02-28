@@ -6,18 +6,17 @@ DB 최초 구동 시 regulation_params 테이블에 기준 파라미터 입력.
 
 실행: python -m app.core.seed_regulation_params
 """
-from datetime import datetime, timezone
-import asyncio
+from datetime import UTC, datetime
 import logging
 
 logger = logging.getLogger(__name__)
 
 # ── Phase 2 시행일 (2024-02-26) ──────────────────────────────────
-PHASE2_DATE = datetime(2024, 2, 26, tzinfo=timezone.utc)
+PHASE2_DATE = datetime(2024, 2, 26, tzinfo=UTC)
 # ── Phase 3 예정일 (2025-07-01) ─────────────────────────────────
-PHASE3_DATE = datetime(2025, 7, 1, tzinfo=timezone.utc)
+PHASE3_DATE = datetime(2025, 7, 1, tzinfo=UTC)
 # ── 기존 제도 시작일 ─────────────────────────────────────────────
-EPOCH = datetime(2020, 1, 1, tzinfo=timezone.utc)
+EPOCH = datetime(2020, 1, 1, tzinfo=UTC)
 
 # ── 소수 표현 (테스트 및 계산 참조용) ────────────────────────────────
 # LTV 한도: general=0.70, regulated=0.60, speculation_area=0.40
@@ -366,9 +365,11 @@ async def seed_regulation_params(db) -> int:
     Returns:
         삽입된 레코드 수
     """
-    from sqlalchemy import select, and_
-    from app.db.schemas.regulation_params import RegulationParam
     import uuid
+
+    from sqlalchemy import and_, select
+
+    from app.db.schemas.regulation_params import RegulationParam
 
     inserted = 0
     for item in SEED_PARAMS:
