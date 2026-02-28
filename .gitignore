@@ -1,0 +1,50 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.egg-info/
+dist/
+build/
+*.egg
+
+# Virtual environments
+.venv/
+.venv-312/
+venv/
+env/
+
+# pytest / coverage
+.pytest_cache/
+.coverage
+htmlcov/
+*.xml
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Logs
+*.log
+
+# Docker volumes / data
+postgres_data/
+
+# Secrets / env
+.env
+.env.*
+*.pem
+*.key
+
+# macOS
+.DS_Store
+
+# MLflow
+mlruns/
+
+# Model artifacts (large binaries)
+ml_pipeline/artifacts/**/*.pkl
+ml_pipeline/artifacts/**/*.lgbm
+ml_pipeline/artifacts/**/*.joblib

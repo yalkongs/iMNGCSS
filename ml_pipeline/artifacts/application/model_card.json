@@ -1,0 +1,123 @@
+{
+  "_note": "이 파일은 템플릿입니다. 'make train' 실행 후 실제 학습 값으로 교체됩니다.",
+  "_template_version": "1.1",
+  "model_name": "application_scorecard_v1",
+  "scorecard_type": "application",
+  "version": "1.0.0",
+  "model_type": "LightGBM",
+  "trained_at": "2025-01-01T00:00:00",
+  "n_features": 32,
+  "cv_auc_mean": 0.76,
+  "cv_auc_std": 0.02,
+  "training_data": {
+    "source": "synthetic_credit_loan.parquet",
+    "period": "2021-01 ~ 2023-06",
+    "n_train": 0,
+    "n_holdout": 0,
+    "n_oot": 0,
+    "bad_rate_train": 0.072,
+    "bad_rate_oot": 0.072
+  },
+  "features": {
+    "n_features": 32,
+    "selected": [
+      "cb_score", "income_annual_wan", "delinquency_count_12m", "dsr_ratio",
+      "inquiry_count_3m", "open_loan_count", "debt_to_income",
+      "employment_duration_months", "worst_delinquency_status",
+      "total_loan_balance_wan", "loan_to_income", "revolving_util_rate",
+      "delinquency_count_6m", "secured_loan_count", "inquiry_count_6m",
+      "income_type_stability", "age_normalized", "employment_type_score",
+      "card_usage_pattern", "repayment_history_score", "bureau_grade_score",
+      "utilization_trend", "payment_regularity", "income_growth_rate",
+      "housing_cost_ratio", "net_wealth_estimate", "credit_age_months",
+      "new_account_count_12m", "balance_to_limit_ratio", "dpd30_flag_24m",
+      "dpd60_flag_24m", "total_monthly_obligation_wan"
+    ]
+  },
+  "feature_groups": {
+    "credit_bureau": ["cb_score", "delinquency_count_12m", "worst_delinquency_status", "inquiry_count_3m", "inquiry_count_6m", "dpd30_flag_24m", "dpd60_flag_24m"],
+    "income": ["income_annual_wan", "loan_to_income", "dsr_ratio", "debt_to_income", "income_growth_rate"],
+    "loan": ["open_loan_count", "total_loan_balance_wan", "revolving_util_rate", "secured_loan_count", "balance_to_limit_ratio", "total_monthly_obligation_wan"],
+    "behavioral": ["card_usage_pattern", "repayment_history_score", "payment_regularity", "utilization_trend", "new_account_count_12m"],
+    "demographic": ["age_normalized", "employment_type_score", "employment_duration_months", "income_type_stability", "housing_cost_ratio"]
+  },
+  "performance": {
+    "oot_gini": 0.52,
+    "oot_ks": 0.38,
+    "cv_auc_mean": 0.76,
+    "cv_auc_std": 0.02,
+    "metrics": [
+      {
+        "dataset": "Train",
+        "auc_roc": 0.8000,
+        "gini": 0.6000,
+        "ks_statistic": 0.4200
+      },
+      {
+        "dataset": "Hold-out",
+        "auc_roc": 0.7750,
+        "gini": 0.5500,
+        "ks_statistic": 0.3900
+      },
+      {
+        "dataset": "OOT",
+        "auc_roc": 0.7600,
+        "gini": 0.5200,
+        "ks_statistic": 0.3800
+      }
+    ]
+  },
+  "shap_top10": [
+    {"feature": "cb_score", "mean_abs_shap": 0.285},
+    {"feature": "delinquency_count_12m", "mean_abs_shap": 0.201},
+    {"feature": "dsr_ratio", "mean_abs_shap": 0.158},
+    {"feature": "income_annual_wan", "mean_abs_shap": 0.142},
+    {"feature": "inquiry_count_3m", "mean_abs_shap": 0.097},
+    {"feature": "total_loan_balance_wan", "mean_abs_shap": 0.081},
+    {"feature": "worst_delinquency_status", "mean_abs_shap": 0.074},
+    {"feature": "employment_duration_months", "mean_abs_shap": 0.056},
+    {"feature": "open_loan_count", "mean_abs_shap": 0.043},
+    {"feature": "revolving_util_rate", "mean_abs_shap": 0.037}
+  ],
+  "scoring": {
+    "base_score": 600,
+    "base_bad_rate": 0.072,
+    "pdo": 40,
+    "score_min": 300,
+    "score_max": 900,
+    "cutoff_reject": 450,
+    "cutoff_manual_review": 530,
+    "grade_thresholds": {
+      "AAA": 0.0005, "AA": 0.0010, "A": 0.0030, "BBB": 0.0100,
+      "BB": 0.0300, "B": 0.0700, "CCC": 0.1500, "CC": 0.3000,
+      "C": 0.5000, "D": 1.0000
+    }
+  },
+  "stability": {
+    "psi_train_to_oot": 0.05
+  },
+  "fairness": {
+    "gini_range": 0.04,
+    "passed": true,
+    "by_age_band": {}
+  },
+  "regulatory": {
+    "passes_oot_gini": true,
+    "passes_oot_ks": true,
+    "gini_oot": 0.52,
+    "ks_oot": 0.38,
+    "threshold_gini_oot": 0.30,
+    "threshold_ks_oot": 0.20,
+    "fssc_compliant": true
+  },
+  "regulatory_compliance": {
+    "gini_oot_passed": true,
+    "gini_oot": 0.52,
+    "psi_stable": true,
+    "fairness_passed": true,
+    "sensitive_features_excluded": true,
+    "fssc_compliant": true,
+    "threshold_gini_oot": 0.30,
+    "threshold_psi": 0.20
+  }
+}

@@ -1,0 +1,114 @@
+{
+  "_note": "이 파일은 템플릿입니다. 'make train' 실행 후 실제 학습 값으로 교체됩니다.",
+  "_template_version": "1.1",
+  "model_name": "behavioral_scorecard_v1",
+  "scorecard_type": "behavioral",
+  "version": "1.0.0",
+  "model_type": "XGBoost",
+  "trained_at": "2025-01-01T00:00:00",
+  "n_features": 28,
+  "cv_auc_mean": 0.72,
+  "cv_auc_std": 0.025,
+  "training_data": {
+    "source": "synthetic_behavioral.parquet",
+    "period": "2021-01 ~ 2023-06",
+    "n_train": 0,
+    "n_holdout": 0,
+    "n_oot": 0,
+    "bad_rate_train": 0.080,
+    "bad_rate_oot": 0.082
+  },
+  "features": {
+    "n_features": 28,
+    "selected": [
+      "payment_pattern_3m", "balance_change_rate", "utilization_change",
+      "delinquency_count_3m", "delinquency_count_6m", "delinquency_count_12m",
+      "dpd30_12m", "dpd60_12m", "bureau_inquiry_3m", "bureau_inquiry_6m",
+      "new_loan_count_3m", "balance_to_limit_trend", "revolving_util_current",
+      "revolving_util_3m_avg", "card_spend_trend", "cash_advance_ratio",
+      "minimum_payment_ratio", "overlimit_count_6m", "returned_payment_count",
+      "payment_velocity", "balance_velocity", "loan_balance_trend",
+      "card_account_age", "recent_delinquency_severity", "loan_type_diversity",
+      "credit_utilization_volatility", "payment_consistency", "bureau_score_trend"
+    ]
+  },
+  "feature_groups": {
+    "payment_behavior": ["payment_pattern_3m", "minimum_payment_ratio", "returned_payment_count", "payment_velocity", "payment_consistency"],
+    "balance_trend": ["balance_change_rate", "loan_balance_trend", "balance_velocity", "balance_to_limit_trend"],
+    "utilization": ["utilization_change", "revolving_util_current", "revolving_util_3m_avg", "credit_utilization_volatility"],
+    "delinquency": ["delinquency_count_3m", "delinquency_count_6m", "delinquency_count_12m", "dpd30_12m", "dpd60_12m", "recent_delinquency_severity"],
+    "credit_activity": ["bureau_inquiry_3m", "bureau_inquiry_6m", "new_loan_count_3m", "card_spend_trend", "cash_advance_ratio", "overlimit_count_6m", "card_account_age", "loan_type_diversity", "bureau_score_trend"]
+  },
+  "performance": {
+    "oot_gini": 0.45,
+    "oot_ks": 0.32,
+    "cv_auc_mean": 0.72,
+    "cv_auc_std": 0.025,
+    "metrics": [
+      {
+        "dataset": "Train",
+        "auc_roc": 0.7700,
+        "gini": 0.5400,
+        "ks_statistic": 0.3800
+      },
+      {
+        "dataset": "Hold-out",
+        "auc_roc": 0.7400,
+        "gini": 0.4800,
+        "ks_statistic": 0.3400
+      },
+      {
+        "dataset": "OOT",
+        "auc_roc": 0.7250,
+        "gini": 0.4500,
+        "ks_statistic": 0.3200
+      }
+    ]
+  },
+  "shap_top10": [
+    {"feature": "delinquency_count_12m", "mean_abs_shap": 0.312},
+    {"feature": "payment_pattern_3m", "mean_abs_shap": 0.241},
+    {"feature": "revolving_util_current", "mean_abs_shap": 0.178},
+    {"feature": "balance_change_rate", "mean_abs_shap": 0.134},
+    {"feature": "dpd30_12m", "mean_abs_shap": 0.098},
+    {"feature": "bureau_inquiry_3m", "mean_abs_shap": 0.072},
+    {"feature": "cash_advance_ratio", "mean_abs_shap": 0.058},
+    {"feature": "minimum_payment_ratio", "mean_abs_shap": 0.049},
+    {"feature": "balance_velocity", "mean_abs_shap": 0.037},
+    {"feature": "overlimit_count_6m", "mean_abs_shap": 0.029}
+  ],
+  "scoring": {
+    "base_score": 600,
+    "base_bad_rate": 0.072,
+    "pdo": 40,
+    "score_min": 300,
+    "score_max": 900
+  },
+  "stability": {
+    "psi_train_to_oot": 0.07
+  },
+  "fairness": {
+    "gini_range": 0.05,
+    "passed": true,
+    "by_age_band": {}
+  },
+  "regulatory": {
+    "passes_oot_gini": true,
+    "passes_oot_ks": true,
+    "gini_oot": 0.45,
+    "ks_oot": 0.32,
+    "threshold_gini_oot": 0.25,
+    "threshold_ks_oot": 0.15,
+    "fssc_compliant": true
+  },
+  "regulatory_compliance": {
+    "gini_oot_passed": true,
+    "gini_oot": 0.45,
+    "psi_stable": true,
+    "fairness_passed": true,
+    "sensitive_features_excluded": true,
+    "fssc_compliant": true,
+    "threshold_gini_oot": 0.25,
+    "threshold_psi": 0.20
+  }
+}
