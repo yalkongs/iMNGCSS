@@ -4,11 +4,13 @@
         test-audit test-regulatory-disclosure test-performance load-test \
         k8s-deploy k8s-delete k8s-status \
         up-prod down-prod secrets-baseline \
-        lint clean demo
+        lint clean demo \
+        frontend-dev frontend-build frontend-install
 
 BASE_DIR := $(shell pwd)
 BACKEND_DIR := $(BASE_DIR)/backend
 ML_DIR := $(BASE_DIR)/ml_pipeline
+FRONTEND_DIR := $(BASE_DIR)/frontend
 
 # 가상환경 python/pytest 우선 사용 (없으면 시스템 폴백)
 PYTHON := $(shell test -f "$(BASE_DIR)/.venv/bin/python" && echo '"$(BASE_DIR)/.venv/bin/python"' || (which python3 || which python))
@@ -55,8 +57,14 @@ help:
 	@echo "  make down-prod           - 운영 환경 종료"
 	@echo "  make secrets-baseline    - .secrets.baseline 재생성 (detect-secrets)"
 	@echo ""
+	@echo "  프론트엔드 (POC):"
+	@echo "  make frontend-install    - npm 의존성 설치"
+	@echo "  make frontend-dev        - Vite 개발 서버 (포트 3000)"
+	@echo "  make frontend-build      - 프로덕션 빌드 → frontend/dist/"
+	@echo ""
 	@echo "  포트 정보:"
 	@echo "    API:         http://localhost:8000  (Swagger: /docs)"
+	@echo "    Frontend:    http://localhost:3000  (POC 데모)"
 	@echo "    Mock Server: http://localhost:8001  (/docs)"
 	@echo "    pgAdmin:     http://localhost:5050"
 	@echo "    MLflow:      http://localhost:5001"
@@ -242,6 +250,18 @@ lint:
 demo:
 	@echo "API 데모 시나리오 실행 (API 서버가 실행 중이어야 함)..."
 	bash scripts/demo_api.sh
+
+frontend-install:
+	cd "$(FRONTEND_DIR)" && npm install
+
+frontend-dev:
+	@echo "프론트엔드 개발 서버 시작: http://localhost:3000"
+	cd "$(FRONTEND_DIR)" && npm run dev
+
+frontend-build:
+	@echo "프론트엔드 빌드 중..."
+	cd "$(FRONTEND_DIR)" && npm run build
+	@echo "빌드 완료: frontend/dist/"
 
 clean:
 	find . -type d -name "__pycache__" -exec rm -rf {} + 2>/dev/null; true

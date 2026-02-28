@@ -12,7 +12,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware.gzip import GZipMiddleware
 from prometheus_fastapi_instrumentator import Instrumentator
 
-from app.api.v1 import admin, applications, auth, monitoring, scoring
+from app.api.v1 import admin, applications, auth, monitoring, poc, scoring
 from app.config import settings
 from app.db.base import Base
 import app.db.schemas  # noqa: F401 - 모든 ORM 모델을 Base.metadata에 등록
@@ -127,6 +127,11 @@ app.include_router(
     monitoring.router,
     prefix=f"{settings.API_V1_PREFIX}/monitoring",
     tags=["모니터링 (PSI/칼리브레이션)"],
+)
+app.include_router(
+    poc.router,
+    prefix=f"{settings.API_V1_PREFIX}/poc",
+    tags=["POC 데모"],
 )
 
 
