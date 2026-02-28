@@ -82,7 +82,7 @@ async def list_regulation_params(
     ]
 
 
-@router.post("/regulation-params")
+@router.post("/regulation-params", status_code=201)
 async def create_regulation_param(
     request: ParamCreateRequest,
     db: AsyncSession = Depends(get_db),

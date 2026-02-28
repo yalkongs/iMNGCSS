@@ -6,7 +6,7 @@
 from datetime import datetime
 from sqlalchemy import String, DateTime, BigInteger, Text
 from sqlalchemy.orm import Mapped, mapped_column
-from sqlalchemy.dialects.postgresql import UUID, JSONB, INET
+from app.db.types import UUID, JSONB, INET
 from app.db.base import Base
 
 

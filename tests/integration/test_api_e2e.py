@@ -203,6 +203,8 @@ class TestAuthorizationRBAC:
         "param_value": {"value": 0.4, "unit": "ratio"},
         "effective_from": "2024-01-01T00:00:00Z",
         "description": "RBAC 통합 테스트용 파라미터",
+        "change_reason": "통합 테스트 자동 생성",
+        "approved_by": "test_approver",
     }
 
     def test_create_param_without_token_returns_401(self, client):
