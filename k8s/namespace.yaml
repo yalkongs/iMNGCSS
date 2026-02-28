@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: kcs
+  labels:
+    app.kubernetes.io/name: korea-credit-scoring
+    app.kubernetes.io/managed-by: kubectl

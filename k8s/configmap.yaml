@@ -1,0 +1,42 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kcs-config
+  namespace: kcs
+  labels:
+    app: kcs-api
+data:
+  ENVIRONMENT: "production"
+  API_V1_PREFIX: "/api/v1"
+  ALGORITHM: "HS256"
+  ACCESS_TOKEN_EXPIRE_MINUTES: "30"
+  RATE_LIMIT_PER_MINUTE: "60"
+  RATE_LIMIT_SCORING_PER_MINUTE: "30"
+  PSI_WARNING_THRESHOLD: "0.1"
+  PSI_CRITICAL_THRESHOLD: "0.2"
+  GINI_MIN_THRESHOLD: "0.3"
+  AUDIT_LOG_RETENTION_YEARS: "5"
+  KAFKA_ENABLED: "false"
+  # 규제 파라미터 (DB BRMS에서 재정의 가능)
+  DSR_MAX_RATIO: "40.0"
+  LTV_MAX_GENERAL: "70.0"
+  LTV_MAX_REGULATED: "60.0"
+  LTV_MAX_SPECULATION: "40.0"
+  MAX_INTEREST_RATE: "20.0"
+  BASE_RATE: "3.5"
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: kcs-secrets
+  namespace: kcs
+  labels:
+    app: kcs-api
+type: Opaque
+stringData:
+  # 실제 배포 시 반드시 교체 (kubectl create secret 또는 External Secrets Operator 사용)
+  SECRET_KEY: "CHANGE-ME-256-bit-random-key"
+  RESIDENT_HASH_KEY: "CHANGE-ME-hmac-sha256-key"
+  DATABASE_URL: "postgresql+asyncpg://kcs_user:CHANGE_PASS@postgres-svc:5432/kcs_db"
+  REDIS_URL: "redis://:CHANGE_PASS@redis-svc:6379/0"
+  CB_API_BASE_URL: "http://mock-server-svc:8001"

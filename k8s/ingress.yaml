@@ -1,0 +1,36 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: kcs-ingress
+  namespace: kcs
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/use-regex: "true"
+    # Rate Limiting (Nginx 레이어 — RateLimitMiddleware와 이중 방어)
+    nginx.ingress.kubernetes.io/limit-rps: "100"
+    nginx.ingress.kubernetes.io/limit-burst-multiplier: "2"
+    # 요청 본문 크기 제한 (신용평가 요청은 소형)
+    nginx.ingress.kubernetes.io/proxy-body-size: "1m"
+    # 타임아웃 (SLA p99 ≤ 1000ms 기준)
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "10"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "10"
+    # TLS (cert-manager 사용 시 자동 발급)
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - kcs-api.your-domain.com       # 실제 도메인으로 교체
+      secretName: kcs-tls
+  rules:
+    - host: kcs-api.your-domain.com     # 실제 도메인으로 교체
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: kcs-api-svc
+                port:
+                  number: 80

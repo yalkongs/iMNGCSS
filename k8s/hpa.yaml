@@ -1,0 +1,38 @@
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: kcs-api-hpa
+  namespace: kcs
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: kcs-api
+  minReplicas: 2
+  maxReplicas: 10
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 70      # CPU 70% 초과 시 스케일 아웃
+    - type: Resource
+      resource:
+        name: memory
+        target:
+          type: Utilization
+          averageUtilization: 80      # 메모리 80% 초과 시 스케일 아웃
+  behavior:
+    scaleUp:
+      stabilizationWindowSeconds: 60
+      policies:
+        - type: Pods
+          value: 2
+          periodSeconds: 60           # 60초마다 최대 2 Pod 추가
+    scaleDown:
+      stabilizationWindowSeconds: 300  # 5분간 안정 후 스케일 인
+      policies:
+        - type: Pods
+          value: 1
+          periodSeconds: 120
