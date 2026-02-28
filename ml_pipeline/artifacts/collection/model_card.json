@@ -1,125 +1,111 @@
 {
-  "_note": "이 파일은 템플릿입니다. 'make train' 실행 후 실제 학습 값으로 교체됩니다.",
-  "_template_version": "1.1",
-  "model_name": "collection_scorecard_v1",
-  "scorecard_type": "collection",
-  "version": "1.0.0",
+  "model_name": "Collection Scorecard",
   "model_type": "RandomForest+CalibratedCV",
-  "trained_at": "2025-01-01T00:00:00",
-  "n_features": 22,
-  "cv_auc_mean": 0.69,
-  "cv_auc_std": 0.030,
-  "training_data": {
-    "source": "synthetic_collection.parquet",
-    "period": "2021-01 ~ 2023-06",
-    "n_train": 0,
-    "n_holdout": 0,
-    "n_oot": 0,
-    "bad_rate_train": 0.350,
-    "bad_rate_oot": 0.360
-  },
-  "features": {
-    "n_features": 22,
-    "selected": [
-      "days_past_due", "outstanding_balance_wan", "original_loan_amount_wan",
-      "months_since_last_payment", "payment_history_score", "collector_attempt_count",
-      "promise_to_pay_count", "broken_promise_count", "partial_payment_ratio",
-      "employment_status_current", "income_verified_current", "asset_value_wan",
-      "guarantor_exists", "collateral_type", "collateral_value_wan",
-      "legal_action_pending", "bankruptcy_flag", "delinquency_severity",
-      "months_since_charge_off", "workout_eligibility", "hardship_program_flag",
-      "relative_balance_to_income"
-    ]
-  },
-  "feature_groups": {
-    "delinquency_status": ["days_past_due", "delinquency_severity", "months_since_last_payment", "months_since_charge_off"],
-    "balance": ["outstanding_balance_wan", "original_loan_amount_wan", "relative_balance_to_income"],
-    "payment_history": ["payment_history_score", "partial_payment_ratio", "promise_to_pay_count", "broken_promise_count"],
-    "collection_activity": ["collector_attempt_count", "legal_action_pending", "bankruptcy_flag"],
-    "capacity": ["employment_status_current", "income_verified_current", "asset_value_wan", "guarantor_exists", "collateral_type", "collateral_value_wan", "workout_eligibility", "hardship_program_flag"]
-  },
+  "scorecard_type": "collection",
+  "version": "v1.0",
+  "trained_at": "2026-02-28T12:39:49.774173",
+  "data_source": "synthetic_collection.parquet",
+  "features": [
+    "delinquency_days",
+    "delinquency_amount"
+  ],
+  "n_features": 2,
+  "cv_auc_mean": 0.5669,
+  "cv_auc_std": 0.0136,
   "performance": {
-    "oot_gini": 0.38,
-    "oot_ks": 0.28,
-    "cv_auc_mean": 0.69,
-    "cv_auc_std": 0.030,
     "metrics": [
       {
         "dataset": "Train",
-        "auc_roc": 0.7400,
-        "gini": 0.4800,
-        "ks_statistic": 0.3500
+        "auc_roc": 0.6846,
+        "gini": 0.3692,
+        "ks_statistic": 0.2864,
+        "recovery_rate": 0.5539,
+        "n_samples": 3360
       },
       {
         "dataset": "Hold-out",
-        "auc_roc": 0.7050,
-        "gini": 0.4100,
-        "ks_statistic": 0.3000
+        "auc_roc": 0.5819,
+        "gini": 0.1638,
+        "ks_statistic": 0.1524,
+        "recovery_rate": 0.5803,
+        "n_samples": 841
       },
       {
         "dataset": "OOT",
-        "auc_roc": 0.6900,
-        "gini": 0.3800,
-        "ks_statistic": 0.2800
+        "auc_roc": 0.6101,
+        "gini": 0.2203,
+        "ks_statistic": 0.1812,
+        "recovery_rate": 0.5532,
+        "n_samples": 799
       }
-    ]
-  },
-  "shap_top10": [
-    {"feature": "days_past_due", "mean_abs_shap": 0.298},
-    {"feature": "outstanding_balance_wan", "mean_abs_shap": 0.187},
-    {"feature": "payment_history_score", "mean_abs_shap": 0.154},
-    {"feature": "months_since_last_payment", "mean_abs_shap": 0.121},
-    {"feature": "broken_promise_count", "mean_abs_shap": 0.089},
-    {"feature": "delinquency_severity", "mean_abs_shap": 0.073},
-    {"feature": "employment_status_current", "mean_abs_shap": 0.061},
-    {"feature": "collateral_value_wan", "mean_abs_shap": 0.048},
-    {"feature": "legal_action_pending", "mean_abs_shap": 0.042},
-    {"feature": "income_verified_current", "mean_abs_shap": 0.035}
-  ],
-  "lgd_estimation": {
-    "method": "truncated_regression",
-    "mean_lgd": 0.45,
-    "note": "담보 처분 비용 + 미수이자 포함"
-  },
-  "scoring": {
-    "base_score": 600,
-    "base_bad_rate": 0.072,
-    "pdo": 40,
-    "score_min": 300,
-    "score_max": 900
-  },
-  "stability": {
-    "psi_train_to_oot": 0.09
-  },
-  "fairness": {
-    "gini_range": 0.06,
-    "passed": true,
-    "by_age_band": {}
+    ],
+    "oot_gini": 0.2203,
+    "oot_ks": 0.1812
   },
   "regulatory": {
+    "min_gini_threshold": 0.2,
+    "min_ks_threshold": 0.15,
     "passes_oot_gini": true,
     "passes_oot_ks": true,
-    "gini_oot": 0.38,
-    "ks_oot": 0.28,
-    "threshold_gini_oot": 0.20,
-    "threshold_ks_oot": 0.15,
-    "fssc_compliant": true,
     "lgd_validation": {
-      "mean_lgd_estimated": 0.45,
-      "actual_recovery_rate": 0.55,
-      "lgd_within_range": true,
-      "basel_min": 0.35,
-      "basel_max": 0.55
+      "mean_lgd_estimated": 0.4885,
+      "median_lgd_estimated": 0.4741,
+      "actual_recovery_rate": 0.5803,
+      "lgd_quantiles": {
+        "q25": 0.4389,
+        "q50": 0.4741,
+        "q75": 0.5179,
+        "q90": 0.5932
+      },
+      "reference_lgd_unsecured": 0.45,
+      "reference_lgd_mortgage": 0.25
     }
   },
-  "regulatory_compliance": {
-    "gini_oot_passed": true,
-    "gini_oot": 0.38,
-    "psi_stable": true,
-    "fairness_passed": true,
-    "sensitive_features_excluded": true,
-    "fssc_compliant": true,
-    "threshold_gini_oot": 0.20,
-    "threshold_psi": 0.20
-  }
+  "hyperparameters": {
+    "n_estimators": 300,
+    "max_depth": 8,
+    "min_samples_leaf": 20,
+    "max_features": "sqrt",
+    "class_weight": "balanced",
+    "random_state": 42,
+    "n_jobs": -1
+  },
+  "feature_groups": {
+    "delinquency_profile": [
+      "delinquency_days",
+      "delinquency_amount",
+      "worst_delinquency_status",
+      "delinquency_count_24m"
+    ],
+    "asset_collateral": [
+      "has_asset",
+      "collateral_value",
+      "total_loan_balance"
+    ],
+    "contact_recovery": [
+      "contact_attempt_count",
+      "last_payment_amount"
+    ],
+    "borrower_profile": [
+      "cb_score",
+      "income_annual_wan",
+      "age",
+      "employment_duration_months",
+      "open_loan_count"
+    ],
+    "financial_ratio": [
+      "dsr_ratio",
+      "debt_to_income"
+    ]
+  },
+  "feature_importance_top10": [
+    {
+      "feature": "delinquency_days",
+      "importance": 0.5380930405292402
+    },
+    {
+      "feature": "delinquency_amount",
+      "importance": 0.46190695947075977
+    }
+  ]
 }

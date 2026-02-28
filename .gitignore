@@ -58,3 +58,7 @@ ml_pipeline/data/data_summary.json
 
 # Generated report CSVs
 ml_pipeline/artifacts/**/*.csv
+
+# Test databases
+test.db
+*.db

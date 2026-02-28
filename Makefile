@@ -10,7 +10,8 @@ BASE_DIR := $(shell pwd)
 BACKEND_DIR := $(BASE_DIR)/backend
 ML_DIR := $(BASE_DIR)/ml_pipeline
 
-# 가상환경 $(PYTEST) 우선 사용 (없으면 시스템 $(PYTEST) 폴백)
+# 가상환경 python/pytest 우선 사용 (없으면 시스템 폴백)
+PYTHON := $(shell test -f "$(BASE_DIR)/.venv/bin/python" && echo '"$(BASE_DIR)/.venv/bin/python"' || (which python3 || which python))
 PYTEST := $(shell test -f "$(BASE_DIR)/.venv/bin/pytest" && echo '"$(BASE_DIR)/.venv/bin/pytest"' || echo pytest)
 
 help:
@@ -135,20 +136,20 @@ install:
 	pip install -r $(BACKEND_DIR)/requirements.txt
 
 gen-fixtures:
-	python mock_server/fixtures/generate_fixtures.py
+	$(PYTHON) mock_server/fixtures/generate_fixtures.py
 	@echo "픽스처 생성 완료: mock_server/fixtures/scenario_customers.json (30개 시나리오)"
 
 gen-synthetic:
-	cd "$(ML_DIR)" && python data/synthetic_data.py
+	cd "$(ML_DIR)" && $(PYTHON) data/synthetic_data.py
 	@echo "합성 데이터 생성 완료: ml_pipeline/data/synthetic_*.parquet"
 
 train:
 	@echo "Application Scorecard 학습 중..."
-	cd "$(ML_DIR)" && python training/train_application.py
+	cd "$(ML_DIR)" && $(PYTHON) training/train_application.py
 	@echo "Behavioral Scorecard 학습 중..."
-	cd "$(ML_DIR)" && python training/train_behavioral.py
+	cd "$(ML_DIR)" && $(PYTHON) training/train_behavioral.py
 	@echo "Collection Scorecard 학습 중..."
-	cd "$(ML_DIR)" && python training/train_collection.py
+	cd "$(ML_DIR)" && $(PYTHON) training/train_collection.py
 	@echo "모든 모델 학습 완료. artifacts/ 폴더 확인"
 
 test:
