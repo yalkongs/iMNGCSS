@@ -1,0 +1,140 @@
+[tool.pytest.ini_options]
+# ─── 테스트 경로 ──────────────────────────────────────────────
+testpaths = ["tests", "validation"]
+python_files  = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+
+# ─── asyncio 모드 ─────────────────────────────────────────────
+asyncio_mode = "auto"
+
+# ─── 기본 옵션 ────────────────────────────────────────────────
+addopts = [
+    "-v",
+    "--tb=short",
+    "--strict-markers",
+    "--no-header",
+]
+
+# ─── 마커 정의 ────────────────────────────────────────────────
+markers = [
+    "unit: 단위 테스트 (외부 의존성 없음)",
+    "integration: 통합 테스트 (DB/Redis 필요)",
+    "performance: 성능/부하 테스트",
+    "regulatory: 규제 준수 검증",
+    "slow: 실행 시간이 긴 테스트",
+]
+
+# ─── 무시할 경로 ─────────────────────────────────────────────
+norecursedirs = [
+    ".git", ".venv", "__pycache__", "*.egg-info",
+    "node_modules", "dist", ".mypy_cache", ".ruff_cache",
+]
+
+# ─── 필터링 (경고 노이즈 제거) ────────────────────────────────
+filterwarnings = [
+    "ignore::DeprecationWarning:pydantic.*",
+    "ignore::DeprecationWarning:sqlalchemy.*",
+    "ignore::UserWarning:lightgbm.*",
+    "ignore::UserWarning:xgboost.*",
+]
+
+# ─── 로그 설정 ────────────────────────────────────────────────
+log_cli = false
+log_level = "WARNING"
+
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# ruff (린터 + 포매터)
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[tool.ruff]
+target-version = "py311"
+line-length    = 100
+
+# 검사할 경로
+include = ["backend/app/**/*.py", "ml_pipeline/**/*.py", "mock_server/**/*.py"]
+exclude = [
+    ".git", ".venv", "__pycache__", "alembic/versions/",
+    "*.egg-info", "dist", "build",
+]
+
+[tool.ruff.lint]
+select = [
+    "E",   # pycodestyle 오류
+    "W",   # pycodestyle 경고
+    "F",   # pyflakes
+    "I",   # isort
+    "N",   # pep8-naming
+    "UP",  # pyupgrade
+    "B",   # flake8-bugbear
+    "C4",  # flake8-comprehensions
+    "SIM", # flake8-simplify
+    "S",   # flake8-bandit (보안)
+]
+ignore = [
+    "E501",  # 줄 길이 (line-length로 관리)
+    "S101",  # assert 사용 (테스트에서 필요)
+    "S105",  # 하드코딩 비밀번호 (데모 계정 허용)
+    "S106",  # 하드코딩 비밀번호 함수 인자
+    "B008",  # FastAPI Depends() 패턴
+    "N815",  # 혼합 대소문자 변수 (DB 컬럼명)
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["S", "N"]   # 테스트는 보안/명명 검사 완화
+"validation/**" = ["S", "N"]
+"alembic/**" = ["E402"]   # alembic env.py 임포트 순서
+
+[tool.ruff.lint.isort]
+known-first-party = ["app"]
+force-sort-within-sections = true
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+line-ending  = "lf"
+
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# mypy (타입 검사)
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[tool.mypy]
+python_version = "3.11"
+strict = false
+ignore_missing_imports = true
+no_error_summary = true
+
+# FastAPI / SQLAlchemy는 타입 힌팅이 복잡 — 경고로만 처리
+warn_return_any  = false
+warn_unreachable = true
+pretty = true
+
+[[tool.mypy.overrides]]
+module = ["lightgbm.*", "xgboost.*", "shap.*", "sklearn.*", "aiokafka.*"]
+ignore_missing_imports = true
+
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# coverage (코드 커버리지)
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[tool.coverage.run]
+source = ["backend/app"]
+omit = [
+    "*/test_*",
+    "*/conftest.py",
+    "*/alembic/*",
+    "*/__pycache__/*",
+]
+branch = true
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "if TYPE_CHECKING:",
+    "if __name__ == .__main__.:",
+    "raise NotImplementedError",
+    "\\.\\.\\.",
+]
+show_missing = true
+skip_covered = false
+fail_under = 60  # 최소 커버리지 60%

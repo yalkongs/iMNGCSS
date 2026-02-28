@@ -1,0 +1,104 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# KCS Pre-commit 훅 설정
+# 설치: pip install pre-commit && pre-commit install
+# 수동 실행: pre-commit run --all-files
+# ─────────────────────────────────────────────────────────────────────────────
+repos:
+  # ── 기본 파일 검사 ────────────────────────────────────────────────────────
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.6.0
+    hooks:
+      - id: trailing-whitespace          # 줄 끝 공백 제거
+        exclude: ".*\\.md$"
+      - id: end-of-file-fixer            # 파일 끝 개행 보장
+        exclude: ".*\\.(parquet|pkl|xgb|joblib)$"
+      - id: check-yaml                   # YAML 구문 검사
+      - id: check-toml                   # TOML 구문 검사
+      - id: check-json                   # JSON 구문 검사
+        exclude: ".*\\.ipynb$"
+      - id: check-merge-conflict         # 병합 충돌 마커 검사
+      - id: check-added-large-files      # 대용량 파일 커밋 방지
+        args: ["--maxkb=10240"]          # 10MB 이상 파일 차단
+      - id: debug-statements             # print/pdb 디버그 문 검사
+        exclude: "^(tests|validation)/"
+      - id: check-docstring-first        # 독스트링이 임포트 앞에 와야 함
+      - id: no-commit-to-branch          # main/develop 직접 커밋 방지
+        args: ["--branch", "main", "--branch", "master"]
+
+  # ── Ruff (린트 + 포맷) ────────────────────────────────────────────────────
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.4.9
+    hooks:
+      - id: ruff                         # 린트 검사
+        name: ruff lint
+        args: ["--fix", "--exit-non-zero-on-fix"]
+        files: "^(backend|ml_pipeline|mock_server)/"
+      - id: ruff-format                  # 자동 포맷
+        name: ruff format
+        files: "^(backend|ml_pipeline|mock_server)/"
+
+  # ── Bandit (보안 스캔) ────────────────────────────────────────────────────
+  - repo: https://github.com/PyCQA/bandit
+    rev: 1.7.9
+    hooks:
+      - id: bandit
+        name: bandit security scan
+        args:
+          - "-r"
+          - "backend/app/"
+          - "-ll"                        # Medium 이상만 검사
+          - "--skip"
+          - "B101,B601,B105,B106"        # assert/shell/pwd 허용 (테스트/데모)
+        files: "^backend/app/"
+        language: python
+
+  # ── Secrets 감지 ─────────────────────────────────────────────────────────
+  - repo: https://github.com/Yelp/detect-secrets
+    rev: v1.5.0
+    hooks:
+      - id: detect-secrets
+        name: detect secrets
+        args:
+          - "--baseline"
+          - ".secrets.baseline"
+        exclude: |
+          (?x)^(
+            .*\.example$|
+            .*\.md$|
+            .*test.*\.py$|
+            .*validation.*\.py$|
+            backend/app/core/auth\.py  # 데모 계정 해시 허용
+          )$
+
+  # ── 마이그레이션 검사 ─────────────────────────────────────────────────────
+  - repo: local
+    hooks:
+      - id: check-env-not-committed
+        name: .env 파일 커밋 금지
+        entry: bash -c 'git diff --cached --name-only | grep -E "^\.env$|/\.env$" && echo "ERROR: .env 파일을 커밋하지 마세요!" && exit 1 || exit 0'
+        language: system
+        pass_filenames: false
+
+      - id: check-secrets-in-env
+        name: .env.example 민감 정보 검사
+        entry: bash -c 'if git diff --cached --name-only | grep -q "\.env\.example"; then grep -n "password\|secret\|token" backend/.env.example | grep -v "change-me\|CHANGE\|example\|your-" && echo "WARNING: .env.example에 실제 값이 있는지 확인하세요." || true; fi'
+        language: system
+        pass_filenames: false
+
+      - id: regulation-params-test
+        name: 규제 파라미터 상수 검증
+        entry: python -m pytest tests/regulatory/test_brms_params.py::TestRegulatoryConstants -x -q
+        language: python
+        additional_dependencies: ["pytest", "numpy"]
+        files: "^backend/app/core/seed_regulation_params\\.py$"
+        pass_filenames: false
+
+# ─────────────────────────────────────────────────────────────────────────────
+# CI 설정 (pre-commit.ci 서비스 사용 시)
+# ─────────────────────────────────────────────────────────────────────────────
+ci:
+  autofix_prs: true
+  autoupdate_schedule: monthly
+  skip:
+    - bandit          # CI에서는 별도 단계로 실행
+    - detect-secrets
