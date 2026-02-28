@@ -48,3 +48,13 @@ mlruns/
 ml_pipeline/artifacts/**/*.pkl
 ml_pipeline/artifacts/**/*.lgbm
 ml_pipeline/artifacts/**/*.joblib
+ml_pipeline/artifacts/**/*.xgb
+ml_pipeline/artifacts/**/*.cbm
+
+# Synthetic data (large files - regenerated via make gen-synthetic)
+ml_pipeline/data/*.parquet
+ml_pipeline/data/*.csv
+ml_pipeline/data/data_summary.json
+
+# Generated report CSVs
+ml_pipeline/artifacts/**/*.csv
