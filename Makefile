@@ -20,8 +20,8 @@ help:
 	@echo "  make build           - Docker 이미지 빌드"
 	@echo "  make migrate         - DB 마이그레이션 실행"
 	@echo "  make train           - ML 모델 학습 (합성 데이터)"
-	@echo "  make gen-fixtures    - Mock Server 시나리오 픽스처 생성 (30개)
-  make gen-synthetic   - 합성 학습 데이터 생성 (10만건)"
+	@echo "  make gen-fixtures    - Mock Server 시나리오 픽스처 생성 (30개)"
+	@echo "  make gen-synthetic   - 합성 학습 데이터 생성 (10만건)"
 	@echo "  make seed-data       - regulation_params 초기 시드"
 	@echo "  make test                - 전체 테스트 실행 (단위 + 통합 + 검증)"
 	@echo "  make test-unit           - 단위 테스트 (scoring_engine, monitoring_engine)"
