@@ -147,7 +147,8 @@ def generate_special_segments(
     # SEG-MOU: 협약기업 근로자
     mou_pool = employment == "employed"
     mou_mask = mou_pool & (np.random.random(n) < SPECIAL_SEGMENT_DIST["SEG-MOU"]) & (segment_codes == "")
-    segment_codes[mou_mask] = "SEG-MOU-" + np.random.choice(MOU_CODES, size=mou_mask.sum())
+    mou_choices = np.random.choice(MOU_CODES, size=mou_mask.sum())
+    segment_codes[mou_mask] = ["SEG-MOU-" + c for c in mou_choices]
 
     return segment_codes, occupation_types
 
