@@ -30,16 +30,19 @@ async def lifespan(app: FastAPI):
 
     # DB 테이블 생성 (개발 환경)
     if settings.ENVIRONMENT == "development":
-        async with engine.begin() as conn:
-            await conn.run_sync(Base.metadata.create_all)
-        logger.info("DB 테이블 생성 완료")
+        try:
+            async with engine.begin() as conn:
+                await conn.run_sync(Base.metadata.create_all)
+            logger.info("DB 테이블 생성 완료")
 
-        # regulation_params 초기 시드
-        from app.core.seed_regulation_params import seed_regulation_params
-        async with AsyncSessionLocal() as db:
-            inserted = await seed_regulation_params(db)
-            if inserted > 0:
-                logger.info(f"규제 파라미터 시드 완료: {inserted}건")
+            # regulation_params 초기 시드
+            from app.core.seed_regulation_params import seed_regulation_params
+            async with AsyncSessionLocal() as db:
+                inserted = await seed_regulation_params(db)
+                if inserted > 0:
+                    logger.info(f"규제 파라미터 시드 완료: {inserted}건")
+        except Exception as e:
+            logger.warning(f"DB 연결 실패 (데모 모드로 계속 실행): {e}")
 
     yield
 

@@ -3,7 +3,7 @@
   "model_type": "XGBoost",
   "scorecard_type": "behavioral",
   "version": "v1.0",
-  "trained_at": "2026-02-28T12:39:42.442626",
+  "trained_at": "2026-02-28T13:39:26.879724",
   "data_source": "synthetic_behavioral.parquet",
   "features": [
     "cb_score",
@@ -21,37 +21,37 @@
     "outstanding_balance_ratio"
   ],
   "n_features": 13,
-  "cv_auc_mean": 0.8557,
-  "cv_auc_std": 0.0135,
+  "cv_auc_mean": 0.8563,
+  "cv_auc_std": 0.0096,
   "performance": {
     "metrics": [
       {
         "dataset": "Train",
-        "auc_roc": 0.9908,
-        "gini": 0.9815,
-        "ks_statistic": 0.9446,
+        "auc_roc": 0.9895,
+        "gini": 0.9789,
+        "ks_statistic": 0.9435,
         "bad_rate": 0.0389,
         "n_samples": 13300
       },
       {
         "dataset": "Hold-out",
-        "auc_roc": 0.8599,
-        "gini": 0.7198,
-        "ks_statistic": 0.591,
+        "auc_roc": 0.8548,
+        "gini": 0.7095,
+        "ks_statistic": 0.578,
         "bad_rate": 0.0376,
         "n_samples": 3325
       },
       {
         "dataset": "OOT",
-        "auc_roc": 0.8481,
-        "gini": 0.6961,
-        "ks_statistic": 0.5731,
+        "auc_roc": 0.8423,
+        "gini": 0.6847,
+        "ks_statistic": 0.5758,
         "bad_rate": 0.0353,
         "n_samples": 3375
       }
     ],
-    "oot_gini": 0.6961,
-    "oot_ks": 0.5731
+    "oot_gini": 0.6847,
+    "oot_ks": 0.5758
   },
   "regulatory": {
     "min_gini_threshold": 0.25,
@@ -109,43 +109,43 @@
   "shap_top10": [
     {
       "feature": "cb_score",
-      "mean_abs_shap": 1.763554334640503
+      "mean_abs_shap": 1.7833508253097534
     },
     {
       "feature": "worst_delinquency_status",
-      "mean_abs_shap": 0.6941860318183899
+      "mean_abs_shap": 0.6938782930374146
     },
     {
       "feature": "card_usage_rate",
-      "mean_abs_shap": 0.39159801602363586
+      "mean_abs_shap": 0.4515857398509979
     },
     {
       "feature": "missed_payment_count",
-      "mean_abs_shap": 0.3755025565624237
+      "mean_abs_shap": 0.36880454421043396
     },
     {
       "feature": "payment_on_time_rate",
-      "mean_abs_shap": 0.32960960268974304
-    },
-    {
-      "feature": "savings_rate",
-      "mean_abs_shap": 0.3022114634513855
-    },
-    {
-      "feature": "dsr_ratio",
-      "mean_abs_shap": 0.2882929742336273
-    },
-    {
-      "feature": "outstanding_balance_ratio",
-      "mean_abs_shap": 0.2811052203178406
+      "mean_abs_shap": 0.34756043553352356
     },
     {
       "feature": "avg_monthly_expense",
-      "mean_abs_shap": 0.27865374088287354
+      "mean_abs_shap": 0.2894662618637085
+    },
+    {
+      "feature": "savings_rate",
+      "mean_abs_shap": 0.27957332134246826
+    },
+    {
+      "feature": "outstanding_balance_ratio",
+      "mean_abs_shap": 0.2740996778011322
+    },
+    {
+      "feature": "dsr_ratio",
+      "mean_abs_shap": 0.26629990339279175
     },
     {
       "feature": "loan_to_income",
-      "mean_abs_shap": 0.2641148865222931
+      "mean_abs_shap": 0.2642475664615631
     }
   ]
 }

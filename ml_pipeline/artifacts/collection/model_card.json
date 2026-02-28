@@ -3,44 +3,44 @@
   "model_type": "RandomForest+CalibratedCV",
   "scorecard_type": "collection",
   "version": "v1.0",
-  "trained_at": "2026-02-28T12:39:49.774173",
+  "trained_at": "2026-02-28T13:39:34.375044",
   "data_source": "synthetic_collection.parquet",
   "features": [
     "delinquency_days",
     "delinquency_amount"
   ],
   "n_features": 2,
-  "cv_auc_mean": 0.5669,
-  "cv_auc_std": 0.0136,
+  "cv_auc_mean": 0.5641,
+  "cv_auc_std": 0.0238,
   "performance": {
     "metrics": [
       {
         "dataset": "Train",
-        "auc_roc": 0.6846,
-        "gini": 0.3692,
-        "ks_statistic": 0.2864,
+        "auc_roc": 0.6834,
+        "gini": 0.3669,
+        "ks_statistic": 0.2823,
         "recovery_rate": 0.5539,
         "n_samples": 3360
       },
       {
         "dataset": "Hold-out",
-        "auc_roc": 0.5819,
-        "gini": 0.1638,
-        "ks_statistic": 0.1524,
+        "auc_roc": 0.5823,
+        "gini": 0.1646,
+        "ks_statistic": 0.159,
         "recovery_rate": 0.5803,
         "n_samples": 841
       },
       {
         "dataset": "OOT",
-        "auc_roc": 0.6101,
-        "gini": 0.2203,
-        "ks_statistic": 0.1812,
+        "auc_roc": 0.6111,
+        "gini": 0.2222,
+        "ks_statistic": 0.1712,
         "recovery_rate": 0.5532,
         "n_samples": 799
       }
     ],
-    "oot_gini": 0.2203,
-    "oot_ks": 0.1812
+    "oot_gini": 0.2222,
+    "oot_ks": 0.1712
   },
   "regulatory": {
     "min_gini_threshold": 0.2,
@@ -48,14 +48,14 @@
     "passes_oot_gini": true,
     "passes_oot_ks": true,
     "lgd_validation": {
-      "mean_lgd_estimated": 0.4885,
-      "median_lgd_estimated": 0.4741,
+      "mean_lgd_estimated": 0.4882,
+      "median_lgd_estimated": 0.473,
       "actual_recovery_rate": 0.5803,
       "lgd_quantiles": {
-        "q25": 0.4389,
-        "q50": 0.4741,
-        "q75": 0.5179,
-        "q90": 0.5932
+        "q25": 0.4397,
+        "q50": 0.473,
+        "q75": 0.5176,
+        "q90": 0.5876
       },
       "reference_lgd_unsecured": 0.45,
       "reference_lgd_mortgage": 0.25
@@ -101,11 +101,11 @@
   "feature_importance_top10": [
     {
       "feature": "delinquency_days",
-      "importance": 0.5380930405292402
+      "importance": 0.5355432991918301
     },
     {
       "feature": "delinquency_amount",
-      "importance": 0.46190695947075977
+      "importance": 0.46445670080817003
     }
   ]
 }

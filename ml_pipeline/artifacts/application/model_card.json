@@ -2,34 +2,34 @@
   "model_name": "application_scorecard_v1",
   "scorecard_type": "application",
   "version": "1.0.0",
-  "trained_at": "2026-02-28T12:39:34.611618",
+  "trained_at": "2026-02-28T13:39:18.592303",
   "n_features": 6,
-  "cv_auc_mean": 0.8658,
-  "cv_auc_std": 0.007,
+  "cv_auc_mean": 0.8657,
+  "cv_auc_std": 0.0053,
   "shap_top10": [
     {
       "feature": "cb_score",
-      "mean_abs_shap": 1.2441
+      "mean_abs_shap": 1.0615
     },
     {
       "feature": "delinquency_count_24m",
-      "mean_abs_shap": 0.5344
+      "mean_abs_shap": 0.4081
     },
     {
       "feature": "card_usage_rate",
-      "mean_abs_shap": 0.1937
+      "mean_abs_shap": 0.1489
     },
     {
       "feature": "delinquency_count_12m",
-      "mean_abs_shap": 0.1072
+      "mean_abs_shap": 0.0999
     },
     {
       "feature": "overdraft_count_annual",
-      "mean_abs_shap": 0.0784
+      "mean_abs_shap": 0.0373
     },
     {
       "feature": "worst_delinquency_status",
-      "mean_abs_shap": 0.0086
+      "mean_abs_shap": 0.0288
     }
   ],
   "training_data": {
@@ -54,27 +54,27 @@
     "iv_summary": [
       {
         "feature": "cb_score",
-        "iv": 2.2169,
+        "iv": 2.2172,
         "predictive_power": "매우 강함"
       },
       {
         "feature": "card_usage_rate",
-        "iv": 1.2246,
+        "iv": 1.2247,
         "predictive_power": "매우 강함"
       },
       {
         "feature": "delinquency_count_24m",
-        "iv": 0.6695,
+        "iv": 0.6698,
         "predictive_power": "매우 강함"
       },
       {
         "feature": "delinquency_count_12m",
-        "iv": 0.4283,
+        "iv": 0.4284,
         "predictive_power": "매우 강함"
       },
       {
         "feature": "worst_delinquency_status",
-        "iv": 0.322,
+        "iv": 0.3222,
         "predictive_power": "매우 강함"
       },
       {
@@ -94,7 +94,7 @@
       },
       {
         "feature": "total_loan_balance",
-        "iv": 0.0114,
+        "iv": 0.0113,
         "predictive_power": "없음"
       },
       {
@@ -119,7 +119,7 @@
       },
       {
         "feature": "debt_to_income",
-        "iv": 0.0036,
+        "iv": 0.0037,
         "predictive_power": "없음"
       },
       {
@@ -186,34 +186,34 @@
     ]
   },
   "performance": {
-    "oot_gini": 0.7345,
-    "oot_ks": 0.5952,
-    "cv_auc_mean": 0.8658,
-    "cv_auc_std": 0.007,
+    "oot_gini": 0.7361,
+    "oot_ks": 0.5948,
+    "cv_auc_mean": 0.8657,
+    "cv_auc_std": 0.0053,
     "metrics": [
       {
         "dataset": "Train",
-        "auc_roc": 0.882,
-        "gini": 0.764,
-        "ks_statistic": 0.6275,
+        "auc_roc": 0.878,
+        "gini": 0.756,
+        "ks_statistic": 0.623,
         "bad_rate": 0.0757,
         "n_samples": 39868,
         "n_bad": 3018
       },
       {
         "dataset": "Hold-out",
-        "auc_roc": 0.8697,
-        "gini": 0.7394,
-        "ks_statistic": 0.621,
+        "auc_roc": 0.872,
+        "gini": 0.744,
+        "ks_statistic": 0.6184,
         "bad_rate": 0.0741,
         "n_samples": 9968,
         "n_bad": 739
       },
       {
         "dataset": "OOT",
-        "auc_roc": 0.8673,
-        "gini": 0.7345,
-        "ks_statistic": 0.5952,
+        "auc_roc": 0.8681,
+        "gini": 0.7361,
+        "ks_statistic": 0.5948,
         "bad_rate": 0.0734,
         "n_samples": 10164,
         "n_bad": 746
@@ -225,8 +225,8 @@
     "min_ks_threshold": 0.15,
     "passes_oot_gini": true,
     "passes_oot_ks": true,
-    "gini_oot": 0.7345,
-    "ks_oot": 0.5952
+    "gini_oot": 0.7361,
+    "ks_oot": 0.5948
   },
   "scoring": {
     "base_score": 600,
@@ -250,37 +250,37 @@
     }
   },
   "stability": {
-    "psi_train_to_oot": 0.0007
+    "psi_train_to_oot": 0.0005
   },
   "fairness": {
     "by_age_band": {
       "20s": {
-        "gini": 0.7821,
+        "gini": 0.7868,
         "n": 1475
       },
       "30s": {
-        "gini": 0.7292,
+        "gini": 0.739,
         "n": 2797
       },
       "40s": {
-        "gini": 0.7207,
+        "gini": 0.7224,
         "n": 2702
       },
       "50s": {
-        "gini": 0.75,
-        "n": 2021
+        "gini": 0.7502,
+        "n": 2019
       },
       "60+": {
-        "gini": 0.7304,
-        "n": 973
+        "gini": 0.7401,
+        "n": 975
       }
     },
-    "gini_range": 0.0614,
+    "gini_range": 0.0644,
     "passed": true
   },
   "regulatory_compliance": {
     "gini_oot_passed": true,
-    "gini_oot": 0.7345,
+    "gini_oot": 0.7361,
     "psi_stable": true,
     "fairness_passed": true,
     "sensitive_features_excluded": true
