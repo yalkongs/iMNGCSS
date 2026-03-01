@@ -131,7 +131,7 @@ async def branch_dashboard(_: Any = Depends(get_current_user)) -> dict[str, Any]
 async def marketing_dashboard(_: Any = Depends(get_current_user)) -> dict[str, Any]:
     _rng.seed(42)
     channels = ["모바일앱", "인터넷뱅킹", "카카오뱅크연계", "네이버파이낸셜", "제휴사"]
-    channel_data = [
+    channel_data: list[dict[str, Any]] = [
         {
             "channel": ch,
             "applications": _ri(200, 1_200),
@@ -460,7 +460,7 @@ async def list_appeals(_: Any = Depends(get_current_user)) -> dict[str, Any]:
         "rejected": sum(1 for a in appeals if a["status"] == "완료-기각"),
         "uphold_rate": round(
             sum(1 for a in appeals if a["status"] == "완료-인용") /
-            max(1, sum(1 for a in appeals if "완료" in a["status"])) * 100, 1
+            max(1, sum(1 for a in appeals if "완료" in str(a["status"]))) * 100, 1
         ),
     }
     return {"summary": summary, "appeals": appeals}
@@ -600,7 +600,7 @@ async def ews_cb_signal(_: Any = Depends(get_current_user)) -> dict[str, Any]:
 async def ews_debt_signal(_: Any = Depends(get_current_user)) -> dict[str, Any]:
     """부채 급증 / 다중채무자 탐지 (개인 고객 전용)"""
     _rng.seed(42)
-    multi_debtors = []
+    multi_debtors: list[dict[str, Any]] = []
     for _ in range(10):
         income = _ri(2_500, 8_000) * 10_000
         total_debt = _ri(int(income * 1.5), int(income * 5))
@@ -1010,7 +1010,7 @@ async def campaign(_: Any = Depends(get_current_user)) -> dict[str, Any]:
 
     # 채널별 집계 (by_channel)
     channel_list = ["모바일앱", "카카오", "이메일", "SMS", "SNS광고"]
-    by_channel = [
+    by_channel: list[dict[str, Any]] = [
         {
             "channel": ch,
             "sent": _ri(5_000, 50_000),
